@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zion T Sports — Live Premium</title>
+    <title>Zion Sports — FIFA Live Premium</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     
     <style>
-        /* সিম্পল ব্রাউজার ও ডার্ক মিনিমাল থিম */
+        /* Simple Browser & Dark Minimal Theme */
         body {
             background-color: #0b0f14;
             color: #e6eef6;
@@ -19,7 +19,7 @@
             padding-bottom: 20px;
         }
 
-        /* সিম্পল টপ বার (ইউটিউব লোগো ছাড়া) */
+        /* Simple Top Bar */
         .simple-nav {
             background-color: #0f1720;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -41,7 +41,7 @@
             gap: 8px;
         }
 
-        /* ম্যাক্সিমাইজড প্লেয়ার লেআউট */
+        /* Maximize Player Layout */
         .player-wrapper {
             max-width: 100% !important;
             padding: 0 10px;
@@ -54,13 +54,46 @@
             width: 100%;
         }
         
-        /* Plyr কাস্টমাইজেশন (রেড থিম) */
+        /* Plyr Accent (Red Theme) */
         .plyr {
             --plyr-color-main: #dc3545; 
-            max-height: 80vh;
+            max-height: 75vh;
         }
 
-        /* মেটাডাটা সেকশন */
+        /* Channel Selection Buttons */
+        .channel-section {
+            margin-top: 15px;
+            padding: 0 5px;
+        }
+        .channel-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .btn-channel {
+            background-color: #0f1720;
+            color: #e6eef6;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .btn-channel:hover {
+            background-color: #dc3545;
+            color: #fff;
+            border-color: #dc3545;
+        }
+        .btn-channel.active {
+            background-color: #dc3545;
+            color: #fff;
+            border-color: #dc3545;
+            box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);
+        }
+
+        /* Metadata Section */
         .video-meta-section {
             margin-top: 15px;
             padding: 0 5px;
@@ -105,7 +138,7 @@
 
     <nav class="simple-nav px-3 px-md-4">
         <div class="site-title">
-            <i class="bi bi-tv text-danger"></i> Zion T Sports
+            <i class="bi bi-globe-americas text-danger"></i> Zion Sports
         </div>
     </nav>
 
@@ -113,20 +146,27 @@
         <div class="player-wrapper">
             
             <div class="video-container">
-                <video id="player" playsinline controls autoplay muted>
-                    <track kind="captions" label="English" srclang="en" src="" default>
-                </video>
+                <video id="player" playsinline controls autoplay muted></video>
             </div>
             
+            <div class="channel-section">
+                <h6 class="mb-2 text-muted text-uppercase small" style="letter-spacing: 0.5px;">Select FIFA Live Broadcast</h6>
+                <div class="channel-grid">
+                    <button class="btn btn-channel active" onclick="switchChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV — FIFA Broadcast Feed')">Caze TV</button>
+                    <button class="btn btn-channel" onclick="switchChannel('https://tvsen5.aynaott.com/PtvSports/index.m3u8', 'PTV Sports — FIFA World Matches')">PTV Sports</button>
+                    <button class="btn btn-channel" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Sports 1 — Global Football Feed')">Bein Sports 1</button>
+                    <button class="btn btn-channel" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Sports — Premium FIFA Stream')">WIN Sports</button>
+                </div>
+            </div>
+
             <div class="video-meta-section">
                 <h1 class="video-title">
                     <span class="live-indicator">Live</span>
-                    Zion T Sports — HD Live Stream
+                    <span id="currentStreamTitle">Caze TV — FIFA Broadcast Feed</span>
                 </h1>
                 
                 <div class="video-description">
-                    <strong>Source:</strong> Bee Online ISP Network &bull; <strong>Features:</strong> Manual Quality Selector (Full HD/720p/480p), Speed Control, Picture-in-Picture.
-                    <br><small class="text-warning">*Note: এই লোকাল স্ট্রিমটি শুধুমাত্র আপনার নিজস্ব ISP ক্যাশ নেটওয়ার্কের আওতায় সচল থাকবে।</small>
+                    <strong>Network:</strong> Global Secure CDN &bull; <strong>Features:</strong> FIFA Live Feed Switcher, HD Auto/Manual Quality Controller, Dynamic Buffer Control.
                 </div>
             </div>
 
@@ -137,54 +177,50 @@
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('player');
-            
-            // আপনার অরিজিনাল লোকাল T Sports লিংক (CORS এবং Mixed Content ফিক্স সহ)
-            const streamUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('http://172.16.17.18/stream/hls/ch1.m3u8'); 
+        let hls = null;
+        const video = document.getElementById('player');
+        const streamTitleEl = document.getElementById('currentStreamTitle');
 
-            // প্লেয়ার কন্ট্রোলস
-            const player = new Plyr(video, {
-                autoplay: true,
-                muted: true,
-                controls: [
-                    'play-large', 'play', 'progress', 'current-time', 
-                    'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'
-                ],
-                settings: ['quality', 'speed'],
-                speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
-            });
+        // Plyr Configuration
+        const player = new Plyr(video, {
+            autoplay: true,
+            muted: true,
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'pip', 'fullscreen'],
+            settings: ['quality', 'speed'],
+            speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
+        });
 
-            // HLS ও কাস্টম রেজুলেশন লেবেল সেটিং
+        // HLS Engine & Dynamic Quality Level Customizer
+        function playHlsStream(url) {
+            if (hls) {
+                hls.destroy();
+            }
+
             if (Hls.isSupported()) {
-                const hls = new Hls({
+                hls = new Hls({
                     maxBufferLength: 30,
                     enableWorker: true,
                     lowLatencyMode: true
                 });
                 
-                hls.loadSource(streamUrl);
+                hls.loadSource(url);
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    // সোর্স থেকে উপলব্ধ রেজুলেশনের উচ্চতা নেওয়া
                     const availableQualities = hls.levels.map((l) => l.height);
                     
-                    // প্লেয়ারের কোয়ালিটি অপশন ম্যাপ করা
                     player.config.quality = {
                         default: availableQualities[0],
                         options: availableQualities,
                         forced: true,
                         onChange: (q) => {
-                            hls.levels.forEach((level, levelIndex) => {
-                                if (level.height === q) {
-                                    hls.currentLevel = levelIndex; 
-                                }
+                            hls.levels.forEach((level, id) => {
+                                if (level.height === q) hls.currentLevel = id; 
                             });
                         }
                     };
 
-                    // রেজুলেশনের সংখ্যাগুলোকে টেক্সটে রূপান্তর (Full HD, 720p ইত্যাদি)
+                    // Live automatic map to Full HD, HD labels
                     player.on('ready', () => {
                         const qualityMenu = document.querySelectorAll('[data-plyr="quality"]');
                         qualityMenu.forEach(menu => {
@@ -202,11 +238,28 @@
                 });
             } 
             else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = streamUrl;
+                video.src = url;
                 video.addEventListener('loadedmetadata', () => {
                     video.play().catch(e => console.log("Autoplay:", e));
                 });
             }
+        }
+
+        // Channel switching engine
+        function switchChannel(url, title) {
+            streamTitleEl.textContent = title;
+            
+            const buttons = document.querySelectorAll('.btn-channel');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            playHlsStream(url);
+        }
+
+        // Initial default boot
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultUrl = 'https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8';
+            playHlsStream(defaultUrl);
         });
     </script>
 </body>
