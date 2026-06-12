@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     
     <style>
-        /* লাক্সারি ওটিটি ডার্ক থিম */
+        /* Luxury OTT Dark Theme */
         body {
             background-color: #04070b;
             color: #f8fafc;
@@ -20,7 +20,7 @@
             padding-top: 60px;
         }
 
-        /* আল্ট্রা-মিনিমাল টপ বার */
+        /* Ultra-Minimal Top Bar */
         .ott-nav {
             background: rgba(4, 7, 11, 0.8);
             backdrop-filter: blur(20px);
@@ -52,14 +52,14 @@
             letter-spacing: 0.5px;
         }
 
-        /* ওটিটি ড্যাশবোর্ড গ্রিড */
+        /* OTT Dashboard Grid */
         .ott-dashboard {
             padding: 24px;
             max-width: 1600px;
             margin: 0 auto;
         }
 
-        /* ডেস্কটপ ওটিটি ফ্রেমওয়ার্ক (16:9 Aspect Ratio Lock) */
+        /* Theater Screen Frame (16:9 Aspect Ratio) */
         .theater-screen {
             position: relative;
             background: #000;
@@ -68,13 +68,12 @@
             border: 1px solid rgba(255, 255, 255, 0.04);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             width: 100%;
-            aspect-ratio: 16 / 9; /* ডেস্কটপে পারফেক্ট প্লেয়ার সাইজ লক */
+            aspect-ratio: 16 / 9;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        /* Plyr রেসপনসিভ কন্টেইনার */
         .plyr {
             width: 100%;
             height: 100%;
@@ -83,7 +82,7 @@
             background: #000;
         }
 
-        /* ফিক্সড হাইট ইন্টারেক্টিভ সাইড প্যানেল */
+        /* Interactive Side Panel */
         .sidebar-panel {
             background: rgba(13, 18, 28, 0.45);
             backdrop-filter: blur(15px);
@@ -106,7 +105,7 @@
             gap: 6px;
         }
 
-        /* ওটিটি স্টাইল কন্টেন্ট স্ক্রোল এরিয়া */
+        /* Scroll Area */
         .channel-list {
             display: flex;
             flex-direction: column;
@@ -115,7 +114,6 @@
             padding-right: 4px;
         }
         
-        /* কাস্টম সাইডবার স্ক্রোলবার ডিজাইন */
         .channel-list::-webkit-scrollbar {
             width: 4px;
         }
@@ -124,7 +122,7 @@
             border-radius: 10px;
         }
 
-        /* প্রিমিয়াম চ্যানেল আইটেম কার্ডস */
+        /* Premium Channel Cards */
         .channel-card {
             background: rgba(255, 255, 255, 0.01);
             border: 1px solid rgba(255, 255, 255, 0.04);
@@ -145,6 +143,13 @@
             background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.02) 100%);
             border-color: #ef4444;
         }
+        
+        /* Redirect Card Style Customization */
+        .channel-card.redirect-card:hover {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
+        }
+
         .card-info {
             display: flex;
             align-items: center;
@@ -189,13 +194,16 @@
             display: inline-block;
             animation: blink 1.5s infinite;
         }
+        .redirect-card .pulse-dot {
+            background-color: #f59e0b;
+        }
 
         @keyframes blink {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
         }
 
-        /* স্ট্রিম ইনফরমেশন সেকশন */
+        /* Stream Information Section */
         .stream-details {
             margin-top: 20px;
             background: rgba(13, 18, 28, 0.2);
@@ -229,7 +237,7 @@
         }
         .tag-item { display: flex; align-items: center; gap: 4px; }
 
-        /* পিসি এবং বড় স্ক্রিনের নিখুঁত লেআউট ক্যালকুলেশন */
+        /* Responsive Calculation */
         @media (min-width: 992px) {
             .dashboard-row {
                 display: flex;
@@ -237,11 +245,11 @@
             }
             .sidebar-panel {
                 height: 100%;
-                max-height: calc(16 / 9 * 100%); /* প্লেয়ারের হাইটের সাথে সমতা রাখা */
+                max-height: calc(16 / 9 * 100%);
             }
             .channel-list {
                 height: 0;
-                flex-grow: 1; /* অটোফিলাপ স্ক্রোল স্পেস */
+                flex-grow: 1;
             }
         }
         
@@ -320,12 +328,14 @@
                             <div class="status-badge"><span class="pulse-dot"></span> Premium</div>
                         </div>
 
-                        <div class="channel-card" onclick="switchChannel('https://api.allorigins.win/raw?url=' + encodeURIComponent('http://103.59.176.72:8083/live1/tracks-v1a1/mono.m3u8?token=123'), 'T Sports 2 — Live Streaming Feed', this)">
+                        <div class="channel-card redirect-card" onclick="window.open('http://103.59.176.72:8083/live1/tracks-v1a1/mono.m3u8?token=123', '_blank')">
                             <div class="card-info">
-                                <div class="card-icon"><i class="bi bi-tv text-warning"></i></div>
-                                <div class="card-name">T Sports 2</div>
+                                <div class="card-info">
+                                    <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
+                                    <div class="card-name">T Sports 2</div>
+                                </div>
                             </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> Active</div>
+                            <div class="status-badge"><span class="pulse-dot"></span> External</div>
                         </div>
                     </div>
                 </div>
@@ -342,7 +352,7 @@
         const video = document.getElementById('player');
         const activeTitle = document.getElementById('activeTitle');
 
-        // Plyr Engine
+        // Plyr Setup
         const player = new Plyr(video, {
             autoplay: true,
             muted: true,
@@ -351,7 +361,7 @@
             speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
         });
 
-        // Core HLS Parser & Resolution Hook
+        // Core HLS Parser
         function playHlsStream(url) {
             if (hls) hls.destroy();
 
@@ -379,7 +389,6 @@
                         }
                     };
 
-                    // Auto Convert Numbers to Premium Text Labels
                     player.on('ready', () => {
                         const qualityMenu = document.querySelectorAll('[data-plyr="quality"]');
                         qualityMenu.forEach(menu => {
@@ -404,7 +413,7 @@
             }
         }
 
-        // Switching Engine Router
+        // Switching Engine Router (Only for internal streams)
         function switchChannel(url, title, element) {
             activeTitle.textContent = title;
             
