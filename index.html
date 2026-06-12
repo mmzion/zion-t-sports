@@ -297,8 +297,8 @@
                     </h1>
                     <div class="stream-meta-tags">
                         <div class="tag-item"><i class="bi bi-globe"></i> Global Feed Connection</div>
-                        <div class="tag-item"><i class="bi bi-cpu"></i> Auto-Resolution Core</div>
-                        <div class="tag-item"><i class="bi bi-lightning-charge"></i> Ultra Low Latency</div>
+                        <div class="tag-item"><i class="bi bi-cpu"></i> Adaptive Resolution Core</div>
+                        <div class="tag-item"><i class="bi bi-lightning-charge"></i> Anti-Buffer Optimized</div>
                     </div>
                 </div>
             </div>
@@ -364,7 +364,7 @@
         const video = document.getElementById('player');
         const activeTitle = document.getElementById('activeTitle');
 
-        // Plyr Setup
+        // Plyr Setup (গিয়ার আইকনে কোয়ালিটি কন্ট্রোল সক্রিয় রাখা হয়েছে)
         const player = new Plyr(video, {
             autoplay: true,
             muted: true,
@@ -373,47 +373,55 @@
             speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
         });
 
-        // Core HLS Parser
+        // Core HLS Parser + Smart Anti-Buffer Config
         function playHlsStream(url) {
             if (hls) hls.destroy();
 
             if (Hls.isSupported()) {
                 hls = new Hls({
-                    maxBufferLength: 30,
                     enableWorker: true,
-                    lowLatencyMode: true
+                    lowLatencyMode: true,
+                    backBufferLength: 60,
+                    maxBufferLength: 30,         // স্মুথ প্লেব্যাকের জন্য সর্বোচ্চ বাফার লেন্থ
+                    maxMaxBufferLength: 600,
+                    maxBufferSize: 60 * 1000 * 1000, // ৬০ মেগাবাইট পর্যন্ত ডেটা প্রি-লোডের অনুমতি
+                    abrEwmaDefaultEstimate: 500000, // নেটওয়ার্ক ওঠানামা স্মুথলি ট্র্যাক করা
+                    stableBufferSize: 20
                 });
                 
                 hls.loadSource(url);
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    // সোর্স থেকে উপলব্ধ সব রেজুলেশন পপুলেট করা (Auto মোডসহ)
                     const availableQualities = hls.levels.map((l) => l.height);
                     
+                    // প্লেয়ার কনফিগারেশনে ম্যানুয়াল এবং অটো রেসপন্স ম্যাপ
                     player.config.quality = {
-                        default: availableQualities[0],
-                        options: availableQualities,
+                        default: -1, // -1 দিলে HLS স্বয়ংক্রিয়ভাবে প্রথমে "Auto" মোডে চালু হবে
+                        options: [-1, ...availableQualities], // -1 হচ্ছে 'Auto' এর আইডেন্টিফায়ার
                         forced: true,
                         onChange: (q) => {
-                            hls.levels.forEach((level, id) => {
-                                if (level.height === q) hls.currentLevel = id; 
-                            });
+                            if (q === -1) {
+                                hls.currentLevel = -1; // অটো মোড ট্রিগার
+                            } else {
+                                hls.levels.forEach((level, id) => {
+                                    if (level.height === q) hls.currentLevel = id; // ম্যানুয়াল লেভেল সিলেক্ট
+                                });
+                            }
                         }
                     };
 
+                    // নম্বরের বদলে মডার্ন টেক্সট লেবেল ম্যাপিং ইভেন্ট
                     player.on('ready', () => {
-                        const qualityMenu = document.querySelectorAll('[data-plyr="quality"]');
-                        qualityMenu.forEach(menu => {
-                            const labels = menu.querySelectorAll('span');
-                            labels.forEach(label => {
-                                if (label.textContent === '1080') label.textContent = 'Full HD (1080p)';
-                                if (label.textContent === '720') label.textContent = 'HD (720p)';
-                                if (label.textContent === '480') label.textContent = 'SD (480p)';
-                                if (label.textContent === '360') label.textContent = '360p';
-                            });
-                        });
+                        updateQualityLabels();
                     });
                     
+                    // সোর্স লেভেল বা চ্যানেল সুইচ করার পরও যেন লেবেল ঠিক থাকে
+                    player.on('settingchanged', () => {
+                        setTimeout(updateQualityLabels, 50);
+                    });
+
                     video.play().catch(e => console.log("Autoplay Engine:", e));
                 });
             } 
@@ -425,7 +433,22 @@
             }
         }
 
-        // সুইচিং ইঞ্জিন রাউটার (শুধুমাত্র ইন্টারনাল স্ট্রিমের জন্য)
+        // লেবেল ম্যাপার ফাংশন (Auto, 1080p, 720p ইত্যাদি টেক্সট রেন্ডার করবে)
+        function updateQualityLabels() {
+            const qualityMenu = document.querySelectorAll('[data-plyr="quality"]');
+            qualityMenu.forEach(menu => {
+                const labels = menu.querySelectorAll('span');
+                labels.forEach(label => {
+                    if (label.textContent === 'Auto' || label.textContent === '-1') label.textContent = 'Auto (Adaptive)';
+                    if (label.textContent === '1080') label.textContent = 'Full HD (1080p)';
+                    if (label.textContent === '720') label.textContent = 'HD (720p)';
+                    if (label.textContent === '480') label.textContent = 'SD (480p)';
+                    if (label.textContent === '360') label.textContent = '360p';
+                });
+            });
+        }
+
+        // চ্যানেল সুইচিং ইঞ্জিন রাউটার
         function switchChannel(url, title, element) {
             activeTitle.textContent = title;
             
