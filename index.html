@@ -11,12 +11,6 @@
     <meta property="og:description" content="No Ad, 1080p theater-style sports streaming. Multi-channel FIFA global feed switcher.">
     <meta property="og:image" content="https://i.ibb.co.com/ymJhZWxG/1000075445-clean.png">
 
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://mmzion.github.io/zion-t-sports/">
-    <meta property="twitter:title" content="Zion Sports — FIFA Live Premium">
-    <meta property="twitter:description" content="No Ad, 1080p theater-style sports streaming. Multi-channel FIFA global feed switcher.">
-    <meta property="twitter:image" content="https://i.ibb.co.com/ymJhZWxG/1000075445-clean.png">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
@@ -86,13 +80,48 @@
             justify-content: center;
         }
         
-        /* Plyr রেসপনসিভ কন্টেইনার */
         .plyr {
             width: 100%;
             height: 100%;
         }
-        .plyr--video {
-            background: #000;
+
+        /* ম্যানুয়াল রেজুলেশন ডাইনামিক বাটন বার */
+        .resolution-wrapper {
+            margin-top: 15px;
+            background: rgba(13, 18, 28, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .res-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-right: 5px;
+        }
+        .btn-res {
+            background: rgba(255, 255, 255, 0.03);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 5px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-res:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        .btn-res.active {
+            background: #ef4444;
+            color: #fff;
+            border-color: #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.35);
         }
 
         /* ফিক্সড হাইট সাইড প্যানেল */
@@ -118,7 +147,6 @@
             gap: 6px;
         }
 
-        /* ওটিটি স্ক্রোল এরিয়া */
         .channel-list {
             display: flex;
             flex-direction: column;
@@ -127,16 +155,9 @@
             padding-right: 4px;
         }
         
-        /* কাস্টম স্ক্রোলবার */
-        .channel-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .channel-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
+        .channel-list::-webkit-scrollbar { width: 4px; }
+        .channel-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
-        /* প্রিমিয়াম চ্যানেল কার্ডস */
         .channel-card {
             background: rgba(255, 255, 255, 0.01);
             border: 1px solid rgba(255, 255, 255, 0.04);
@@ -148,74 +169,20 @@
             justify-content: space-between;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .channel-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.1);
-            transform: translateX(2px);
-        }
-        .channel-card.active {
-            background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.02) 100%);
-            border-color: #ef4444;
-        }
-        
-        /* এক্সটার্নাল কার্ড স্টাইল */
-        .channel-card.redirect-card:hover {
-            border-color: #f59e0b;
-            background: rgba(245, 158, 11, 0.05);
-        }
+        .channel-card:hover { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.1); transform: translateX(2px); }
+        .channel-card.active { background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.02) 100%); border-color: #ef4444; }
+        .channel-card.redirect-card:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
 
-        .card-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .card-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #94a3b8;
-        }
-        .channel-card.active .card-icon {
-            background: #ef4444;
-            color: #fff;
-        }
-        .card-name {
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: -0.1px;
-        }
-        .status-badge {
-            font-size: 10px;
-            font-weight: 700;
-            color: #475569;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .channel-card.active .status-badge {
-            color: #ef4444;
-        }
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #ef4444;
-            border-radius: 50%;
-            display: inline-block;
-            animation: blink 1.5s infinite;
-        }
-        .redirect-card .pulse-dot {
-            background-color: #f59e0b;
-        }
+        .card-info { display: flex; align-items: center; gap: 10px; }
+        .card-icon { width: 32px; height: 32px; background: rgba(255, 255, 255, 0.03); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #94a3b8; }
+        .channel-card.active .card-icon { background: #ef4444; color: #fff; }
+        .card-name { font-weight: 600; font-size: 14px; }
+        .status-badge { font-size: 10px; font-weight: 700; color: #475569; display: flex; align-items: center; gap: 5px; }
+        .channel-card.active .status-badge { color: #ef4444; }
+        .pulse-dot { width: 6px; height: 6px; background-color: #ef4444; border-radius: 50%; display: inline-block; animation: blink 1.5s infinite; }
+        .redirect-card .pulse-dot { background-color: #f59e0b; }
 
-        @keyframes blink {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
         /* স্ট্রিম ইনফো সেকশন */
         .stream-details {
@@ -225,48 +192,17 @@
             padding: 16px 20px;
             border-radius: 12px;
         }
-        .stream-title {
-            font-size: 20px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-        }
-        .badge-live {
-            background: #ef4444;
-            color: #fff;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-        .stream-meta-tags {
-            margin-top: 8px;
-            display: flex;
-            gap: 15px;
-            font-size: 13px;
-            color: #475569;
-        }
+        .stream-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin: 0; }
+        .badge-live { background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        .stream-meta-tags { margin-top: 8px; display: flex; gap: 15px; font-size: 13px; color: #475569; }
         .tag-item { display: flex; align-items: center; gap: 4px; }
 
-        /* রেসপনসিভ ক্যালকুলেশন */
+        /* রেসপনসিভ গ্রিড */
         @media (min-width: 992px) {
-            .dashboard-row {
-                display: flex;
-                align-items: stretch;
-            }
-            .sidebar-panel {
-                height: 100%;
-                max-height: calc(16 / 9 * 100%);
-            }
-            .channel-list {
-                height: 0;
-                flex-grow: 1;
-            }
+            .dashboard-row { display: flex; align-items: stretch; }
+            .sidebar-panel { height: 100%; max-height: calc(16 / 9 * 100%); }
+            .channel-list { height: 0; flex-grow: 1; }
         }
-        
         @media (max-width: 991px) {
             .theater-screen { aspect-ratio: auto; height: 210px; }
             .sidebar-panel { margin-top: 16px; }
@@ -290,6 +226,13 @@
                     <video id="player" playsinline controls autoplay muted></video>
                 </div>
                 
+                <div class="resolution-wrapper">
+                    <div class="res-label"><i class="bi bi-gear-wide-connected text-danger me-1"></i> Quality Control:</div>
+                    <div id="resButtons" class="d-flex gap-2 align-items-center flex-wrap">
+                        <button class="btn-res active" onclick="changeHlsLevel(-1, this)">Auto (Adaptive)</button>
+                        </div>
+                </div>
+
                 <div class="stream-details">
                     <h1 class="stream-title">
                         <span class="badge-live">Live</span>
@@ -297,8 +240,8 @@
                     </h1>
                     <div class="stream-meta-tags">
                         <div class="tag-item"><i class="bi bi-globe"></i> Global Feed Connection</div>
-                        <div class="tag-item"><i class="bi bi-cpu"></i> Adaptive Resolution Core</div>
-                        <div class="tag-item"><i class="bi bi-lightning-charge"></i> Anti-Buffer Optimized</div>
+                        <div class="tag-item"><i class="bi bi-hdd-network text-success"></i> 60MB Max Buffer Booster Active</div>
+                        <div class="tag-item"><i class="bi bi-lightning-charge text-warning"></i> Low-Latency Engine</div>
                     </div>
                 </div>
             </div>
@@ -315,7 +258,7 @@
                                 <div class="card-icon"><i class="bi bi-tv"></i></div>
                                 <div class="card-name">Caze TV</div>
                             </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> 1080p</div>
+                            <div class="status-badge"><span class="pulse-dot"></span> Multi-Bitrate</div>
                         </div>
 
                         <div class="channel-card" onclick="switchChannel('https://tvsen5.aynaott.com/PtvSports/index.m3u8', 'PTV Sports — FIFA World Matches', this)">
@@ -363,89 +306,96 @@
         let hls = null;
         const video = document.getElementById('player');
         const activeTitle = document.getElementById('activeTitle');
+        const resButtonsContainer = document.getElementById('resButtons');
 
-        // Plyr Setup (গিয়ার আইকনে কোয়ালিটি কন্ট্রোল সক্রিয় রাখা হয়েছে)
+        // Plyr Base Controls
         const player = new Plyr(video, {
             autoplay: true,
             muted: true,
-            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'pip', 'fullscreen'],
-            settings: ['quality', 'speed'],
-            speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'pip', 'fullscreen']
         });
 
-        // Core HLS Parser + Smart Anti-Buffer Config
+        // হাই-স্পিড অ্যান্টি-বাফার HLS ইঞ্জিন কনফিগারেশন
         function playHlsStream(url) {
             if (hls) hls.destroy();
+
+            // বাটন প্যানেল রিসেট (শুধুমাত্র অটো মোড রেখে দেওয়া)
+            resButtonsContainer.innerHTML = '<button class="btn-res active" onclick="changeHlsLevel(-1, this)">Auto (Adaptive)</button>';
 
             if (Hls.isSupported()) {
                 hls = new Hls({
                     enableWorker: true,
                     lowLatencyMode: true,
-                    backBufferLength: 60,
-                    maxBufferLength: 30,         // স্মুথ প্লেব্যাকের জন্য সর্বোচ্চ বাফার লেন্থ
-                    maxMaxBufferLength: 600,
-                    maxBufferSize: 60 * 1000 * 1000, // ৬০ মেগাবাইট পর্যন্ত ডেটা প্রি-লোডের অনুমতি
-                    abrEwmaDefaultEstimate: 500000, // নেটওয়ার্ক ওঠানামা স্মুথলি ট্র্যাক করা
-                    stableBufferSize: 20
+                    maxBufferLength: 45,            // ৫ সেকেন্ডের বদলে ৪৫ সেকেন্ডের বিশাল বাফার মেমোরি লক
+                    maxMaxBufferLength: 90,
+                    maxBufferSize: 65 * 1024 * 1024, // ৬৫ মেগাবাইট পর্যন্ত ভিডিও স্ট্রিম আগেভাগে লোড করবে
+                    progressive: true,
+                    stableBufferSize: 25
                 });
                 
                 hls.loadSource(url);
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    // সোর্স থেকে উপলব্ধ সব রেজুলেশন পপুলেট করা (Auto মোডসহ)
-                    const availableQualities = hls.levels.map((l) => l.height);
+                    // সোর্স স্ট্রিম ফাইলের ভেতর থেকে রিয়েল-টাইম ট্র্যাকগুলো বের করা
+                    const levels = hls.levels;
                     
-                    // প্লেয়ার কনফিগারেশনে ম্যানুয়াল এবং অটো রেসপন্স ম্যাপ
-                    player.config.quality = {
-                        default: -1, // -1 দিলে HLS স্বয়ংক্রিয়ভাবে প্রথমে "Auto" মোডে চালু হবে
-                        options: [-1, ...availableQualities], // -1 হচ্ছে 'Auto' এর আইডেন্টিফায়ার
-                        forced: true,
-                        onChange: (q) => {
-                            if (q === -1) {
-                                hls.currentLevel = -1; // অটো মোড ট্রিগার
-                            } else {
-                                hls.levels.forEach((level, id) => {
-                                    if (level.height === q) hls.currentLevel = id; // ম্যানুয়াল লেভেল সিলেক্ট
-                                });
-                            }
+                    if (levels && levels.length > 1) {
+                        // যদি সোর্সে একাধিক কোয়ালিটি ট্র্যাক থাকে, তবেই ম্যানুয়াল বাটন জেনারেট হবে
+                        levels.forEach((level, index) => {
+                            const name = level.height ? level.height + 'p' : 'Track ' + (index + 1);
+                            const button = document.createElement('button');
+                            button.className = 'btn-res';
+                            button.textContent = name;
+                            button.onclick = function() { changeHlsLevel(index, this); };
+                            resButtonsContainer.appendChild(button);
+                        });
+                    } else {
+                        // যদি সোর্স নিজেই সিঙ্গেল কোয়ালিটি হাই-বিটরেটের হয় (যেমন Caze TV)
+                        const infoText = document.createElement('span');
+                        infoText.className = 'text-muted small ms-1';
+                        infoText.innerHTML = '<i class="bi bi-info-circle"></i> Direct Server Locked Feed (Auto Managed)';
+                        resButtonsContainer.appendChild(infoText);
+                    }
+                    
+                    video.play().catch(e => console.log("Autoplay Triggered"));
+                });
+
+                // কোনো কারণে ফ্রেম ড্রপ বা নেটওয়ার্ক এরর হলে অটো রিকভারি হ্যান্ডলার
+                hls.on(Hls.Events.ERROR, function (event, data) {
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                hls.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                playHlsStream(url);
+                                break;
                         }
-                    };
-
-                    // নম্বরের বদলে মডার্ন টেক্সট লেবেল ম্যাপিং ইভেন্ট
-                    player.on('ready', () => {
-                        updateQualityLabels();
-                    });
-                    
-                    // সোর্স লেভেল বা চ্যানেল সুইচ করার পরও যেন লেবেল ঠিক থাকে
-                    player.on('settingchanged', () => {
-                        setTimeout(updateQualityLabels, 50);
-                    });
-
-                    video.play().catch(e => console.log("Autoplay Engine:", e));
+                    }
                 });
-            } 
-            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
-                video.addEventListener('loadedmetadata', () => {
-                    video.play().catch(e => console.log("Autoplay Engine:", e));
-                });
             }
         }
 
-        // লেবেল ম্যাপার ফাংশন (Auto, 1080p, 720p ইত্যাদি টেক্সট রেন্ডার করবে)
-        function updateQualityLabels() {
-            const qualityMenu = document.querySelectorAll('[data-plyr="quality"]');
-            qualityMenu.forEach(menu => {
-                const labels = menu.querySelectorAll('span');
-                labels.forEach(label => {
-                    if (label.textContent === 'Auto' || label.textContent === '-1') label.textContent = 'Auto (Adaptive)';
-                    if (label.textContent === '1080') label.textContent = 'Full HD (1080p)';
-                    if (label.textContent === '720') label.textContent = 'HD (720p)';
-                    if (label.textContent === '480') label.textContent = 'SD (480p)';
-                    if (label.textContent === '360') label.textContent = '360p';
-                });
-            });
+        // কাস্টম এক্সটার্নাল রেজুলেশন চেইঞ্জার ফাংশন
+        function changeHlsLevel(levelIndex, buttonElement) {
+            if (!hls) return;
+            
+            // সব রেজুলেশন বাটনের একটিভ ক্লাস রিমুভ করা
+            const buttons = resButtonsContainer.querySelectorAll('.btn-res');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // ক্লিক করা বাটনে একটিভ ক্লাস দেওয়া
+            buttonElement.classList.add('active');
+            
+            // HLS কোর লেভেল সুইচ করা
+            hls.currentLevel = levelIndex;
         }
 
         // চ্যানেল সুইচিং ইঞ্জিন রাউটার
