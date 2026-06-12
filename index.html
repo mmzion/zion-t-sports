@@ -125,7 +125,8 @@
                 </h1>
                 
                 <div class="video-description">
-                    <strong>Network:</strong> Global Secure Streaming &bull; <strong>Features:</strong> Manual Quality Selector (Full HD/720p/480p), Speed Control, Picture-in-Picture.
+                    <strong>Source:</strong> Bee Online ISP Network &bull; <strong>Features:</strong> Manual Quality Selector (Full HD/720p/480p), Speed Control, Picture-in-Picture.
+                    <br><small class="text-warning">*Note: এই লোকাল স্ট্রিমটি শুধুমাত্র আপনার নিজস্ব ISP ক্যাশ নেটওয়ার্কের আওতায় সচল থাকবে।</small>
                 </div>
             </div>
 
@@ -139,8 +140,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('player');
             
-            // গ্লোবাল এবং সম্পূর্ণ সুরক্ষিত HTTPS সমর্থিত সোর্স লিংক (যা গিটহাবে ব্লক হবে না)
-            const streamUrl = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'; 
+            // আপনার অরিজিনাল লোকাল T Sports লিংক (CORS এবং Mixed Content ফিক্স সহ)
+            const streamUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('http://172.16.17.18/stream/hls/ch1.m3u8'); 
 
             // প্লেয়ার কন্ট্রোলস
             const player = new Plyr(video, {
