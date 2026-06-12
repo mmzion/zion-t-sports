@@ -10,92 +10,77 @@
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     
     <style>
-        /* ইউটিউব ডার্ক থিম কালার স্কিম */
+        /* সিম্পল ব্রাউজার ও ডার্ক মিনিমাল থিম */
         body {
-            background-color: #0f0f0f;
-            color: #f1f1f1;
-            font-family: "Roboto", "Arial", sans-serif;
-            padding-top: 65px;
-            padding-bottom: 40px;
+            background-color: #0b0f14;
+            color: #e6eef6;
+            font-family: sans-serif;
+            padding-top: 60px;
+            padding-bottom: 20px;
         }
 
-        /* হেডার বার */
-        .yt-nav {
-            background-color: #0f0f0f;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        /* সিম্পল টপ বার (ইউটিউব লোগো ছাড়া) */
+        .simple-nav {
+            background-color: #0f1720;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1030;
-            height: 56px;
+            height: 50px;
             display: flex;
             align-items: center;
         }
-        .yt-logo {
+        .site-title {
             color: #fff;
-            font-weight: 700;
-            font-size: 20px;
-            letter-spacing: -0.5px;
+            font-weight: 600;
+            font-size: 18px;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-        .yt-logo span {
-            background-color: #ff0000;
-            color: #fff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            gap: 8px;
         }
 
-        /* ম্যাক্সিমাইজড লার্জ প্লেয়ার কন্টেইনার (Full Maximize Layout) */
+        /* ম্যাক্সিমাইজড প্লেয়ার লেআউট */
         .player-wrapper {
-            max-width: 100% !important; /* প্লেয়ার সাইজ সর্বোচ্চ বড় করার জন্য */
-            padding: 0 15px;
+            max-width: 100% !important;
+            padding: 0 10px;
         }
         .video-container {
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
             background-color: #000;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             width: 100%;
         }
         
-        /* Plyr কাস্টমাইজেশন (ইউটিউব রেড থিম) */
+        /* Plyr কাস্টমাইজেশন (রেড থিম) */
         .plyr {
-            --plyr-color-main: #ff0000; 
-            font-family: inherit;
-            height: auto;
-            max-height: 82vh; /* স্ক্রিনের উচ্চতা অনুযায়ী প্লেয়ার ম্যাক্সিমাইজ রাখা */
+            --plyr-color-main: #dc3545; 
+            max-height: 80vh;
         }
 
-        /* টাইটেল এরিয়া */
+        /* মেটাডাটা সেকশন */
         .video-meta-section {
-            margin-top: 20px;
-            padding: 0 4px;
+            margin-top: 15px;
+            padding: 0 5px;
         }
         .video-title {
-            font-size: 22px;
-            font-weight: 700;
-            line-height: 30px;
-            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .live-indicator {
-            background-color: #ff0000;
+            background-color: #dc3545;
             color: white;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 4px;
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 3px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             animation: pulse 1.5s infinite;
         }
 
@@ -106,24 +91,25 @@
         }
 
         .video-description {
-            font-size: 14px;
-            color: #aaa;
-            background-color: #212121;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-top: 12px;
+            font-size: 13px;
+            color: rgba(230, 238, 246, 0.7);
+            background-color: #0f1720;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
     </style>
 </head>
 <body>
 
-    <nav class="yt-nav px-3 px-md-5">
-        <a class="yt-logo" href="#">
-            <i class="bi bi-play-btn-fill text-danger"></i> Zion T Sports <span>PRO</span>
-        </a>
+    <nav class="simple-nav px-3 px-md-4">
+        <div class="site-title">
+            <i class="bi bi-tv text-danger"></i> Zion T Sports
+        </div>
     </nav>
 
-    <div class="container-fluid mt-2">
+    <div class="container-fluid mt-1">
         <div class="player-wrapper">
             
             <div class="video-container">
@@ -135,12 +121,11 @@
             <div class="video-meta-section">
                 <h1 class="video-title">
                     <span class="live-indicator">Live</span>
-                    Zion T Sports — High Definition Live Streaming
+                    Zion T Sports — HD Live Stream
                 </h1>
                 
                 <div class="video-description">
-                    <strong>Broadcaster:</strong> Zion T Sports Network &bull; <strong>Features Active:</strong> Multi-Resolution Switcher, Live Captions, Dynamic Audio Control, Playback Speed.
-                    <br><small class="text-warning">*Note: দয়া করে নিশ্চিত করুন আপনি আপনার নির্দিষ্ট ISP Bee Online ওয়াইফাই নেটওয়ার্কের সাথে সংযুক্ত আছেন।</small>
+                    <strong>Source:</strong> Bee Online ISP Network &bull; <strong>Features:</strong> Manual Quality Selector (Full HD/720p/480p), Speed Control, Live Captions.
                 </div>
             </div>
 
@@ -153,31 +138,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('player');
-            
-            // গিটহাবের প্রোটোকল লক এড়াতে সরাসরি স্পষ্ট http যুক্ত করা হলো
             const streamUrl = 'http://172.16.17.18/stream/hls/ch1.m3u8'; 
 
-            // সমস্ত প্রিমিয়াম ফিচার কনফিগারেশন
+            // প্লেয়ার কন্ট্রোলস
             const player = new Plyr(video, {
                 autoplay: true,
                 muted: true,
                 controls: [
-                    'play-large',   // স্ক্রিনের মাঝের বড় প্লে বাটন
-                    'play',         // নিচে প্লে/পজ বাটন
-                    'progress',     // টাইমলাইন স্লাইডার
-                    'current-time', // লাইভ রানিং টাইম
-                    'mute',         // মিউট বাটন
-                    'volume',       // ভলিউম কন্ট্রোলার
-                    'captions',     // ক্যাপশন অন-অফ বাটন
-                    'settings',     // রেজুলেশন ও স্পিড সেটিংস গিয়ার আইকন
-                    'pip',          // পিকচার-ইন-পিকচার মোড
-                    'fullscreen'    // ফুলস্ক্রিন ফিচার
+                    'play-large', 'play', 'progress', 'current-time', 
+                    'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'
                 ],
                 settings: ['quality', 'speed', 'captions'],
                 speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
             });
 
-            // রেসোলিউশন চেঞ্জার এবং HLS হ্যান্ডলিং লজিক
+            // HLS ও কাস্টম রেজুলেশন লেবেল সেটিং
             if (Hls.isSupported()) {
                 const hls = new Hls({
                     maxBufferLength: 30,
@@ -189,29 +164,45 @@
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    // সোর্স থেকে উপলব্ধ রেজুলেশনের উচ্চতা নেওয়া (যেমন: 1080, 720, 480)
                     const availableQualities = hls.levels.map((l) => l.height);
                     
+                    // প্লেয়ারের কোয়ালিটি অপশন ম্যাপ করা
                     player.config.quality = {
                         default: availableQualities[0],
                         options: availableQualities,
                         forced: true,
-                        onChange: (e) => {
+                        onChange: (q) => {
                             hls.levels.forEach((level, levelIndex) => {
-                                if (level.height === e) {
+                                if (level.height === q) {
                                     hls.currentLevel = levelIndex; 
                                 }
                             });
                         }
                     };
+
+                    // রেজুলেশনের সংখ্যাগুলোকে কাস্টম টেক্সটে রূপান্তর করার জন্য আইডেন্টিফায়ার (Full HD, 720p ইত্যাদি)
+                    // এটি লাইভ স্ট্রিমের ডাটা রিড করে স্বয়ংক্রিয়ভাবে সেটিংস মেনু আপডেট করবে
+                    player.on('ready', () => {
+                        const qualityMenu = document.querySelectorAll('[data-plyr="quality"]');
+                        qualityMenu.forEach(menu => {
+                            const labels = menu.querySelectorAll('span');
+                            labels.forEach(label => {
+                                if (label.textContent === '1080') label.textContent = 'Full HD (1080p)';
+                                if (label.textContent === '720') label.textContent = 'HD (720p)';
+                                if (label.textContent === '480') label.textContent = 'SD (480p)';
+                                if (label.textContent === '360') label.textContent = '360p';
+                            });
+                        });
+                    });
                     
-                    video.play().catch(e => console.log("Autoplay Engine:", e));
+                    video.play().catch(e => console.log("Autoplay:", e));
                 });
             } 
-            // iOS / Safari নেটিভ ব্রাউজার সাপোর্ট
             else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = streamUrl;
                 video.addEventListener('loadedmetadata', () => {
-                    video.play().catch(e => console.log("Autoplay Engine:", e));
+                    video.play().catch(e => console.log("Autoplay:", e));
                 });
             }
         });
