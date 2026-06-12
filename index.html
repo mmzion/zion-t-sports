@@ -125,7 +125,7 @@
                 </h1>
                 
                 <div class="video-description">
-                    <strong>Source:</strong> Bee Online ISP Network &bull; <strong>Features:</strong> Manual Quality Selector (Full HD/720p/480p), Speed Control, Live Captions.
+                    <strong>Network:</strong> Global Secure Streaming &bull; <strong>Features:</strong> Manual Quality Selector (Full HD/720p/480p), Speed Control, Picture-in-Picture.
                 </div>
             </div>
 
@@ -138,7 +138,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('player');
-            const streamUrl = 'http://172.16.17.18/stream/hls/ch1.m3u8'; 
+            
+            // গ্লোবাল এবং সম্পূর্ণ সুরক্ষিত HTTPS সমর্থিত সোর্স লিংক (যা গিটহাবে ব্লক হবে না)
+            const streamUrl = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'; 
 
             // প্লেয়ার কন্ট্রোলস
             const player = new Plyr(video, {
@@ -148,7 +150,7 @@
                     'play-large', 'play', 'progress', 'current-time', 
                     'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'
                 ],
-                settings: ['quality', 'speed', 'captions'],
+                settings: ['quality', 'speed'],
                 speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
             });
 
@@ -164,7 +166,7 @@
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    // সোর্স থেকে উপলব্ধ রেজুলেশনের উচ্চতা নেওয়া (যেমন: 1080, 720, 480)
+                    // সোর্স থেকে উপলব্ধ রেজুলেশনের উচ্চতা নেওয়া
                     const availableQualities = hls.levels.map((l) => l.height);
                     
                     // প্লেয়ারের কোয়ালিটি অপশন ম্যাপ করা
@@ -181,8 +183,7 @@
                         }
                     };
 
-                    // রেজুলেশনের সংখ্যাগুলোকে কাস্টম টেক্সটে রূপান্তর করার জন্য আইডেন্টিফায়ার (Full HD, 720p ইত্যাদি)
-                    // এটি লাইভ স্ট্রিমের ডাটা রিড করে স্বয়ংক্রিয়ভাবে সেটিংস মেনু আপডেট করবে
+                    // রেজুলেশনের সংখ্যাগুলোকে টেক্সটে রূপান্তর (Full HD, 720p ইত্যাদি)
                     player.on('ready', () => {
                         const qualityMenu = document.querySelectorAll('[data-plyr="quality"]');
                         qualityMenu.forEach(menu => {
