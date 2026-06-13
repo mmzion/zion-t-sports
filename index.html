@@ -120,7 +120,7 @@
             color: #fff;
         }
 
-        /* ৪. বাটন প্যানেল কন্টেইনার */
+        /* বাটন প্যানেল কন্টেইনার */
         .horizontal-panel {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.35);
@@ -138,7 +138,7 @@
             gap: 12px;
         }
 
-        /* আইপিটিভি লং প্যানেল রেডি (যদি অনেক চ্যানেল থাকে তবে স্ক্রোল হবে) */
+        /* আইপিটিভি লং প্যানেল স্ক্রোল সেটিংস */
         .iptv-grid-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -241,7 +241,7 @@
         }
         .cat-header-title:first-child { margin-top: 0; }
 
-        /* মোবাইল অপ্টিমাইজেশন (২ কলাম স্প্লিট) */
+        /* মোবাইল অপ্টিমাইজেশন */
         @media (max-width: 768px) {
             .channel-list-row, .iptv-grid-row {
                 grid-template-columns: repeat(2, 1fr); 
@@ -300,9 +300,9 @@
                             <div class="live-tag-dot"></div>
                             <div class="card-name">PTV Sports</div>
                         </div>
-                        <div class="channel-card redirect-card" onclick="window.open('http://rgkkw.live:80/live/1Aoen7elp5/IgMJ60tmAa/130714.ts', '_blank')">
+                        <div class="channel-card" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Sports — Premium FIFA Stream', this)">
                             <div class="live-tag-dot"></div>
-                            <div class="card-name">T Sports</div>
+                            <div class="card-name">WIN Premium</div>
                         </div>
                     </div>
 
@@ -395,7 +395,7 @@
                             <div class="live-tag-dot"></div><div class="card-name">BTV</div>
                         </div>
 
-                        <div class="cat-header-title">🇮🇳 Indian Bangla serials</div>
+                        <div class="cat-header-title">🇮🇳 Indian Bangla Serials</div>
                         <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starJalsha/index.m3u8', '_blank')">
                             <div class="live-tag-dot"></div><div class="card-name">Star Jalsha</div>
                         </div>
@@ -510,7 +510,7 @@
         player.on('enterfullscreen', () => { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(e => {}); });
         player.on('exitfullscreen', () => { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); });
 
-        // আল্ট্রা-বাফার HLS ইন্টেলিজেন্ট ইঞ্জিন
+        // আল্ট্রা-বাফার HLS কোর ইঞ্জিন
         function playHlsStream(url) {
             if (hls) hls.destroy();
 
@@ -528,7 +528,7 @@
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    hls.currentLevel = -1; // অটো মোড অ্যাক্টিভেট
+                    hls.currentLevel = -1; // অটো মোড মোড অন
                     video.play().catch(e => {});
                 });
 
