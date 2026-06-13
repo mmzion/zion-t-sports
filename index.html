@@ -64,7 +64,7 @@
             margin: 0 auto;
         }
 
-        /* ১. সবার উপরে বড় ভিডিও প্লেয়ার স্ক্রিন */
+        /* ভিডিও প্লেয়ার স্ক্রিন */
         .theater-screen {
             position: relative;
             background: #000;
@@ -81,7 +81,7 @@
             height: 100%;
         }
 
-        /* ২. প্লেয়ারের ঠিক নিচে এক্টিভ চ্যানেলের নাম */
+        /* এক্টিভ চ্যানেলের নাম */
         .stream-details {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.15);
@@ -92,7 +92,7 @@
         .stream-title { font-size: 18px; font-weight: 700; margin: 0; display: flex; align-items: center; }
         .badge-live { background: #ef4444; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; margin-right: 10px; letter-spacing: 0.5px;}
 
-        /* ৩. তার নিচে ক্যাটাগরি সিলেক্টর ট্যাব */
+        /* ক্যাটাগরি সিলেক্টর ট্যাব */
         .ott-tabs-wrapper {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.4);
@@ -120,7 +120,7 @@
             color: #fff;
         }
 
-        /* ৪. সবার নিচে ৪টি বড় বাটন প্যানেল গ্রিড (জায়গা খালি থাকবে না) */
+        /* বড় বাটন প্যানেল গ্রিড */
         .horizontal-panel {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.35);
@@ -130,7 +130,7 @@
             padding: 15px;
         }
 
-        /* নো-সক্রোল ফিক্সড গ্রিড: ১ রো-তে ৪টি ফুল বাটন লকড */
+        /* পিসিতে ৪ কলাম গ্রিড লক, মোবাইলে অটোমেটিক ২ কলাম লেআউট স্প্লিট */
         .channel-list-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -138,7 +138,7 @@
             gap: 12px;
         }
 
-        /* লোগো ও প্লে আইকন বাদে বড় ১*১ বাটন স্টাইল */
+        /* লোগো ও প্লে আইকন বাদে বড় বোল্ড বাটন স্টাইল */
         .channel-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -147,11 +147,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 25px 15px; /* প্যাডিং বাড়িয়ে বাটনগুলোকে বড় ও বোল্ড করা হয়েছে */
+            padding: 24px 12px; 
             text-align: center;
             position: relative;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            aspect-ratio: 1.2 / 1; /* পারফেক্ট সাইজ রেশিও */
+            width: 100%;
         }
         .channel-card:hover {
             background: rgba(255, 255, 255, 0.05);
@@ -167,23 +167,21 @@
         /* শুধু চ্যানেলের নাম থাকবে */
         .card-name { 
             font-weight: 700; 
-            font-size: 14px; 
+            font-size: 13.5px; 
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #e2e8f0;
+            color: #cbd5e1;
             width: 100%;
-            white-space: normal;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
         }
         .channel-card.active .card-name {
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
         }
         
-        /* লাইভ ইন্ডিকেটর টপ ডট */
+        /* লাইভ সিগন্যাল ডট */
         .live-tag-dot {
             position: absolute;
             top: 12px;
@@ -200,12 +198,18 @@
         }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        /* মোবাইল অপ্টিমাইজেশন */
-        @media (max-width: 576px) {
-            .channel-list-row { gap: 8px; }
-            .channel-card { padding: 15px 5px; border-radius: 8px; }
-            .card-name { font-size: 10px; letter-spacing: 0.3px; font-weight: 800; }
-            .live-tag-dot { top: 8px; right: 8px; }
+        /* মোবাইল অপ্টিমাইজেশন (১ লাইনে ২টা করে বড় বড় স্কয়ার বাটন থাকবে) */
+        @media (max-width: 768px) {
+            .channel-list-row {
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px;
+            }
+            .channel-card { 
+                padding: 20px 8px; 
+                border-radius: 10px; 
+                aspect-ratio: 1.4 / 1; 
+            }
+            .card-name { font-size: 11px; letter-spacing: 0.5px; }
         }
     </style>
 </head>
@@ -298,11 +302,11 @@
             controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'pip', 'fullscreen']
         });
 
-        // অটো রোটেশন
+        // অটো রোটেশন ইঞ্জিন ল্যান্ডস্কেপ লক
         player.on('enterfullscreen', () => { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(e => {}); });
         player.on('exitfullscreen', () => { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); });
 
-        // অ্যাডাপ্টিভ HLS ইঞ্জিন কোর
+        // আল্ট্রা-বাফার HLS ইন্টেলিজেন্ট ইঞ্জিন
         function playHlsStream(url) {
             if (hls) hls.destroy();
 
@@ -320,7 +324,7 @@
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    hls.currentLevel = -1; 
+                    hls.currentLevel = -1; // অটো মোড
                     video.play().catch(e => {});
                 });
 
@@ -338,10 +342,10 @@
             }
         }
 
-        // 🛡️ আকাশ ক্যাবল স্টাইল লোকাল স্ট্রিম ট্রান্সকোডার (বেটা চ্যানেল সচল করার সিক্রেট ইঞ্জিন)
+        // 🛡️ আপনার পার্সোনাল রেন্ডার প্রক্সি সার্ভার গেটওয়ে ইঞ্জিন (আকাশ ক্যাবল বাইপাস মেকানিজম)
         function switchProxyChannel(rawUrl, title, element) {
-            // এটি এক্সটার্নাল রিকোয়েস্ট বাইপাস করে সরাসরি লোকাল আইপি গেটওয়ে হুক করে ভিডিও রান করাবে
-            const skySecureUrl = 'https://cors-proxy.htmldriven.com/?url=' + encodeURIComponent(rawUrl);
+            // 💡 আপনার সিকিউরড ডেডিকেটেড রেন্ডার লিংকটি এখানে রি-ডাইরেক্ট ছাড়াই ব্যাকএন্ড হেডার ওভাররাইড করবে
+            const secureBridgeUrl = 'https://zion-t-sports.onrender.com/' + rawUrl;
             
             activeTitle.textContent = title;
             
@@ -349,7 +353,7 @@
             cards.forEach(card => card.classList.remove('active'));
             element.classList.add('active');
 
-            playHlsStream(skySecureUrl);
+            playHlsStream(secureBridgeUrl);
         }
 
         // সাধারণ প্রিমিয়াম চ্যানেল রাউটার
@@ -378,7 +382,7 @@
             }
         }
 
-        // ডিফল্ট বুট লোডার
+        // বুট লোডার
         document.addEventListener('DOMContentLoaded', () => {
             playHlsStream('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8');
         });
