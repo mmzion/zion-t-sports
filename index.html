@@ -76,7 +76,6 @@
 
         .horizontal-panel { margin-top: 15px; background: rgba(13, 18, 28, 0.35); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 15px; }
 
-        /* ৫ কলাম গ্রিড (ফিফার ৫টি বাটনের জন্য পারফেক্ট) */
         .channel-list-row { display: grid; grid-template-columns: repeat(5, 1fr); width: 100%; gap: 10px; }
         .iptv-grid-row { display: grid; grid-template-columns: repeat(4, 1fr); width: 100%; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 4px; }
         .iptv-grid-row::-webkit-scrollbar { width: 4px; }
@@ -119,9 +118,8 @@
         .cat-header-title { grid-column: span 4; font-size: 11px; font-weight: 800; color: #ef4444; text-transform: uppercase; letter-spacing: 1px; margin-top: 15px; margin-bottom: 5px; opacity: 0.6; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 4px; }
         .cat-header-title:first-child { margin-top: 0; }
 
-        /* মোবাইল অপ্টিমাইজেশন */
         @media (max-width: 768px) {
-            .channel-list-row { grid-template-columns: repeat(3, 1fr); gap: 8px; } /* মোবাইলে ৩টি করে সুন্দর এটে যাবে */
+            .channel-list-row { grid-template-columns: repeat(3, 1fr); gap: 8px; } 
             .iptv-grid-row { grid-template-columns: repeat(2, 1fr); }
             .cat-header-title { grid-column: span 2; }
             .channel-card { padding: 12px 5px; border-radius: 8px; aspect-ratio: 1.3 / 1; }
@@ -229,42 +227,30 @@
         let hlsEngine = null;
         let shakaEngine = null;
 
-        // Plyr Setup
         const plyrInstance = new Plyr(plyrVideo, {
             autoplay: true, muted: true, controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'pip', 'fullscreen']
         });
         plyrInstance.on('enterfullscreen', () => { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(e => {}); });
         plyrInstance.on('exitfullscreen', () => { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); });
 
-        // Shaka Setup
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Install polyfills on load
             shaka.polyfill.installAll();
-            if (shaka.Player.isBrowserSupported()) {
-                shakaEngine = new shaka.Player(shakaVideo);
-                const ui = new shaka.ui.Overlay(shakaEngine, shakaContainer, shakaVideo);
-                ui.configure({
-                    controlPanelElements: ['play_pause', 'mute', 'volume', 'spacer', 'fullscreen'],
-                });
-            }
-            
-            // ডিফল্ট বুট (Bein Direct) - আপনার রিকোয়েস্ট অনুযায়ী
+            // Default Boot
             switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Sports Direct — Global Football Feed', document.querySelector('.channel-card.active'));
         });
 
-        // 🎬 ১. সাধারণ M3U8 রাউটার (আপনার ৪টি চ্যানেলের জন্য)
         function switchStandardChannel(url, title, element) {
             activeTitle.textContent = title;
             drmBadge.style.display = 'none';
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
             element.classList.add('active');
 
-            // Shaka অফ
             if(shakaEngine) {
                 shakaEngine.unload();
                 shakaContainer.classList.add('d-none');
             }
             
-            // Plyr অন
             plyrWrapper.style.display = 'block';
             if (hlsEngine) hlsEngine.destroy();
 
@@ -278,26 +264,36 @@
             }
         }
 
-        // 🔐 ২. বাংলা ফিফা DRM রাউটার
         async function switchDrmChannel(url, keyId, keySecret, title, element) {
             activeTitle.textContent = title;
             drmBadge.style.display = 'inline-block';
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
             element.classList.add('active');
 
-            // Plyr অফ
             if(hlsEngine) hlsEngine.destroy();
             plyrVideo.pause();
             plyrWrapper.style.display = 'none';
             
-            // Shaka অন
             shakaContainer.classList.remove('d-none');
+            
+            // 🛠️ Lazy Initialization: প্লেয়ার স্ক্রিনে আসার পরই UI তৈরি হবে 
+            if (!shakaEngine) {
+                shakaEngine = new shaka.Player(shakaVideo);
+                const ui = new shaka.ui.Overlay(shakaEngine, shakaContainer, shakaVideo);
+                ui.configure({
+                    addBigPlayButton: true,
+                    controlPanelElements: ['play_pause', 'mute', 'volume', 'spacer', 'fullscreen'],
+                });
+            }
+
             shakaEngine.configure({ drm: { clearKeys: { [keyId]: keySecret } } });
 
             try {
                 await shakaEngine.load(url);
                 shakaVideo.play();
-            } catch (e) { console.error('DRM Load Error:', e); }
+            } catch (e) { 
+                console.error('DRM Load Error:', e); 
+            }
         }
 
         function togglePanelTab(tabName, buttonElement) {
