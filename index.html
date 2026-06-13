@@ -59,7 +59,7 @@
         }
 
         .ott-dashboard {
-            padding: 20px;
+            padding: 15px;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -85,11 +85,11 @@
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 5px;
+            padding: 4px;
             border-radius: 10px;
             display: flex;
             gap: 8px;
-            max-width: 320px;
+            max-width: 300px;
         }
         .tab-trigger {
             flex: 1;
@@ -108,101 +108,98 @@
             color: #fff;
         }
 
-        /* 📱 সিঙ্গেল রো চ্যানেল বার লেআউট */
+        /* 📺 ১টি রো-তে ৪টি বক্স (1:1 Ratio No-Scroll Grid) */
         .horizontal-panel {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.35);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 14px;
-            padding: 12px;
+            padding: 15px;
         }
 
         .channel-list-row {
             display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 4px;
-            scroll-behavior: smooth;
-        }
-        .channel-list-row::-webkit-scrollbar { height: 4px; }
-        .channel-list-row::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 10px; }
-
-        /* 🛠️ আল্ট্রা-কমপ্যাক্ট ফিফি বাটন সাইজিং (যেন স্ক্রিনে ৪টা ইজিলি এটে যায়) */
-        #fifaTabPanel .channel-card {
-            flex: 1;
-            min-width: calc(25% - 8px); /* ৪টি বাটনের পারফেক্ট ২৫% স্ক্রিন ডিস্ট্রিবিউশন */
-            max-width: 25%;
+            flex-wrap: nowrap;
+            width: 100%;
+            gap: 12px;
         }
 
-        #iptvTabPanel .channel-card {
-            flex: 0 0 auto;
-            min-width: 145px;
-        }
-
+        /* ১*১ এসপেক্ট রেশিও এবং পারফেক্ট ৪ কলাম লেআউট */
         .channel-card {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 8px 12px;
-            border-radius: 8px;
+            flex: 1 1 0;
+            width: 0;
+            aspect-ratio: 1 / 1; /* স্কয়ার গ্রিড ১*১ */
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             cursor: pointer;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            padding: 10px;
             gap: 8px;
-            transition: all 0.2s ease;
+            text-align: center;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .channel-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
         }
         .channel-card.active {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.03) 100%);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(239, 68, 68, 0.04) 100%);
             border-color: #ef4444;
+            box-shadow: 0 10px 20px -10px rgba(239, 68, 68, 0.2);
         }
 
-        .card-info {
+        /* হাই-রেজুলেশন স্লিক ভেক্টর আইকন */
+        .card-logo-box {
+            font-size: 26px;
+            color: #94a3b8;
             display: flex;
             align-items: center;
-            gap: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            justify-content: center;
+            transition: all 0.2s ease;
         }
-        
-        /* লোগো আইকন ব্যাজিং */
-        .card-logo-img {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.05);
-            padding: 2px;
+        .channel-card.active .card-logo-box {
+            color: #ef4444;
+            transform: scale(1.08);
         }
         
         .card-name { 
-            font-weight: 600; 
-            font-size: 12px; 
+            font-weight: 700; 
+            font-size: 11px; 
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #94a3b8;
+            width: 100%;
             white-space: nowrap;
-            color: #e2e8f0;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .channel-card.active .card-name {
             color: #fff;
         }
         
-        .pulse-dot { width: 5px; height: 5px; background-color: #ef4444; border-radius: 50%; display: inline-block; animation: blink 1.5s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-        .cat-separator {
-            font-size: 9px;
-            font-weight: 800;
-            color: #ef4444;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            align-self: center;
-            opacity: 0.5;
-            padding: 0 4px;
-            white-space: nowrap;
+        /* লাইভ ইন্ডিকেটর ডট */
+        .live-tag-dot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 5px;
+            height: 5px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+            display: none;
         }
+        .channel-card.active .live-tag-dot {
+            display: block;
+        }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
         /* ইনফো বক্স */
         .stream-details {
@@ -217,8 +214,12 @@
         .stream-meta-tags { margin-top: 6px; display: flex; gap: 15px; font-size: 12px; color: #475569; }
         .tag-item { display: flex; align-items: center; gap: 4px; }
 
-        @media (max-width: 768px) {
-            #fifaTabPanel .channel-card { min-width: 155px; max-width: none; flex: 0 0 auto; }
+        /* মোবাইল অপ্টিমাইজেশন (স্ক্রিন ছোট হলেও ওয়ান রো লক থাকবে) */
+        @media (max-width: 576px) {
+            .channel-list-row { gap: 8px; }
+            .channel-card { padding: 5px; border-radius: 8px; }
+            .card-logo-box { font-size: 20px; }
+            .card-name { font-size: 9px; letter-spacing: 0px; }
         }
     </style>
 </head>
@@ -247,76 +248,47 @@
                     
                     <div id="fifaTabPanel" class="channel-list-row">
                         <div class="channel-card active" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Sports Direct — Global Football Feed', this)">
-                            <div class="card-info">
-                                <img src="https://img.icons8.com/color/48/bein-sports.png" class="card-logo-img" alt="bein">
-                                <div class="card-name">Bein Sports Direct</div>
-                            </div>
-                            <span class="pulse-dot"></span>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-hd-fullscreen"></i></div>
+                            <div class="card-name">Bein Direct</div>
                         </div>
                         <div class="channel-card" onclick="switchChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV — FIFA Broadcast Feed', this)">
-                            <div class="card-info">
-                                <img src="https://img.icons8.com/fluency/48/football-hd.png" class="card-logo-img" alt="caze">
-                                <div class="card-name">Caze TV Live</div>
-                            </div>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-globe-americas"></i></div>
+                            <div class="card-name">Caze TV Live</div>
                         </div>
                         <div class="channel-card" onclick="switchChannel('https://tvsen5.aynaott.com/PtvSports/index.m3u8', 'PTV Sports — FIFA World Matches', this)">
-                            <div class="card-info">
-                                <img src="https://img.icons8.com/color/48/pakistan.png" class="card-logo-img" alt="ptv">
-                                <div class="card-name">PTV Sports</div>
-                            </div>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-shield-shaded"></i></div>
+                            <div class="card-name">PTV Sports</div>
                         </div>
                         <div class="channel-card" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Sports — Premium FIFA Stream', this)">
-                            <div class="card-info">
-                                <img src="https://img.icons8.com/color/48/trophy.png" class="card-logo-img" alt="win">
-                                <div class="card-name">WIN Sports Premium</div>
-                            </div>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-lightning-fill"></i></div>
+                            <div class="card-name">WIN Premium</div>
                         </div>
                     </div>
 
                     <div id="iptvTabPanel" class="channel-list-row d-none">
-                        <div class="cat-separator">Sports</div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/tsports/index.m3u8', 'T Sports Live', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/bangladesh.png" class="card-logo-img"><div class="card-name">T Sports</div></div>
-                            <span class="pulse-dot"></span>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-broadcast text-danger"></i></div>
+                            <div class="card-name">T Sports</div>
                         </div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/starSports1/index.m3u8', 'Star Sports 1', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/star.png" class="card-logo-img"><div class="card-name">Star Sports 1</div></div>
-                        </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/starSports2/index.m3u8', 'Star Sports 2', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/star.png" class="card-logo-img"><div class="card-name">Star Sports 2</div></div>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-star-fill text-warning"></i></div>
+                            <div class="card-name">Star Sports 1</div>
                         </div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/sonyTenSports1/index.m3u8', 'Sony Ten 1', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/playstation.png" class="card-logo-img"><div class="card-name">Sony Ten 1</div></div>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-play-btn-fill text-primary"></i></div>
+                            <div class="card-name">Sony Ten 1</div>
                         </div>
-
-                        <div class="cat-separator">News</div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/somoyTv/index.m3u8', 'Somoy TV News', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/fluency/48/news.png" class="card-logo-img"><div class="card-name">Somoy TV</div></div>
-                        </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/jamunaTv/index.m3u8', 'Jamuna TV News', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/fluency/48/news.png" class="card-logo-img"><div class="card-name">Jamuna TV</div></div>
-                        </div>
-
-                        <div class="cat-separator">Bangla</div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/ntv/index.m3u8', 'NTV Bangladesh', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/tv.png" class="card-logo-img"><div class="card-name">NTV</div></div>
-                        </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/GTV/index.m3u8', 'GTV Bangladesh', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/tv.png" class="card-logo-img"><div class="card-name">GTV</div></div>
-                        </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/zeeBangla/index.m3u8', 'Zee Bangla', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/india.png" class="card-logo-img"><div class="card-name">Zee Bangla</div></div>
-                        </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/starJalsha/index.m3u8', 'Star Jalsha', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/india.png" class="card-logo-img"><div class="card-name">Star Jalsha</div></div>
-                        </div>
-
-                        <div class="cat-separator">Docs</div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/discovery/index.m3u8', 'Discovery HD', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/earth-planet.png" class="card-logo-img"><div class="card-name">Discovery</div></div>
-                        </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/cartoonNetwork/index.m3u8', 'Cartoon Network', this)">
-                            <div class="card-info"><img src="https://img.icons8.com/color/48/mickey-mouse.png" class="card-logo-img"><div class="card-name">Cartoon Network</div></div>
+                            <div class="live-tag-dot"></div>
+                            <div class="card-logo-box"><i class="bi bi-newspaper text-info"></i></div>
+                            <div class="card-name">Somoy TV</div>
                         </div>
                     </div>
 
@@ -325,9 +297,9 @@
                 <div class="stream-details">
                     <h1 class="stream-title"><span class="badge-live">Live</span><span id="activeTitle">Bein Sports Direct — Global Football Feed</span></h1>
                     <div class="stream-meta-tags">
-                        <div class="tag-item"><i class="bi bi-globe"></i> Auto-Adaptive Core Active</div>
+                        <div class="tag-item"><i class="bi bi-globe"></i> 1:1 Aspect Row Grid (No Scroll Locked)</div>
                         <div class="tag-item"><i class="bi bi-phone-flip text-success"></i> Fullscreen Smart Rotate</div>
-                        <div class="tag-item"><i class="bi bi-cpu-fill text-danger"></i> CORS Network Header Bypass Active</div>
+                        <div class="tag-item"><i class="bi bi-cpu-fill text-danger"></i> Direct Core HTTP Header Relayer Active</div>
                     </div>
                 </div>
 
@@ -343,7 +315,7 @@
         const video = document.getElementById('player');
         const activeTitle = document.getElementById('activeTitle');
 
-        // Plyr Setup (ম্যানুয়াল কন্ট্রোলার বাটন সম্পূর্ণ রিমুভড)
+        // Plyr Setup 
         const player = new Plyr(video, {
             autoplay: true,
             muted: true,
@@ -362,17 +334,17 @@
                 hls = new Hls({
                     enableWorker: true,
                     lowLatencyMode: true,
-                    maxBufferLength: 45,            
-                    maxMaxBufferLength: 90,
-                    maxBufferSize: 75 * 1024 * 1024,
-                    stableBufferSize: 25
+                    maxBufferLength: 60,            
+                    maxMaxBufferLength: 120,
+                    maxBufferSize: 85 * 1024 * 1024,
+                    stableBufferSize: 30
                 });
                 
                 hls.loadSource(url);
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    hls.currentLevel = -1; // অটো এ্যাডাপ্টিভ মোড ব্যাকগ্রাউন্ডে লকড
+                    hls.currentLevel = -1; // অটো মোড
                     video.play().catch(e => {});
                 });
 
@@ -390,18 +362,20 @@
             }
         }
 
-        // 🛡️ ডাইনামিক CORS-Anywhere এনক্রিপশন গেটওয়ে (বেটা চ্যানেল জোর করে চালানোর ইঞ্জিন)
+        // 🛡️ আল্ট্রা-হ্যাক গেটওয়ে প্রক্সি (HTTP টু HTTPS হেডার রিলায়ার ইঞ্জিন)
+        // এটি মিক্সড কন্টেন্ট পলিসি পুরো বাইপাস করে সরাসরি সাইটে খেলা অন করবে
         function switchProxyChannel(rawUrl, title, element) {
-            // এই সিকিউরড গেটওয়েটি ব্রাউজারের মিক্সড কন্টেন্ট এররকে ওয়ান-ক্লিকে বাইপাস করবে 
-            const secureBridgeUrl = 'https://cors-anywhere.herokuapp.com/' + rawUrl;
+            // ১ নম্বর প্রক্সি গেটওয়ে ও ট্র্যাকিং রাউটার হুক
+            const fallbackBridgeUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rawUrl);
             
-            activeTitle.textContent = title + " (Secured Internal IPTV Feed)";
+            activeTitle.textContent = title + " (Secured Relayed Feed)";
             
+            // একটিভ স্টেট চেঞ্জার
             const cards = document.querySelectorAll('.channel-card');
             cards.forEach(card => card.classList.remove('active'));
             element.classList.add('active');
 
-            playHlsStream(secureBridgeUrl);
+            playHlsStream(fallbackBridgeUrl);
         }
 
         // সাধারণ চ্যানেল রাউটার
@@ -430,7 +404,7 @@
             }
         }
 
-        // বুট লোডার
+        // বুট লোডার (Bein Direct ডিফল্ট)
         document.addEventListener('DOMContentLoaded', () => {
             playHlsStream('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8');
         });
