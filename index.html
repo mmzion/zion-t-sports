@@ -206,7 +206,7 @@
         @media (max-width: 991px) {
             .theater-screen { aspect-ratio: auto; height: 210px; }
             .sidebar-panel { margin-top: 16px; }
-            .channel-list { max-height: 300px; }
+            .channel-list { max-height: 350px; }
         }
     </style>
 </head>
@@ -240,7 +240,7 @@
                 <div class="stream-details">
                     <h1 class="stream-title">
                         <span class="badge-live">Live</span>
-                        <span id="activeTitle">Bein Sports 1 — Global Football Feed</span>
+                        <span id="activeTitle">Bein Sports Direct — Global Football Feed</span>
                     </h1>
                     <div class="stream-meta-tags">
                         <div class="tag-item"><i class="bi bi-globe"></i> Global Feed Connection</div>
@@ -257,12 +257,28 @@
                     </div>
                     
                     <div class="channel-list">
-                        <div class="channel-card active" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Sports 1 — Global Football Feed', this)">
+                        <div class="channel-card active" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Sports Direct — Global Football Feed', this)">
                             <div class="card-info">
                                 <div class="card-icon"><i class="bi bi-tv"></i></div>
-                                <div class="card-name">Bein Sports 1</div>
+                                <div class="card-name">Bein Sports Direct</div>
                             </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> HD</div>
+                            <div class="status-badge"><span class="pulse-dot"></span> 1080p</div>
+                        </div>
+
+                        <div class="channel-card redirect-card" onclick="window.open('http://go8knm.optikl.ink/X/index.php/Besyria1/video.m3u8', '_blank')">
+                            <div class="card-info">
+                                <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
+                                <div class="card-name">Bein Max 2</div>
+                            </div>
+                            <div class="status-badge"><span class="pulse-dot"></span> 1080p</div>
+                        </div>
+
+                        <div class="channel-card redirect-card" onclick="window.open('http://go8knm.optikl.ink/X/index.php/Besyria3/video.m3u8', '_blank')">
+                            <div class="card-info">
+                                <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
+                                <div class="card-name">4k HDR</div>
+                            </div>
+                            <div class="status-badge"><span class="pulse-dot"></span> 1080p</div>
                         </div>
 
                         <div class="channel-card" onclick="switchChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV — FIFA Broadcast Feed', this)">
@@ -281,12 +297,20 @@
                             <div class="status-badge"><span class="pulse-dot"></span> Live</div>
                         </div>
 
+                        <div class="channel-card redirect-card" onclick="window.open('http://rgkkw.live:80/live/1Aoen7elp5/IgMJ60tmAa/130714.ts', '_blank')">
+                            <div class="card-info">
+                                <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
+                                <div class="card-name">T Sports 1</div>
+                            </div>
+                            <div class="status-badge"><span class="pulse-dot"></span> 720p</div>
+                        </div>
+
                         <div class="channel-card" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Sports — Premium FIFA Stream', this)">
                             <div class="card-info">
                                 <div class="card-icon"><i class="bi bi-tv"></i></div>
                                 <div class="card-name">WIN Sports</div>
                             </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> Premium</div>
+                            <div class="status-badge"><span class="pulse-dot"></span> 720p</div>
                         </div>
 
                         <div class="channel-card redirect-card" onclick="window.open('http://103.59.176.72:8083/live1/tracks-v1a1/mono.m3u8?token=123', '_blank')">
@@ -403,7 +427,7 @@
             playHlsStream(url);
         }
 
-        // বুট লোডার (Bein Sports 1-কে ডিফল্ট লিংক হিসেবে পাস করা হয়েছে)
+        // বুট লোডার (Bein Sports Direct ডিফল্ট)
         document.addEventListener('DOMContentLoaded', () => {
             const defaultUrl = 'https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8';
             playHlsStream(defaultUrl);
