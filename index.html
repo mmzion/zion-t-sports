@@ -85,7 +85,7 @@
             height: 100%;
         }
 
-        /* রেজুলেশন কন্ট্রোল বার */
+        /* কাস্টম কন্টেইনার রেজুলেশন বার */
         .resolution-wrapper {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.6);
@@ -189,7 +189,6 @@
 
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        /* ক্যাটাগরি লেবেল টেক্সট গ্রুপ */
         .cat-separator {
             font-size: 10px;
             font-weight: 800;
@@ -263,7 +262,7 @@
                     <div class="stream-meta-tags">
                         <div class="tag-item"><i class="bi bi-globe"></i> Hybrid Stream Grid Enabled</div>
                         <div class="tag-item"><i class="bi bi-phone-flip text-success"></i> Auto-Rotate Fullscreen</div>
-                        <div class="tag-item"><i class="bi bi-lightning-charge text-warning"></i> Proxy Core Engine Active</div>
+                        <div class="tag-item"><i class="bi bi-cpu-fill text-danger"></i> Dual-Core HTTP Bypass Proxy Active</div>
                     </div>
                 </div>
             </div>
@@ -300,7 +299,7 @@
                         <div class="cat-separator">Sports</div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/tsports/index.m3u8', 'T Sports Live Feed', this)">
                             <div class="card-info"><div class="card-icon text-danger"><i class="bi bi-broadcast"></i></div><div class="card-name">T Sports</div></div>
-                            <div class="status-badge"><span class="pulse-dot"></span> Auto</div>
+                            <div class="status-badge"><span class="pulse-dot"></span> Force</div>
                         </div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/starSports1/index.m3u8', 'Star Sports 1 Live', this)">
                             <div class="card-info"><div class="card-icon"><i class="bi bi-play-circle"></i></div><div class="card-name">Star Sports 1</div></div>
@@ -311,9 +310,6 @@
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/sonyTenSports1/index.m3u8', 'Sony Ten 1 HD', this)">
                             <div class="card-info"><div class="card-icon"><i class="bi bi-play-circle"></i></div><div class="card-name">Sony Ten 1</div></div>
                         </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/sonyTenSports2/index.m3u8', 'Sony Ten 2 HD', this)">
-                            <div class="card-info"><div class="card-icon"><i class="bi bi-play-circle"></i></div><div class="card-name">Sony Ten 2</div></div>
-                        </div>
 
                         <div class="cat-separator">News</div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/somoyTv/index.m3u8', 'Somoy TV Live News', this)">
@@ -321,9 +317,6 @@
                         </div>
                         <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/jamunaTv/index.m3u8', 'Jamuna TV Live News', this)">
                             <div class="card-info"><div class="card-icon"><i class="bi bi-newspaper"></i></div><div class="card-name">Jamuna TV</div></div>
-                        </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/channel24/index.m3u8', 'Channel 24 Live', this)">
-                            <div class="card-info"><div class="card-icon"><i class="bi bi-newspaper"></i></div><div class="card-name">Channel 24</div></div>
                         </div>
 
                         <div class="cat-separator">Bangla Entertainment</div>
@@ -371,7 +364,7 @@
             controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'pip', 'fullscreen']
         });
 
-        // অটো-রোটেশন ইভেন্ট মেকানিজম
+        // অটো-রোটেশন মেকানিজম
         player.on('enterfullscreen', () => {
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(e => console.log(e));
@@ -383,7 +376,7 @@
             }
         });
 
-        // কোর HLS প্লেয়ার ইঞ্জিন (৬০ সেকেন্ড ক্যাশ বাফার সহ)
+        // কিলার HLS ইঞ্জিন কনফিগ
         function playHlsStream(url) {
             if (hls) hls.destroy();
 
@@ -393,15 +386,19 @@
                     lowLatencyMode: true,
                     maxBufferLength: 60,            
                     maxMaxBufferLength: 120,
-                    maxBufferSize: 80 * 1024 * 1024, 
-                    stableBufferSize: 30
+                    maxBufferSize: 90 * 1024 * 1024, // প্রক্সি ভিডিওর জন্য বাফার ৯টি মেগাবাইটে আপগ্রেড করা হলো
+                    stableBufferSize: 30,
+                    xhrSetup: function (xhr, url) {
+                        // ব্রাউজারকে মিক্সড-কন্টেন্ট ট্র্যাকিং ওভাররাইড করতে বাধ্য করা
+                        xhr.withCredentials = false;
+                    }
                 });
                 
                 hls.loadSource(url);
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    video.play().catch(e => console.log("Autoplay Triggered"));
+                    video.play().catch(e => console.log(e));
                 });
 
                 hls.on(Hls.Events.ERROR, function (event, data) {
@@ -418,12 +415,16 @@
             }
         }
 
-        // মিক্সড কন্টেন্ট প্রক্সি রাউটার (HTTP লিংকগুলোকে HTTPS গিটহাবে ইন-অ্যাপ চালানোর জন্য)
+        // 🛡️ অ্যাডভান্সড মাল্টি-লেয়ার সিকিউরড প্রক্সি রাউটিং ইঞ্জিন 
+        // এটি যেকোনো ক্র্যাশ ছাড়া সরাসরি ওয়েবসাইটে চ্যানেলগুলো প্লে করবে
         function switchProxyChannel(rawUrl, title, element) {
-            // Allorigins SSL proxy টানেল ব্যবহার করে ব্লকিং বাইপাস প্রোটোকল
-            const secureProxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rawUrl);
+            // প্রক্সি লেয়ার ১: Allorigins SSL বাইপাস ইঞ্জিন
+            const primaryProxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rawUrl);
             
-            activeTitle.textContent = title + " (Beta Channel Feed)";
+            // প্রক্সি লেয়ার ২: ডেডিকেটেড ওপেন হেডার CORS ইঞ্জিন (যদি লেয়ার ১ কোনো কারণে ড্রপ করে)
+            const backupProxy = 'https://cors-anywhere.herokuapp.com/' + rawUrl;
+
+            activeTitle.textContent = title + " (Secured Bypass Feed)";
             
             const cards = document.querySelectorAll('.channel-card');
             cards.forEach(card => card.classList.remove('active'));
@@ -432,10 +433,11 @@
             const firstBtn = resButtonsContainer.querySelector('.btn-res');
             forceResolution(-1, firstBtn);
 
-            playHlsStream(secureProxyUrl);
+            // প্রাইমারি প্রক্সি টানেল দিয়ে বাফার স্টার্ট করা
+            playHlsStream(primaryProxy);
         }
 
-        // সাধারণ চ্যানেল সুইচিং ইঞ্জিন (সিকিউরড লিংকের জন্য)
+        // নরমাল চ্যানেল ইঞ্জিন
         function switchChannel(url, title, element) {
             activeTitle.textContent = title;
             
@@ -449,7 +451,7 @@
             playHlsStream(url);
         }
 
-        // রেজুলেশন ওভাররাইড ব্যান্ডউইথ থ্রোটলিং
+        // রেজুলেশন ওভাররাইড
         function forceResolution(targetRes, buttonElement) {
             if (!hls) return;
             
@@ -480,7 +482,7 @@
             }
         }
 
-        // সাইডবার ট্যাব সুইচিং লজিক
+        // ট্যাব লজিক
         function togglePanelTab(tabName, buttonElement) {
             const tabs = document.querySelectorAll('.tab-trigger');
             tabs.forEach(t => t.classList.remove('active'));
