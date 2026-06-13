@@ -64,6 +64,7 @@
             margin: 0 auto;
         }
 
+        /* ১. সবার উপরে বড় ভিডিও প্লেয়ার স্ক্রিন */
         .theater-screen {
             position: relative;
             background: #000;
@@ -80,7 +81,18 @@
             height: 100%;
         }
 
-        /* ওটিটি ক্যাটাগরি ট্যাব */
+        /* ২. প্লেয়ারের ঠিক নিচে ফ্রেশ টাইটেল এরিয়া */
+        .stream-details {
+            margin-top: 15px;
+            background: rgba(13, 18, 28, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 14px 16px;
+            border-radius: 12px;
+        }
+        .stream-title { font-size: 18px; font-weight: 700; margin: 0; display: flex; align-items: center; }
+        .badge-live { background: #ef4444; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; margin-right: 10px; letter-spacing: 0.5px;}
+
+        /* ৩. তার নিচে ক্যাটাগরি সিলেক্টর ট্যাব */
         .ott-tabs-wrapper {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.4);
@@ -108,7 +120,7 @@
             color: #fff;
         }
 
-        /* ফিক্সড নো-সক্রল প্যানেল গ্রিড */
+        /* ৪. সবার নিচে ৪টি বড় চ্যানেলের বাটন গ্রিড (Horizontal Locked Row) */
         .horizontal-panel {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.35);
@@ -125,7 +137,7 @@
             gap: 12px;
         }
 
-        /* 📺 নামের নিচে বড় বাটন লেআউট (১*১ স্কয়ার গ্রিড) */
+        /* ১*১ স্কয়ার বক্স বাটন লেআউট (নো-সক্রোল গ্রিড) */
         .channel-card {
             flex: 1 1 0;
             width: 0;
@@ -139,7 +151,7 @@
             align-items: center;
             justify-content: center;
             padding: 12px;
-            gap: 10px;
+            gap: 12px;
             text-align: center;
             position: relative;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -155,7 +167,7 @@
             box-shadow: 0 10px 20px -10px rgba(239, 68, 68, 0.2);
         }
 
-        /* নাম থাকবে উপরে */
+        /* চ্যানেলের নাম থাকবে উপরে */
         .card-name { 
             font-weight: 700; 
             font-size: 11px; 
@@ -166,13 +178,13 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            order: 1; /* নাম উপরে পুশ করার জন্য */
+            order: 1; /* নাম উপরে লক করার জন্য */
         }
         .channel-card.active .card-name {
             color: #fff;
         }
 
-        /* বড় আইকন বাটন থাকবে নিচে */
+        /* বড় বাটন আইকন থাকবে নিচে */
         .card-logo-box {
             font-size: 28px;
             color: #475569;
@@ -184,10 +196,10 @@
         }
         .channel-card.active .card-logo-box {
             color: #ef4444;
-            transform: scale(1.08);
+            transform: scale(1.06);
         }
         
-        /* লাইভ ইন্ডিকেটর ডট */
+        /* লাইভ সিগন্যাল ইন্ডিকেটর ডট */
         .live-tag-dot {
             position: absolute;
             top: 10px;
@@ -204,20 +216,9 @@
         }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        /* ইনফো বক্স (বাড়তি টেক্সট বাদ দিয়ে ফ্রেশ থিম) */
-        .stream-details {
-            margin-top: 15px;
-            background: rgba(13, 18, 28, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            padding: 16px 20px;
-            border-radius: 12px;
-        }
-        .stream-title { font-size: 18px; font-weight: 700; margin: 0; }
-        .badge-live { background: #ef4444; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; margin-right: 8px; }
-
         @media (max-width: 576px) {
             .channel-list-row { gap: 8px; }
-            .channel-card { padding: 8px 4px; border-radius: 8px; gap: 6px; }
+            .channel-card { padding: 8px 4px; border-radius: 8px; gap: 8px; }
             .card-logo-box { font-size: 22px; }
             .card-name { font-size: 9px; letter-spacing: 0.2px; }
         }
@@ -237,6 +238,13 @@
                 
                 <div class="theater-screen">
                     <video id="player" playsinline controls autoplay muted></video>
+                </div>
+                
+                <div class="stream-details">
+                    <h1 class="stream-title">
+                        <span class="badge-live">Live</span>
+                        <span id="activeTitle">Bein Sports Direct — Global Football Feed</span>
+                    </h1>
                 </div>
                 
                 <div class="ott-tabs-wrapper">
@@ -270,32 +278,28 @@
                     </div>
 
                     <div id="iptvTabPanel" class="channel-list-row d-none">
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/tsports/index.m3u8', 'T Sports Live', this)">
+                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/tsports/index.m3u8', 'T Sports Live Feed', this)">
                             <div class="live-tag-dot"></div>
                             <div class="card-name">T Sports</div>
                             <div class="card-logo-box"><i class="bi bi-play-circle-fill"></i></div>
                         </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/starSports1/index.m3u8', 'Star Sports 1', this)">
+                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/starSports1/index.m3u8', 'Star Sports 1 Live Feed', this)">
                             <div class="live-tag-dot"></div>
                             <div class="card-name">Star Sports 1</div>
                             <div class="card-logo-box"><i class="bi bi-play-circle-fill"></i></div>
                         </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/sonyTenSports1/index.m3u8', 'Sony Ten 1', this)">
+                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/sonyTenSports1/index.m3u8', 'Sony Ten 1 HD Broadcast Feed', this)">
                             <div class="live-tag-dot"></div>
                             <div class="card-name">Sony Ten 1</div>
                             <div class="card-logo-box"><i class="bi bi-play-circle-fill"></i></div>
                         </div>
-                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/somoyTv/index.m3u8', 'Somoy TV News', this)">
+                        <div class="channel-card" onclick="switchProxyChannel('http://198.195.239.50:8095/somoyTv/index.m3u8', 'Somoy TV Live 24/7 News', this)">
                             <div class="live-tag-dot"></div>
                             <div class="card-name">Somoy TV</div>
                             <div class="card-logo-box"><i class="bi bi-play-circle-fill"></i></div>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="stream-details">
-                    <h1 class="stream-title"><span class="badge-live">Live</span><span id="activeTitle">Bein Sports Direct — Global Football Feed</span></h1>
                 </div>
 
             </div>
@@ -310,18 +314,18 @@
         const video = document.getElementById('player');
         const activeTitle = document.getElementById('activeTitle');
 
-        // Plyr Setup 
+        // Plyr Setup (অটো-অ্যাডাপ্টিভ মোডে লকড)
         const player = new Plyr(video, {
             autoplay: true,
             muted: true,
             controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'pip', 'fullscreen']
         });
 
-        // অটো রোটেশন
+        // অটো রোটেশন ইঞ্জিন ল্যান্ডস্কেপ লক
         player.on('enterfullscreen', () => { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(e => {}); });
         player.on('exitfullscreen', () => { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); });
 
-        // আল্ট্রা-বাফার এ্যাডাপ্টিভ HLS কোর ইঞ্জিন
+        // আল্ট্রা-বাফার HLS ইন্টেলিজেন্ট ইঞ্জিন
         function playHlsStream(url) {
             if (hls) hls.destroy();
 
@@ -339,7 +343,7 @@
                 hls.attachMedia(video);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    hls.currentLevel = -1; // অটো মোড লকড
+                    hls.currentLevel = -1; // অটো মোড অ্যাক্টিভেট
                     video.play().catch(e => {});
                 });
 
@@ -357,12 +361,12 @@
             }
         }
 
-        // 🛡️ আকাশ ক্যাবল ডাইনামিক স্ট্রিমিং গেটওয়ে (CORS হেডার ট্রান্সকোডার)
+        // 🛡️ আকাশ ক্যাবল হাই-স্পিড রিয়েল-টাইম রিভার্স হেডার প্রক্সি ইঞ্জিন
         function switchProxyChannel(rawUrl, title, element) {
-            // আকাশ ক্যাবল পোর্টালের মতো ব্রাউজার লেভেলে সিকিউরড গেটওয়ে টানেলিং 
+            // এটি মিক্সড কন্টেন্ট প্রোটোকলকে লাইভ এনক্রিপ্ট করে সিকিউরড মোডে সরাসরি আপনার প্লেয়ারে রান করবে
             const secureBridgeUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rawUrl);
             
-            activeTitle.textContent = title + " (Secured Relayed Feed)";
+            activeTitle.textContent = title;
             
             const cards = document.querySelectorAll('.channel-card');
             cards.forEach(card => card.classList.remove('active'));
@@ -371,7 +375,7 @@
             playHlsStream(secureBridgeUrl);
         }
 
-        // সাধারণ চ্যানেল রাউটার
+        // সাধারণ প্রিমিয়াম চ্যানেল রাউটার
         function switchChannel(url, title, element) {
             activeTitle.textContent = title;
             
@@ -382,7 +386,7 @@
             playHlsStream(url);
         }
 
-        // প্যানেল ট্যাব টগল ইঞ্জিন
+        // ট্যাব সুইচিং রাউটার
         function togglePanelTab(tabName, buttonElement) {
             const tabs = document.querySelectorAll('.tab-trigger');
             tabs.forEach(t => t.classList.remove('active'));
@@ -397,7 +401,7 @@
             }
         }
 
-        // বুট লোডার
+        // বুট লোডার (Bein Direct ডিফল্ট)
         document.addEventListener('DOMContentLoaded', () => {
             playHlsStream('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8');
         });
