@@ -85,7 +85,7 @@
             height: 100%;
         }
 
-        /* কাস্টম রেজুলেশন কন্ট্রোল বার */
+        /* কাস্টম কন্টেইনার রেজুলেশন বার */
         .resolution-wrapper {
             margin-top: 15px;
             background: rgba(13, 18, 28, 0.6);
@@ -171,7 +171,6 @@
         }
         .channel-card:hover { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.1); transform: translateX(2px); }
         .channel-card.active { background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.02) 100%); border-color: #ef4444; }
-        .channel-card.redirect-card:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
 
         .card-info { display: flex; align-items: center; gap: 10px; }
         .card-icon { width: 32px; height: 32px; background: rgba(255, 255, 255, 0.03); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #94a3b8; }
@@ -180,7 +179,6 @@
         .status-badge { font-size: 10px; font-weight: 700; color: #475569; display: flex; align-items: center; gap: 5px; }
         .channel-card.active .status-badge { color: #ef4444; }
         .pulse-dot { width: 6px; height: 6px; background-color: #ef4444; border-radius: 50%; display: inline-block; animation: blink 1.5s infinite; }
-        .redirect-card .pulse-dot { background-color: #f59e0b; }
 
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
@@ -197,7 +195,7 @@
         .stream-meta-tags { margin-top: 8px; display: flex; gap: 15px; font-size: 13px; color: #475569; }
         .tag-item { display: flex; align-items: center; gap: 4px; }
 
-        /* রেসপনসিভ গ্রিড */
+        /* রেসপনসিভ গ্রিড ক্যালকুলেশন */
         @media (min-width: 992px) {
             .dashboard-row { display: flex; align-items: stretch; }
             .sidebar-panel { height: 100%; max-height: calc(16 / 9 * 100%); }
@@ -206,7 +204,7 @@
         @media (max-width: 991px) {
             .theater-screen { aspect-ratio: auto; height: 210px; }
             .sidebar-panel { margin-top: 16px; }
-            .channel-list { max-height: 350px; }
+            .channel-list { max-height: 300px; }
         }
     </style>
 </head>
@@ -244,7 +242,7 @@
                     </h1>
                     <div class="stream-meta-tags">
                         <div class="tag-item"><i class="bi bi-globe"></i> Global Feed Connection</div>
-                        <div class="tag-item"><i class="bi bi-shield-shaded text-success"></i> Manual Override Protocol Active</div>
+                        <div class="tag-item"><i class="bi bi-shield-shaded text-success"></i> Internal Secured Player Active</div>
                         <div class="tag-item"><i class="bi bi-lightning-charge text-warning"></i> Smart Buffer Engine</div>
                     </div>
                 </div>
@@ -265,22 +263,6 @@
                             <div class="status-badge"><span class="pulse-dot"></span> 1080p</div>
                         </div>
 
-                        <div class="channel-card redirect-card" onclick="window.open('http://go8knm.optikl.ink/X/index.php/Besyria1/video.m3u8', '_blank')">
-                            <div class="card-info">
-                                <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
-                                <div class="card-name">Bein Max 2</div>
-                            </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> 1080p</div>
-                        </div>
-
-                        <div class="channel-card redirect-card" onclick="window.open('http://go8knm.optikl.ink/X/index.php/Besyria3/video.m3u8', '_blank')">
-                            <div class="card-info">
-                                <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
-                                <div class="card-name">4k HDR</div>
-                            </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> 1080p</div>
-                        </div>
-
                         <div class="channel-card" onclick="switchChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV — FIFA Broadcast Feed', this)">
                             <div class="card-info">
                                 <div class="card-icon"><i class="bi bi-tv"></i></div>
@@ -297,28 +279,12 @@
                             <div class="status-badge"><span class="pulse-dot"></span> Live</div>
                         </div>
 
-                        <div class="channel-card redirect-card" onclick="window.open('http://rgkkw.live:80/live/1Aoen7elp5/IgMJ60tmAa/130714.ts', '_blank')">
-                            <div class="card-info">
-                                <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
-                                <div class="card-name">T Sports 1</div>
-                            </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> 720p</div>
-                        </div>
-
                         <div class="channel-card" onclick="switchChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Sports — Premium FIFA Stream', this)">
                             <div class="card-info">
                                 <div class="card-icon"><i class="bi bi-tv"></i></div>
                                 <div class="card-name">WIN Sports</div>
                             </div>
                             <div class="status-badge"><span class="pulse-dot"></span> 720p</div>
-                        </div>
-
-                        <div class="channel-card redirect-card" onclick="window.open('http://103.59.176.72:8083/live1/tracks-v1a1/mono.m3u8?token=123', '_blank')">
-                            <div class="card-info">
-                                <div class="card-icon"><i class="bi bi-box-arrow-up-right text-warning"></i></div>
-                                <div class="card-name">T Sports 2</div>
-                            </div>
-                            <div class="status-badge"><span class="pulse-dot"></span> External</div>
                         </div>
                     </div>
                 </div>
