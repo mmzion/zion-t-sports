@@ -242,7 +242,7 @@
                     </h1>
                     <div class="stream-meta-tags">
                         <div class="tag-item"><i class="bi bi-globe"></i> Global Feed Connection</div>
-                        <div class="tag-item"><i class="bi bi-shield-shaded text-success"></i> Internal Secured Player Active</div>
+                        <div class="tag-item"><i class="bi bi-phone-flip text-success"></i> Auto-Rotate Fullscreen Active</div>
                         <div class="tag-item"><i class="bi bi-lightning-charge text-warning"></i> Smart Buffer Engine</div>
                     </div>
                 </div>
@@ -307,6 +307,23 @@
             autoplay: true,
             muted: true,
             controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'pip', 'fullscreen']
+        });
+
+        // 📱 কাস্টম অটো-রোটেশন স্ক্রিপ্ট (Full-screen ইভেন্ট লিসেনার)
+        player.on('enterfullscreen', () => {
+            if (screen.orientation && screen.orientation.lock) {
+                // ফুল-স্ক্রিন হলে ডিসপ্লে ল্যান্ডস্কেপ (আড়াআড়ি) মোডে লক হবে
+                screen.orientation.lock('landscape').catch(err => {
+                    console.log("Orientation lock request denied or not supported:", err);
+                });
+            }
+        });
+
+        player.on('exitfullscreen', () => {
+            if (screen.orientation && screen.orientation.unlock) {
+                // ফুল-স্ক্রিন থেকে বের হলে রোটেশন আবার আনলক হয়ে যাবে
+                screen.orientation.unlock();
+            }
         });
 
         // HLS ইঞ্জিন
@@ -393,7 +410,7 @@
             playHlsStream(url);
         }
 
-        // বুট লোডার (Bein Sports Direct ডিফল্ট)
+        // বুট লোডার
         document.addEventListener('DOMContentLoaded', () => {
             const defaultUrl = 'https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8';
             playHlsStream(defaultUrl);
