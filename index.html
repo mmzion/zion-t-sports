@@ -40,6 +40,8 @@
         .text-logo-icon { width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #ef4444; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .channel-card.active .text-logo-icon { background: #ef4444; color: #fff; }
         .redirect-card .text-logo-icon { color: #f59e0b; }
+        .beta-card .text-logo-icon { color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
+        .channel-card.beta-card.active .text-logo-icon { background: #10b981; color: #04070b; }
         
         .card-name { font-weight: 700; font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
@@ -66,6 +68,7 @@
             <button class="tab-trigger" onclick="togglePanelTab('sports', this)"><i class="bi bi-broadcast me-1"></i> Live Sports</button>
             <button class="tab-trigger" onclick="togglePanelTab('entertainment', this)"><i class="bi bi-mask me-1"></i> Entertainment</button>
             <button class="tab-trigger" onclick="togglePanelTab('news-movies', this)"><i class="bi bi-film me-1"></i> News & Movies</button>
+            <button class="tab-trigger" onclick="togglePanelTab('bangla-beta', this)" style="color: #10b981;"><i class="bi bi-cpu-fill me-1"></i> Bangla Beta</button>
         </div>
 
         <div class="horizontal-panel">
@@ -181,6 +184,12 @@
                 </div>
             </div>
 
+            <div id="banglaBetaTabPanel" class="iptv-grid-row panel-grid-hidden">
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://15.207.241.228:8080/Fifa_Bangla/index.m3u8', 'FIFA Bangla HD', this)">
+                    <div class="text-logo-icon">FB</div><div class="card-name">FIFA Bangla</div>
+                </div>
+            </div>
+
         </div>
         
         <div class="text-center mt-5 text-muted" style="font-size: 10px; opacity: 0.4;">© 2026 Zion Sports • Powered by GitHub Pages</div>
@@ -215,6 +224,7 @@
             document.getElementById('sportsTabPanel').classList.add('panel-grid-hidden');
             document.getElementById('entertainmentTabPanel').classList.add('panel-grid-hidden');
             document.getElementById('newsMoviesTabPanel').classList.add('panel-grid-hidden');
+            document.getElementById('banglaBetaTabPanel').classList.add('panel-grid-hidden');
 
             if (tabName === 'fifa') {
                 document.getElementById('fifaTabPanel').classList.remove('panel-grid-hidden');
@@ -224,6 +234,8 @@
                 document.getElementById('entertainmentTabPanel').classList.remove('panel-grid-hidden');
             } else if (tabName === 'news-movies') {
                 document.getElementById('newsMoviesTabPanel').classList.remove('panel-grid-hidden');
+            } else if (tabName === 'bangla-beta') {
+                document.getElementById('banglaBetaTabPanel').classList.remove('panel-grid-hidden');
             }
         }
 
