@@ -11,33 +11,35 @@
         body { background-color: #04070b; color: #f8fafc; font-family: sans-serif; min-height: 100vh; padding-top: 60px; padding-bottom: 20px; }
         .ott-nav { background: rgba(4, 7, 11, 0.8); backdrop-filter: blur(20px); height: 60px; position: fixed; top: 0; width: 100%; z-index: 1050; display: flex; align-items: center; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .theater-screen { position: relative; background: #000; border-radius: 14px; overflow: hidden; width: 100%; aspect-ratio: 16 / 9; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #plyr-wrapper, #iframe-wrapper { width: 100%; height: 100%; position: absolute; top:0; left:0; }
+        #plyr-wrapper, #beta-wrapper { width: 100%; height: 100%; position: absolute; top:0; left:0; }
         
-        video, iframe { width: 100%; height: 100%; background: #000; border: none; }
-        video { object-fit: contain !important; }
+        video { width: 100%; height: 100%; background: #000; object-fit: contain !important; }
         .plyr { width: 100%; height: 100%; }
+
+        /* ✨ স্টেবল বেটা কন্টেইনার স্টাইল */
+        .beta-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #090d16; padding: 20px; text-align: center; }
+        .beta-headline { font-weight: 800; font-size: 14px; color: #f59e0b; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
+        .beta-sub { font-size: 11px; color: #64748b; margin-bottom: 15px; max-width: 80%; }
+        .beta-play-btn { background: #f59e0b; color: #04070b !important; font-weight: 800; font-size: 12px; padding: 10px 22px; border-radius: 8px; border: none; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(245,158,11,0.2); text-decoration: none; }
+        .beta-play-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,158,11,0.3); }
 
         .stream-details { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
         .badge-live { background: #ef4444; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; text-transform: uppercase; font-weight: bold; }
         .horizontal-panel { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.03); }
         
-        /* 📑 ট্যাব বাটন */
         .ott-tabs-wrapper { margin-top: 15px; background: rgba(13, 18, 28, 0.6); padding: 4px; border-radius: 10px; display: inline-flex; gap: 6px; border: 1px solid rgba(255,255,255,0.03); width: 100%; overflow-x: auto; white-space: nowrap; }
         .ott-tabs-wrapper::-webkit-scrollbar { height: 0px; }
         .tab-trigger { background: transparent; color: #64748b; border: none; padding: 8px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; border-radius: 8px; transition: all 0.2s ease; display: inline-flex; align-items: center; }
         .tab-trigger.active { background: #ef4444; color: #fff; }
 
-        /* 📱 গ্রিড লেআউট */
         .iptv-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
         .panel-grid-hidden { display: none !important; }
 
-        /* 👑 টেক্সট-লগো কার্ড স্টাইল */
         .channel-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; aspect-ratio: 1.1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease; }
         .channel-card.active { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.08); }
         .redirect-card { border: 1px solid rgba(245, 158, 11, 0.15); }
         .redirect-card:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); transform: translateY(-2px); }
         
-        /* 🎨 কাস্টম টেক্সট লগো আইকন */
         .text-logo-icon { width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #ef4444; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .channel-card.active .text-logo-icon { background: #ef4444; color: #fff; }
         .redirect-card .text-logo-icon { color: #f59e0b; }
@@ -58,7 +60,14 @@
     <div class="container-fluid ott-dashboard">
         <div class="theater-screen">
             <div id="plyr-wrapper"><video id="player" playsinline controls autoplay muted></video></div>
-            <div id="iframe-wrapper" class="d-none"><iframe id="ott-iframe" allowfullscreen></iframe></div>
+            <div id="beta-wrapper" class="d-none">
+                <div class="beta-container">
+                    <i class="bi bi-shield-lock-fill text-warning mb-2" style="font-size: 26px;"></i>
+                    <div class="beta-headline" id="beta-title">FOX ONE FHD (Beta)</div>
+                    <div class="beta-sub">Toffee-র টোকেন প্রটেকশন প্রক্সির কারণে খেলাটি নিচের সিকিউর পপ-আপ প্লেয়ারে ওপেন হবে।</div>
+                    <a id="beta-link" href="#" target="_blank" class="beta-play-btn"><i class="bi bi-play-fill"></i> Launch Secure Player</a>
+                </div>
+            </div>
         </div>
         
         <div class="stream-details">
@@ -187,16 +196,16 @@
             </div>
 
             <div id="durbinTabPanel" class="iptv-grid-row panel-grid-hidden">
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(1, 'FOX ONE FHD (Beta)', this)"><div class="text-logo-icon">FX1</div><div class="card-name">FOX ONE FHD</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(2, 'FOX ONE 4K (Beta)', this)"><div class="text-logo-icon">FX2</div><div class="card-name">FOX 4K (US VPN)</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(3, 'TSN Sports AQ (Beta)', this)"><div class="text-logo-icon">TSN</div><div class="card-name">TSN Sports AQ</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(4, 'D Sports FHD (Beta)', this)"><div class="text-logo-icon">DSP</div><div class="card-name">D Sports FHD</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(5, 'WC Live (Beta)', this)"><div class="text-logo-icon">WCL</div><div class="card-name">WC Live</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(6, 'TELEMUNDO FHD (Beta)', this)"><div class="text-logo-icon">TM1</div><div class="card-name">TELEMUNDO FHD</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(7, 'TELEMUNDO ES (Beta)', this)"><div class="text-logo-icon">TM2</div><div class="card-name">TELEMUNDO ES</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(8, 'TUND ES (Beta)', this)"><div class="text-logo-icon">TUN</div><div class="card-name">TUND ES</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(9, 'RTVE SPANISH (Beta)', this)"><div class="text-logo-icon">RTV</div><div class="card-name">RTVE SPANISH</div></div>
-                <div class="channel-card durbin-card" onclick="switchIframeChannel(10, 'M6 FRANCE (Beta)', this)"><div class="text-logo-icon">M6</div><div class="card-name">M6 FRANCE</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(1, 'FOX ONE FHD (Beta)', this)"><div class="text-logo-icon">FX1</div><div class="card-name">FOX ONE FHD</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(2, 'FOX ONE 4K (Beta)', this)"><div class="text-logo-icon">FX2</div><div class="card-name">FOX 4K (US VPN)</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(3, 'TSN Sports AQ (Beta)', this)"><div class="text-logo-icon">TSN</div><div class="card-name">TSN Sports AQ</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(4, 'D Sports FHD (Beta)', this)"><div class="text-logo-icon">DSP</div><div class="card-name">D Sports FHD</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(5, 'WC Live (Beta)', this)"><div class="text-logo-icon">WCL</div><div class="card-name">WC Live</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(6, 'TELEMUNDO FHD (Beta)', this)"><div class="text-logo-icon">TM1</div><div class="card-name">TELEMUNDO FHD</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(7, 'TELEMUNDO ES (Beta)', this)"><div class="text-logo-icon">TM2</div><div class="card-name">TELEMUNDO ES</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(8, 'TUND ES (Beta)', this)"><div class="text-logo-icon">TUN</div><div class="card-name">TUND ES</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(9, 'RTVE SPANISH (Beta)', this)"><div class="text-logo-icon">RTV</div><div class="card-name">RTVE SPANISH</div></div>
+                <div class="channel-card durbin-card" onclick="setupSecureLaunch(10, 'M6 FRANCE (Beta)', this)"><div class="text-logo-icon">M6</div><div class="card-name">M6 FRANCE</div></div>
             </div>
 
         </div>
@@ -209,32 +218,32 @@
 
     <script>
         const video = document.getElementById('player');
-        const iframeWrapper = document.getElementById('iframe-wrapper');
+        const betaWrapper = document.getElementById('beta-wrapper');
         const plyrWrapper = document.getElementById('plyr-wrapper');
-        const ottIframe = document.getElementById('ott-iframe');
+        const betaTitle = document.getElementById('beta-title');
+        const betaLink = document.getElementById('beta-link');
         let hls = null;
 
         const plyr = new Plyr(video, { autoplay: true, muted: true });
 
-        // ১. রেগুলার এইচলএস (.m3u8) ইঞ্জিন
+        // ১. স্ট্যান্ডার্ড এইচলএস স্ট্রিল ইঞ্জিন
         function switchStandardChannel(url, title, el) {
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
             if(el) el.classList.add('active');
             document.getElementById('activeTitle').innerText = title;
             
-            iframeWrapper.classList.add('d-none');
-            ottIframe.src = '';
+            betaWrapper.classList.add('d-none');
             plyrWrapper.classList.remove('d-none');
             
             if (hls) hls.destroy();
             hls = new Hls();
             hls.loadSource(url);
             hls.attachMedia(video);
-            video.play().catch(e => console.log("HLS Active:", e));
+            video.play().catch(e => console.log("HLS Re-initialized:", e));
         }
 
-        // ২. লাইভ বেটা ইন-অ্যাপ আইফ্রেম ইঞ্জিন
-        function switchIframeChannel(numeId, title, el) {
+        // ২. লাইভ বেটা সিকিউরড লঞ্চ ইঞ্জিন (ফাইল নট ফাউন্ড এরর বাইপাস ট্রিক)
+        function setupSecureLaunch(numeId, title, el) {
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
             document.getElementById('activeTitle').innerText = title;
@@ -242,12 +251,14 @@
             if (hls) hls.destroy();
             video.pause();
             plyrWrapper.classList.add('d-none');
-            iframeWrapper.classList.remove('d-none');
+            betaWrapper.classList.remove('d-none');
 
-            ottIframe.src = `https://durbinlive.org/wp-content/themes/dooplay/inc/parts/single/player.php?post=8009&nume=${numeId}`;
+            // টাইটেল এবং সিকিউরড পপআপ লিঙ্ক ডাইনামিক রেন্ডারিং
+            betaTitle.innerText = title;
+            betaLink.href = `https://durbinlive.org/wp-content/themes/dooplay/inc/parts/single/player.php?post=8009&nume=${numeId}`;
         }
 
-        // 🔄 মাল্টি-ট্যাব প্যানেল কন্ট্রোল
+        // 🔄 প্যানেল টগল লজিক
         function togglePanelTab(tabName, buttonElement) {
             document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
             buttonElement.classList.add('active');
@@ -271,7 +282,7 @@
             }
         }
 
-        // Auto Load First Channel
+        // Auto Load Boot
         switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', document.querySelectorAll('.channel-card')[1]);
     </script>
 </body>
