@@ -20,30 +20,27 @@
         .badge-live { background: #ef4444; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; text-transform: uppercase; font-weight: bold; }
         .horizontal-panel { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.03); }
         
-        /* 📑 ট্যাব বাটন স্টাইল */
         .ott-tabs-wrapper { margin-top: 15px; background: rgba(13, 18, 28, 0.6); padding: 4px; border-radius: 10px; display: inline-flex; gap: 6px; border: 1px solid rgba(255,255,255,0.03); width: 100%; overflow-x: auto; white-space: nowrap; }
         .ott-tabs-wrapper::-webkit-scrollbar { height: 0px; }
         .tab-trigger { background: transparent; color: #64748b; border: none; padding: 8px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; border-radius: 8px; transition: all 0.2s ease; display: inline-flex; align-items: center; }
         .tab-trigger.active { background: #ef4444; color: #fff; }
 
-        /* 📱 রেসপন্সিভ গ্রিড লেআউট */
         .iptv-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
         .panel-grid-hidden { display: none !important; }
 
-        /* ✨ লগো এবং টেক্সট কার্ড কার্ড স্টাইল */
         .channel-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; cursor: pointer; text-align: center; aspect-ratio: 1.1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease; }
         .channel-card.active { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.05); }
         .redirect-card { border: 1px solid rgba(245, 158, 11, 0.15); }
         .redirect-card:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); transform: translateY(-2px); }
         
-        /* 🖼️ রিয়েল লগো সাইজিং */
-        .channel-logo { width: auto; height: 42px; object-fit: contain; margin-bottom: 8px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5)); }
+        /* 🖼️ নিউ নন-ব্লকিং লগো স্টাইল */
+        .channel-logo { width: auto; height: 38px; max-width: 85%; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.4)); background: transparent; }
         .card-name { font-weight: 700; font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
         .channel-card:hover .card-name { color: #f8fafc; }
 
-        @media (max-width: 992px) { .iptv-grid-row { grid-template-columns: repeat(4, 1fr); } .channel-logo { height: 36px; } }
+        @media (max-width: 992px) { .iptv-grid-row { grid-template-columns: repeat(4, 1fr); } }
         @media (max-width: 768px) { .iptv-grid-row { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 480px) { .iptv-grid-row { grid-template-columns: repeat(2, 1fr); } .channel-logo { height: 32px; } }
+        @media (max-width: 480px) { .iptv-grid-row { grid-template-columns: repeat(2, 1fr); } .channel-logo { height: 30px; } }
     </style>
 </head>
 <body>
@@ -70,117 +67,117 @@
             
             <div id="fifaTabPanel" class="iptv-grid-row">
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/tsports/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/T_Sports_logo.png" class="channel-logo" alt="T Sports">
+                    <img src="https://raw.githubusercontent.com/benmoose39/YouTube_Live_extract/main/assets/tsports.png" class="channel-logo" alt="T Sports">
                     <div class="card-name" style="color: #ef4444;">T Sports</div>
                 </div>
                 <div class="channel-card active" onclick="switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', this)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/BeIN_Sports_logo.svg" class="channel-logo" alt="Bein">
+                    <img src="https://assets.bein.com/ca/logos/bein-sports.png" class="channel-logo" alt="Bein">
                     <div class="card-name">Bein Direct</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV', this)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Caz%C3%A9TV_logo.png" class="channel-logo" alt="Caze">
+                    <img src="https://cazetv.com.br/wp-content/uploads/2023/12/logo-cazetv-cor.png" class="channel-logo" alt="Caze">
                     <div class="card-name">Caze TV</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://tvsen5.aynaott.com/PtvSports/index.m3u8', 'PTV Sports', this)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/PTV_Sports_logo.png" class="channel-logo" alt="PTV">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/PTV_Sports_logo.png/320px-PTV_Sports_logo.png" class="channel-logo" alt="PTV">
                     <div class="card-name">PTV Sports</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Premium', this)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Win_Sports_logo.svg" class="channel-logo" alt="WIN">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Win_Sports_logo.svg/320px-Win_Sports_logo.svg.png" class="channel-logo" alt="WIN">
                     <div class="card-name">WIN Premium</div>
                 </div>
             </div>
 
             <div id="sportsTabPanel" class="iptv-grid-row panel-grid-hidden">
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/tsports/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/T_Sports_logo.png" class="channel-logo" alt="T Sports"><div class="card-name">T Sports</div>
+                    <img src="https://raw.githubusercontent.com/benmoose39/YouTube_Live_extract/main/assets/tsports.png" class="channel-logo" alt="T Sports"><div class="card-name">T Sports</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starSports1/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Star_Sports_network_logo.png" class="channel-logo" alt="Star 1"><div class="card-name">Star Sports 1</div>
+                    <img src="https://i.imgur.com/gKpxuSg.png" class="channel-logo" alt="Star 1"><div class="card-name">Star Sports 1</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starSports2/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Star_Sports_network_logo.png" class="channel-logo" alt="Star 2"><div class="card-name">Star Sports 2</div>
+                    <img src="https://i.imgur.com/gKpxuSg.png" class="channel-logo" alt="Star 2"><div class="card-name">Star Sports 2</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starSports3/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Star_Sports_network_logo.png" class="channel-logo" alt="Star 3"><div class="card-name">Star Sports 3</div>
+                    <img src="https://i.imgur.com/gKpxuSg.png" class="channel-logo" alt="Star 3"><div class="card-name">Star Sports 3</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starSportsSelect1/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Star_Sports_network_logo.png" class="channel-logo" alt="Select 1"><div class="card-name">Star Select 1</div>
+                    <img src="https://i.imgur.com/YwNscN1.png" class="channel-logo" alt="Select 1"><div class="card-name">Star Select 1</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starSportsSelect2/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Star_Sports_network_logo.png" class="channel-logo" alt="Select 2"><div class="card-name">Star Select 2</div>
+                    <img src="https://i.imgur.com/YwNscN1.png" class="channel-logo" alt="Select 2"><div class="card-name">Star Select 2</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonyTenSports1/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Sony_Sports_Network_logo.png" class="channel-logo" alt="Ten 1"><div class="card-name">Sony Ten 1</div>
+                    <img src="https://i.imgur.com/fA15L6e.png" class="channel-logo" alt="Ten 1"><div class="card-name">Sony Ten 1</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonyTenSports2/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Sony_Sports_Network_logo.png" class="channel-logo" alt="Ten 2"><div class="card-name">Sony Ten 2</div>
+                    <img src="https://i.imgur.com/fA15L6e.png" class="channel-logo" alt="Ten 2"><div class="card-name">Sony Ten 2</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonyTenSports3/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Sony_Sports_Network_logo.png" class="channel-logo" alt="Ten 3"><div class="card-name">Sony Ten 3</div>
+                    <img src="https://i.imgur.com/fA15L6e.png" class="channel-logo" alt="Ten 3"><div class="card-name">Sony Ten 3</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonyTenSports4/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Sony_Sports_Network_logo.png" class="channel-logo" alt="Ten 4"><div class="card-name">Sony Ten 4</div>
+                    <img src="https://i.imgur.com/fA15L6e.png" class="channel-logo" alt="Ten 4"><div class="card-name">Sony Ten 4</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonyTenSports5/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/36/Sony_Sports_Network_logo.png" class="channel-logo" alt="Ten 5"><div class="card-name">Sony Ten 5</div>
+                    <img src="https://i.imgur.com/fA15L6e.png" class="channel-logo" alt="Ten 5"><div class="card-name">Sony Ten 5</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/ptv/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/PTV_Home_logo.png" class="channel-logo" alt="PTV"><div class="card-name">PTV Feed</div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/PTV_Sports_logo.png/320px-PTV_Sports_logo.png" class="channel-logo" alt="PTV"><div class="card-name">PTV Feed</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/euroSports/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Eurosport_logo_2015.svg" class="channel-logo" alt="Euro"><div class="card-name">Euro Sports</div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eurosport_logo_2015.svg/320px-Eurosport_logo_2015.svg.png" class="channel-logo" alt="Euro"><div class="card-name">Euro Sports</div>
                 </div>
             </div>
 
             <div id="entertainmentTabPanel" class="iptv-grid-row panel-grid-hidden">
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/zeeBangla/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Zee_Bangla_Logo_2017.png" class="channel-logo" alt="Zee Bangla"><div class="card-name">Zee Bangla</div>
+                    <img src="https://www.lyngsat.com/logo/tv/zz/zee_bangla.png" class="channel-logo" alt="Zee Bangla"><div class="card-name">Zee Bangla</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starJalsha/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Star_Jalsha_logo_2023.png" class="channel-logo" alt="Star Jalsha"><div class="card-name">Star Jalsha</div>
+                    <img src="https://www.lyngsat.com/logo/tv/ss/star_jalsha.png" class="channel-logo" alt="Star Jalsha"><div class="card-name">Star Jalsha</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/colorsBangla/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Colors_Bangla_logo.png" class="channel-logo" alt="Colors"><div class="card-name">Colors Bangla</div>
+                    <img src="https://www.lyngsat.com/logo/tv/cc/colors_bangla.png" class="channel-logo" alt="Colors"><div class="card-name">Colors Bangla</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonyAath/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/2/25/Sony_Aath_logo.png" class="channel-logo" alt="Sony Aath"><div class="card-name">Sony Aath</div>
+                    <img src="https://www.lyngsat.com/logo/tv/ss/sony_aath.png" class="channel-logo" alt="Sony Aath"><div class="card-name">Sony Aath</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starPlus/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/e/e7/Star_Plus_logo_2018.png" class="channel-logo" alt="Star Plus"><div class="card-name">Star Plus</div>
+                    <img src="https://www.lyngsat.com/logo/tv/ss/star_plus_in.png" class="channel-logo" alt="Star Plus"><div class="card-name">Star Plus</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonySab/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/c/c5/Sony_SAB_2022.png" class="channel-logo" alt="Sony Sab"><div class="card-name">Sony Sab</div>
+                    <img src="https://www.lyngsat.com/logo/tv/ss/sony_sab.png" class="channel-logo" alt="Sony Sab"><div class="card-name">Sony Sab</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/zeeTv/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Zee_TV_logo.svg" class="channel-logo" alt="Zee TV"><div class="card-name">Zee TV</div>
+                    <img src="https://www.lyngsat.com/logo/tv/zz/zee_tv_in.png" class="channel-logo" alt="Zee TV"><div class="card-name">Zee TV</div>
                 </div>
             </div>
 
             <div id="newsMoviesTabPanel" class="iptv-grid-row panel-grid-hidden">
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/jalshaMovies/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/d/dc/Jalsha_Movies_logo.png" class="channel-logo" alt="Jalsha Movies"><div class="card-name">Jalsha Movies</div>
+                    <img src="https://www.lyngsat.com/logo/tv/ss/star_jalsha_movies.png" class="channel-logo" alt="Jalsha Movies"><div class="card-name">Jalsha Movies</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/zeeBanglaCinema/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Zee_Bangla_Cinema_logo.png" class="channel-logo" alt="Zee Cinema"><div class="card-name">Zee Cinema</div>
+                    <img src="https://www.lyngsat.com/logo/tv/zz/zee_bangla_cinema.png" class="channel-logo" alt="Zee Cinema"><div class="card-name">Zee Cinema</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/sonyMax/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/f/f5/Sony_Max_logo_2017.png" class="channel-logo" alt="Sony Max"><div class="card-name">Sony Max</div>
+                    <img src="https://www.lyngsat.com/logo/tv/ss/sony_max_in.png" class="channel-logo" alt="Sony Max"><div class="card-name">Sony Max</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/starGold/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/b/b5/Star_Gold_logo_2018.png" class="channel-logo" alt="Star Gold"><div class="card-name">Star Gold</div>
+                    <img src="https://www.lyngsat.com/logo/tv/ss/star_gold_in.png" class="channel-logo" alt="Star Gold"><div class="card-name">Star Gold</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/somoyTv/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Somoy_TV_logo.png" class="channel-logo" alt="Somoy TV"><div class="card-name">Somoy TV</div>
+                    <img src="https://www.somoynews.tv/assets/images/logo.png" class="channel-logo" alt="Somoy TV"><div class="card-name">Somoy TV</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/jamunaTv/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Jamuna_Television_logo.png" class="channel-logo" alt="Jamuna TV"><div class="card-name">Jamuna TV</div>
+                    <img src="https://www.jamuna.tv/wp-content/uploads/2020/07/jamuna-tv-logo-300x161.png" class="channel-logo" alt="Jamuna TV"><div class="card-name">Jamuna TV</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/independentTv/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/Independent_Television_logo.png" class="channel-logo" alt="Independent"><div class="card-name">Independent</div>
+                    <img src="https://independent24.tv/images/logo.png" class="channel-logo" alt="Independent"><div class="card-name">Independent</div>
                 </div>
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/ekattorTv/index.m3u8', '_blank')">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/8/83/Ekattor_TV_logo.png" class="channel-logo" alt="Ekattor TV"><div class="card-name">Ekattor TV</div>
+                    <img src="https://ekattor.tv/assets/images/logo.png" class="channel-logo" alt="Ekattor TV"><div class="card-name">Ekattor TV</div>
                 </div>
             </div>
 
