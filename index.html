@@ -192,46 +192,19 @@
     <script>
         const video = document.getElementById('player');
         let hls = null;
-        let plyr = null;
 
-        // 🔗 Hls.js এবং Plyr কে কানেক্ট করার অফিশিয়াল স্ট্রাকচার ইঞ্জিন
+        const plyr = new Plyr(video, { autoplay: true, muted: true });
+
         function switchStandardChannel(url, title, el) {
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
-            if (el) el.classList.add('active');
+            el.classList.add('active');
             document.getElementById('activeTitle').innerText = title;
             
-            // পূর্বের স্ট্রিম ইঞ্জিন ধ্বংস করা
-            if (hls) {
-                hls.destroy();
-            }
-            if (plyr) {
-                plyr.destroy();
-            }
-
-            if (Hls.isSupported()) {
-                hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    // কন্ট্রোল প্যানেল ইনজেকশন সহ প্লায়ার ইনিশিয়ালাইজেশন
-                    plyr = new Plyr(video, {
-                        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                        autoplay: true,
-                        muted: true
-                    });
-                    video.play().catch(e => console.log("Playback standard active:", e));
-                });
-            } 
-            // Safari বা Native HLS সাপোর্টেড ব্রাউজারের জন্য ব্যাকআপ রুলস
-            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-                plyr = new Plyr(video, {
-                    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                    autoplay: true,
-                    muted: true
-                });
-                video.play().catch(e => console.log("Native backup active:", e));
-            }
+            if (hls) hls.destroy();
+            hls = new Hls();
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            video.play().catch(e => console.log("Engine loaded:", e));
         }
 
         function togglePanelTab(tabName, buttonElement) {
@@ -254,11 +227,8 @@
             }
         }
 
-        // ফার্স্ট লোডে Bein Direct ২ নম্বর কার্ড সক্রিয় করার মেকানিজম
-        window.addEventListener('DOMContentLoaded', () => {
-            const firstActiveCard = document.querySelectorAll('#fifaTabPanel .channel-card')[1];
-            switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', firstActiveCard);
-        });
+        // Auto Load First Channel
+        switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', document.querySelectorAll('.channel-card')[1]);
     </script>
 </body>
 </html>
