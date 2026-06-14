@@ -11,9 +11,10 @@
         body { background-color: #04070b; color: #f8fafc; font-family: sans-serif; min-height: 100vh; padding-top: 60px; padding-bottom: 20px; }
         .ott-nav { background: rgba(4, 7, 11, 0.8); backdrop-filter: blur(20px); height: 60px; position: fixed; top: 0; width: 100%; z-index: 1050; display: flex; align-items: center; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .theater-screen { position: relative; background: #000; border-radius: 14px; overflow: hidden; width: 100%; aspect-ratio: 16 / 9; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #plyr-wrapper { width: 100%; height: 100%; position: absolute; top:0; left:0; }
+        #plyr-wrapper, #iframe-wrapper { width: 100%; height: 100%; position: absolute; top:0; left:0; }
         
-        video { width: 100%; height: 100%; background: #000; object-fit: contain !important; }
+        video, iframe { width: 100%; height: 100%; background: #000; border: none; }
+        video { object-fit: contain !important; }
         .plyr { width: 100%; height: 100%; }
 
         .stream-details { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
@@ -40,6 +41,8 @@
         .text-logo-icon { width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #ef4444; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .channel-card.active .text-logo-icon { background: #ef4444; color: #fff; }
         .redirect-card .text-logo-icon { color: #f59e0b; }
+        .durbin-card .text-logo-icon { color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+        .channel-card.durbin-card.active .text-logo-icon { background: #f59e0b; color: #000; }
         
         .card-name { font-weight: 700; font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
@@ -55,6 +58,7 @@
     <div class="container-fluid ott-dashboard">
         <div class="theater-screen">
             <div id="plyr-wrapper"><video id="player" playsinline controls autoplay muted></video></div>
+            <div id="iframe-wrapper" class="d-none"><iframe id="ott-iframe" allowfullscreen></iframe></div>
         </div>
         
         <div class="stream-details">
@@ -66,6 +70,7 @@
             <button class="tab-trigger" onclick="togglePanelTab('sports', this)"><i class="bi bi-broadcast me-1"></i> Live Sports</button>
             <button class="tab-trigger" onclick="togglePanelTab('entertainment', this)"><i class="bi bi-mask me-1"></i> Entertainment</button>
             <button class="tab-trigger" onclick="togglePanelTab('news-movies', this)"><i class="bi bi-film me-1"></i> News & Movies</button>
+            <button class="tab-trigger" onclick="togglePanelTab('durbin', this)" style="color: #f59e0b;"><i class="bi bi-cpu-fill me-1"></i> Live Beta</button>
         </div>
 
         <div class="horizontal-panel">
@@ -181,6 +186,19 @@
                 </div>
             </div>
 
+            <div id="durbinTabPanel" class="iptv-grid-row panel-grid-hidden">
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(1, 'FOX ONE FHD (Beta)', this)"><div class="text-logo-icon">FX1</div><div class="card-name">FOX ONE FHD</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(2, 'FOX ONE 4K (Beta)', this)"><div class="text-logo-icon">FX2</div><div class="card-name">FOX 4K (US VPN)</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(3, 'TSN Sports AQ (Beta)', this)"><div class="text-logo-icon">TSN</div><div class="card-name">TSN Sports AQ</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(4, 'D Sports FHD (Beta)', this)"><div class="text-logo-icon">DSP</div><div class="card-name">D Sports FHD</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(5, 'WC Live (Beta)', this)"><div class="text-logo-icon">WCL</div><div class="card-name">WC Live</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(6, 'TELEMUNDO FHD (Beta)', this)"><div class="text-logo-icon">TM1</div><div class="card-name">TELEMUNDO FHD</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(7, 'TELEMUNDO ES (Beta)', this)"><div class="text-logo-icon">TM2</div><div class="card-name">TELEMUNDO ES</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(8, 'TUND ES (Beta)', this)"><div class="text-logo-icon">TUN</div><div class="card-name">TUND ES</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(9, 'RTVE SPANISH (Beta)', this)"><div class="text-logo-icon">RTV</div><div class="card-name">RTVE SPANISH</div></div>
+                <div class="channel-card durbin-card" onclick="switchIframeChannel(10, 'M6 FRANCE (Beta)', this)"><div class="text-logo-icon">M6</div><div class="card-name">M6 FRANCE</div></div>
+            </div>
+
         </div>
         
         <div class="text-center mt-5 text-muted" style="font-size: 10px; opacity: 0.4;">© 2026 Zion Sports • Powered by GitHub Pages</div>
@@ -191,22 +209,45 @@
 
     <script>
         const video = document.getElementById('player');
+        const iframeWrapper = document.getElementById('iframe-wrapper');
+        const plyrWrapper = document.getElementById('plyr-wrapper');
+        const ottIframe = document.getElementById('ott-iframe');
         let hls = null;
 
         const plyr = new Plyr(video, { autoplay: true, muted: true });
 
+        // ১. রেগুলার এইচলএস (.m3u8) ইঞ্জিন
         function switchStandardChannel(url, title, el) {
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
+            if(el) el.classList.add('active');
             document.getElementById('activeTitle').innerText = title;
+            
+            iframeWrapper.classList.add('d-none');
+            ottIframe.src = '';
+            plyrWrapper.classList.remove('d-none');
             
             if (hls) hls.destroy();
             hls = new Hls();
             hls.loadSource(url);
             hls.attachMedia(video);
-            video.play().catch(e => console.log("Engine loaded:", e));
+            video.play().catch(e => console.log("HLS Active:", e));
         }
 
+        // ২. লাইভ বেটা ইন-অ্যাপ আইফ্রেম ইঞ্জিন
+        function switchIframeChannel(numeId, title, el) {
+            document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('activeTitle').innerText = title;
+
+            if (hls) hls.destroy();
+            video.pause();
+            plyrWrapper.classList.add('d-none');
+            iframeWrapper.classList.remove('d-none');
+
+            ottIframe.src = `https://durbinlive.org/wp-content/themes/dooplay/inc/parts/single/player.php?post=8009&nume=${numeId}`;
+        }
+
+        // 🔄 মাল্টি-ট্যাব প্যানেল কন্ট্রোল
         function togglePanelTab(tabName, buttonElement) {
             document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
             buttonElement.classList.add('active');
@@ -215,6 +256,7 @@
             document.getElementById('sportsTabPanel').classList.add('panel-grid-hidden');
             document.getElementById('entertainmentTabPanel').classList.add('panel-grid-hidden');
             document.getElementById('newsMoviesTabPanel').classList.add('panel-grid-hidden');
+            document.getElementById('durbinTabPanel').classList.add('panel-grid-hidden');
 
             if (tabName === 'fifa') {
                 document.getElementById('fifaTabPanel').classList.remove('panel-grid-hidden');
@@ -224,6 +266,8 @@
                 document.getElementById('entertainmentTabPanel').classList.remove('panel-grid-hidden');
             } else if (tabName === 'news-movies') {
                 document.getElementById('newsMoviesTabPanel').classList.remove('panel-grid-hidden');
+            } else if (tabName === 'durbin') {
+                document.getElementById('durbinTabPanel').classList.remove('panel-grid-hidden');
             }
         }
 
