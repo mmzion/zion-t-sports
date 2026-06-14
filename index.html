@@ -41,6 +41,10 @@
         .channel-card.active .text-logo-icon { background: #ef4444; color: #fff; }
         .redirect-card .text-logo-icon { color: #f59e0b; }
         
+        /* 🧪 বেটা কার্ড স্পেশাল এক্সসেন্ট */
+        .beta-card .text-logo-icon { color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
+        .channel-card.beta-card.active .text-logo-icon { background: #10b981; color: #04070b; }
+
         .card-name { font-weight: 700; font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
         @media (max-width: 992px) { .iptv-grid-row { grid-template-columns: repeat(4, 1fr); } }
@@ -66,6 +70,7 @@
             <button class="tab-trigger" onclick="togglePanelTab('sports', this)"><i class="bi bi-broadcast me-1"></i> Live Sports</button>
             <button class="tab-trigger" onclick="togglePanelTab('entertainment', this)"><i class="bi bi-mask me-1"></i> Entertainment</button>
             <button class="tab-trigger" onclick="togglePanelTab('news-movies', this)"><i class="bi bi-film me-1"></i> News & Movies</button>
+            <button class="tab-trigger" onclick="togglePanelTab('live-beta', this)" style="color: #10b981;"><i class="bi bi-cpu-fill me-1"></i> Live Beta</button>
         </div>
 
         <div class="horizontal-panel">
@@ -181,6 +186,54 @@
                 </div>
             </div>
 
+            <div id="liveBetaTabPanel" class="iptv-grid-row panel-grid-hidden">
+                <div class="channel-card beta-card" onclick="switchStandardChannel('https://daisy-vivid-921c.chm-shm78.workers.dev/live/fifabd.m3u8', 'FIFA Bangla (Beta)', this)">
+                    <div class="text-logo-icon">FB</div><div class="card-name">FIFA Bangla</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://103.157.248.140:8000/play/a00g/index.m3u8', 'Star Sports 1 Hindi', this)">
+                    <div class="text-logo-icon">S1</div><div class="card-name">Star 1 Hindi</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://103.157.248.140:8000/play/a01m/index.m3u8', 'Star Sports 2 Hindi', this)">
+                    <div class="text-logo-icon">S2</div><div class="card-name">Star 2 Hindi</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8', 'Willow Sports FHD', this)">
+                    <div class="text-logo-icon">WL</div><div class="card-name">Willow Sports</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://live.balajibroadband.com:3500/live/524.m3u8', 'Sony LIV 1', this)">
+                    <div class="text-logo-icon">SL1</div><div class="card-name">Sony LIV 1</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://live.balajibroadband.com:3500/live/891.m3u8', 'Sony LIV 2', this)">
+                    <div class="text-logo-icon">SL2</div><div class="card-name">Sony LIV 2</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://151.80.18.177:86/Eurosport_HD/playlist.m3u8', 'Eurosport 1', this)">
+                    <div class="text-logo-icon">ES1</div><div class="card-name">Eurosport 1</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://151.80.18.177:86/Eurosport_2_HD/playlist.m3u8', 'Eurosport 2', this)">
+                    <div class="text-logo-icon">ES2</div><div class="card-name">Eurosport 2</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('https://rmtv.akamaized.net/hls/live/2043153/rmtv-es-web/bitrate_3.m3u8', 'Real Madrid TV', this)">
+                    <div class="text-logo-icon">RM</div><div class="card-name">Real Madrid TV</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8', 'beIN Sports Extra', this)">
+                    <div class="text-logo-icon">BEX</div><div class="card-name">beIN Extra</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/Caze_TV.m3u8', 'Caze TV BR', this)">
+                    <div class="text-logo-icon">CZ</div><div class="card-name">Caze TV BR</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://41.205.93.154/STARSPORTS1/index.m3u8', 'Star Sports 1 Global', this)">
+                    <div class="text-logo-icon">SSG</div><div class="card-name">Star 1 Global</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('https://d1211whpimeups.cloudfront.net/smil:rtbgo/chunklist.m3u8', 'World Cup Sky', this)">
+                    <div class="text-logo-icon">SKY</div><div class="card-name">World Cup Sky</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8', 'BTV National', this)">
+                    <div class="text-logo-icon">BT</div><div class="card-name">BTV National</div>
+                </div>
+                <div class="channel-card beta-card" onclick="switchStandardChannel('http://116.204.149.16/mytv/index.m3u8', 'My TV Bangla', this)">
+                    <div class="text-logo-icon">MY</div><div class="card-name">My TV Bangla</div>
+                </div>
+            </div>
+
         </div>
         
         <div class="text-center mt-5 text-muted" style="font-size: 10px; opacity: 0.4;">© 2026 Zion Sports • Powered by GitHub Pages</div>
@@ -215,6 +268,7 @@
             document.getElementById('sportsTabPanel').classList.add('panel-grid-hidden');
             document.getElementById('entertainmentTabPanel').classList.add('panel-grid-hidden');
             document.getElementById('newsMoviesTabPanel').classList.add('panel-grid-hidden');
+            document.getElementById('liveBetaTabPanel').classList.add('panel-grid-hidden');
 
             if (tabName === 'fifa') {
                 document.getElementById('fifaTabPanel').classList.remove('panel-grid-hidden');
@@ -224,6 +278,8 @@
                 document.getElementById('entertainmentTabPanel').classList.remove('panel-grid-hidden');
             } else if (tabName === 'news-movies') {
                 document.getElementById('newsMoviesTabPanel').classList.remove('panel-grid-hidden');
+            } else if (tabName === 'live-beta') {
+                document.getElementById('liveBetaTabPanel').classList.remove('panel-grid-hidden');
             }
         }
 
