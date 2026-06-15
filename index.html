@@ -41,7 +41,7 @@
         .channel-card.active .text-logo-icon { background: #ef4444; color: #fff; }
         .redirect-card .text-logo-icon { color: #f59e0b; }
         
-        /* 🧪 বেটা কার্ড স্পেশাল এক্সসেন্ট */
+        /* 💚 বেটা কার্ড ডিজাইন এক্সসেন্ট */
         .beta-card .text-logo-icon { color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
         .channel-card.beta-card.active .text-logo-icon { background: #10b981; color: #04070b; }
 
@@ -79,16 +79,16 @@
                 <div class="channel-card redirect-card" onclick="window.open('http://198.195.239.50:8095/tsports/index.m3u8', '_blank')">
                     <div class="text-logo-icon">TS</div><div class="card-name" style="color: #ef4444;">T Sports</div>
                 </div>
-                <div class="channel-card active" onclick="switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', this)">
+                <div class="channel-card active" onclick="switchHybridPlayer('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', this)">
                     <div class="text-logo-icon">BN</div><div class="card-name">Bein Direct</div>
                 </div>
-                <div class="channel-card" onclick="switchStandardChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV', this)">
+                <div class="channel-card" onclick="switchHybridPlayer('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV', this)">
                     <div class="text-logo-icon">CZ</div><div class="card-name">Caze TV</div>
                 </div>
-                <div class="channel-card" onclick="switchStandardChannel('https://tvsen5.aynaott.com/PtvSports/index.m3u8', 'PTV Sports', this)">
+                <div class="channel-card" onclick="switchHybridPlayer('https://tvsen5.aynaott.com/PtvSports/index.m3u8', 'PTV Sports', this)">
                     <div class="text-logo-icon">PT</div><div class="card-name">PTV Sports</div>
                 </div>
-                <div class="channel-card" onclick="switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Premium', this)">
+                <div class="channel-card" onclick="switchHybridPlayer('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Premium', this)">
                     <div class="text-logo-icon">WN</div><div class="card-name">WIN Premium</div>
                 </div>
             </div>
@@ -187,51 +187,84 @@
             </div>
 
             <div id="liveBetaTabPanel" class="iptv-grid-row panel-grid-hidden">
-                <div class="channel-card beta-card" onclick="switchStandardChannel('https://daisy-vivid-921c.chm-shm78.workers.dev/live/fifabd.m3u8', 'FIFA Bangla (Beta)', this)">
-                    <div class="text-logo-icon">FB</div><div class="card-name">FIFA Bangla</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://103.157.248.140:8000/play/a00g/index.m3u8', 'Star Sports 1 Hindi', this)">
-                    <div class="text-logo-icon">S1</div><div class="card-name">Star 1 Hindi</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://103.157.248.140:8000/play/a01m/index.m3u8', 'Star Sports 2 Hindi', this)">
-                    <div class="text-logo-icon">S2</div><div class="card-name">Star 2 Hindi</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8', 'Willow Sports FHD', this)">
-                    <div class="text-logo-icon">WL</div><div class="card-name">Willow Sports</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://live.balajibroadband.com:3500/live/524.m3u8', 'Sony LIV 1', this)">
-                    <div class="text-logo-icon">SL1</div><div class="card-name">Sony LIV 1</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://live.balajibroadband.com:3500/live/891.m3u8', 'Sony LIV 2', this)">
-                    <div class="text-logo-icon">SL2</div><div class="card-name">Sony LIV 2</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://151.80.18.177:86/Eurosport_HD/playlist.m3u8', 'Eurosport 1', this)">
-                    <div class="text-logo-icon">ES1</div><div class="card-name">Eurosport 1</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://151.80.18.177:86/Eurosport_2_HD/playlist.m3u8', 'Eurosport 2', this)">
-                    <div class="text-logo-icon">ES2</div><div class="card-name">Eurosport 2</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('https://rmtv.akamaized.net/hls/live/2043153/rmtv-es-web/bitrate_3.m3u8', 'Real Madrid TV', this)">
-                    <div class="text-logo-icon">RM</div><div class="card-name">Real Madrid TV</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8', 'beIN Sports Extra', this)">
-                    <div class="text-logo-icon">BEX</div><div class="card-name">beIN Extra</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/Caze_TV.m3u8', 'Caze TV BR', this)">
-                    <div class="text-logo-icon">CZ</div><div class="card-name">Caze TV BR</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://41.205.93.154/STARSPORTS1/index.m3u8', 'Star Sports 1 Global', this)">
-                    <div class="text-logo-icon">SSG</div><div class="card-name">Star 1 Global</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('https://d1211whpimeups.cloudfront.net/smil:rtbgo/chunklist.m3u8', 'World Cup Sky', this)">
-                    <div class="text-logo-icon">SKY</div><div class="card-name">World Cup Sky</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8', 'BTV National', this)">
-                    <div class="text-logo-icon">BT</div><div class="card-name">BTV National</div>
-                </div>
-                <div class="channel-card beta-card" onclick="switchStandardChannel('http://116.204.149.16/mytv/index.m3u8', 'My TV Bangla', this)">
-                    <div class="text-logo-icon">MY</div><div class="card-name">My TV Bangla</div>
-                </div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://daisy-vivid-921c.chm-shm78.workers.dev/live/fifabd.m3u8', 'FIFA Bangla (Beta)', this)"><div class="text-logo-icon">FB</div><div class="card-name">FIFA Bangla</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://str2.v3v3v.xyz:2082/live/rokhsi25_951396/POm6KqnW/277428.ts', 'Z Bangla Sonara', this)"><div class="text-logo-icon">ZBS</div><div class="card-name">Z Bangla Sonara</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://go8knm.optikl.ink/X/index.php/Besyria3/video.m3u8', 'beIN SPORTS 4K', this)"><div class="text-logo-icon">BN4K</div><div class="card-name">beIN 4K</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://41.205.93.154/STARSPORTS1/index.m3u8', 'Star Sports 1 HD', this)"><div class="text-logo-icon">SS1</div><div class="card-name">Star Sports 1 HD</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://rmtv.akamaized.net/hls/live/2043153/rmtv-es-web/bitrate_3.m3u8', 'Real Madrid TV ES', this)"><div class="text-logo-icon">RME</div><div class="card-name">Real Madrid ES</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://rmtv.akamaized.net/hls/live/2043154/rmtv-en-web/master.m3u8', 'Real Madrid TV EN', this)"><div class="text-logo-icon">RMN</div><div class="card-name">Real Madrid EN</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8', 'beIN EXTRA Ñ 1080p', this)"><div class="text-logo-icon">BX1</div><div class="card-name">beIN Extra 1080p</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://bein-esp-xumo.amagi.tv/playlistR720P.m3u8', 'beIN EXTRA Ñ 720p', this)"><div class="text-logo-icon">BX2</div><div class="card-name">beIN Extra 720p</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://str2.yodacdn.net/idman_300_to_small/tracks-v1a1/mono.m3u8', 'IDMANTV 🇹🇷', this)"><div class="text-logo-icon">IDM</div><div class="card-name">IDMANTV</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/9155/index.m3u8', 'Sky Sports Action', this)"><div class="text-logo-icon">SSA</div><div class="card-name">Sky Action</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://179.60.224.196:8000/play/a0i7/index.m3u8', 'Sky Sport LaLiga MX', this)"><div class="text-logo-icon">SKL</div><div class="card-name">Sky LaLiga</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://tv-premium-pro.com/live/wezqqszfr2/i7481xvrdf/280823.m3u8', 'Hub Sports 2 HD', this)"><div class="text-logo-icon">HB2</div><div class="card-name">Hub Sports 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://tv.cdn.xsg.ge/gpb-2tv/index.m3u8', '2TV Sport 🇳🇴', this)"><div class="text-logo-icon">2TV</div><div class="card-name">2TV Sport</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://103.175.73.12:8080/live/856/856_0.m3u8', 'FGN Feed', this)"><div class="text-logo-icon">FGN</div><div class="card-name">FGN Feed</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://ytoxw6un.ottclub.xyz/iptv/KCUHA6DGYYVA8ZZFUPQV3KZH/18000/index.m3u8', 'GO 3 Sport 1', this)"><div class="text-logo-icon">GO1</div><div class="card-name">GO 3 Sport 1</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://ytoxw6un.ottclub.xyz/iptv/KCUHA6DGYYVA8ZZFUPQV3KZH/18001/index.m3u8', 'GO 3 Sport 2', this)"><div class="text-logo-icon">GO2</div><div class="card-name">GO 3 Sport 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://starhub.pro/live/farhat-3379/67897-913379/744517.ts', 'WC beIN TS', this)"><div class="text-logo-icon">WCB</div><div class="card-name">WC beIN TS</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://live.balajibroadband.com:3500/live/524.m3u8', 'Sony LIV 524', this)"><div class="text-logo-icon">SL1</div><div class="card-name">Sony LIV 524</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://live.balajibroadband.com:3500/live/891.m3u8', 'Sony LIV 891', this)"><div class="text-logo-icon">SL2</div><div class="card-name">Sony LIV 891</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://live.balajibroadband.com:3500/live/155.m3u8', 'Sony LIV 155', this)"><div class="text-logo-icon">SL3</div><div class="card-name">Sony LIV 155</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://live.balajibroadband.com:3500/live/162.m3u8', 'Sony LIV 162', this)"><div class="text-logo-icon">SL4</div><div class="card-name">Sony LIV 162</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://live.balajibroadband.com:3500/live/892.m3u8', 'Sony LIV 892', this)"><div class="text-logo-icon">SL5</div><div class="card-name">Sony LIV 892</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://streamsportixa.ajmainearafat.workers.dev/live.m3u8', 'WC Bioscope Plus', this)"><div class="text-logo-icon">WCB</div><div class="card-name">WC Bioscope</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://qp-pldt-live-bpk-ucd-prod.akamaized.net/bpk-tv/ch299/default/index.mpd', 'Cignal TV DASH', this)"><div class="text-logo-icon">CIG</div><div class="card-name">Cignal DASH</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://otte.live.fly.ww.aiv-cdn.net/gru-nitro/live/clients/dash/enc/ubehitlwzo/out/v1/8e09c381a51f4366a19e979418112e8f/cenc.mpd', 'DSports DASH', this)"><div class="text-logo-icon">DSP</div><div class="card-name">DSports DASH</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/Caze_TV.m3u8', 'Caze TV BR', this)"><div class="text-logo-icon">CZB</div><div class="card-name">Caze TV BR</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://starhub.pro/live/farhat-3379/67897-913379/741567.ts', 'WC Hindi TS', this)"><div class="text-logo-icon">WCH</div><div class="card-name">WC Hindi TS</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://d1211whpimeups.cloudfront.net/smil:rtbgo/chunklist.m3u8', 'WC Sky Cloud', this)"><div class="text-logo-icon">WCS</div><div class="card-name">WC Sky</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://otte-tim.live.pv-cdn.net/pdx-nitro/live/clients/dash/enc/ajfoeddkbz/out/v1/b78800b9b2304879b15843f455836829/cenc.mpd', 'WC FOX DASH', this)"><div class="text-logo-icon">WCF</div><div class="card-name">WC FOX DASH</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://202.70.146.135:8000/play/a06s/index.m3u8', 'WC Option 1', this)"><div class="text-logo-icon">WC1</div><div class="card-name">WC Option 1</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://ytoxw6un.ottclub.xyz/iptv/KCUHA6DGYYVA8ZZFUPQV3KZH/6408/index.m3u8', 'WC 4K Premium', this)"><div class="text-logo-icon">4K1</div><div class="card-name">WC 4K Premium</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://starhub.pro/live/farhat-3379/67897-913379/745269.ts', 'WC 4K Opt 2', this)"><div class="text-logo-icon">4K2</div><div class="card-name">WC 4K Opt 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://starhub.pro/live/farhat-3379/67897-913379/745270.ts', 'WC 4K Opt 3', this)"><div class="text-logo-icon">4K3</div><div class="card-name">WC 4K Opt 3</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://stalker.hakunamata.workers.dev/play/1100/index.m3u8', 'PSL GEO SUPER', this)"><div class="text-logo-icon">GEO</div><div class="card-name">GEO SUPER</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://abfjk4haaaaaaaampv6ofhkihi4r6.bia-cf.live.pv-cdn.net/iad-nitro/live/clients/dash/enc/fdb3pubmek/out/v1/aefca6420f944a9482e117f315de535f/cenc.mpd', 'Fancode DASH 1', this)"><div class="text-logo-icon">FC1</div><div class="card-name">Fancode DASH 1</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://otte.cache.aiv-cdn.net/iad-nitro/live/clients/dash/enc/fdb3pubmek/out/v1/aefca6420f944a9482e117f315de535f/cenc.mpd', 'Fancode DASH 2', this)"><div class="text-logo-icon">FC2</div><div class="card-name">Fancode DASH 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://otte.live.fly.ww.aiv-cdn.net/sin-nitro/live/clients/dash-sd/enc/v8g0dlo4z8/out/v1/946019f85dc64ae99ff9ce64a9727a62/cenc-sd.mpd', 'Fancode DASH SD', this)"><div class="text-logo-icon">FCS</div><div class="card-name">Fancode DASH SD</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/tll6uwepxa/out/v1/a7f67cbb33df46539312956427343886/cenc.mpd', 'Willow DASH', this)"><div class="text-logo-icon">WLD</div><div class="card-name">Willow DASH</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://otte.live.fly.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/3b7qwiqzk3/out/v1/9f14895badca43e6a716db021dcd0c31/cenc.mpd', 'DASH Nitro Feed', this)"><div class="text-logo-icon">NTR</div><div class="card-name">Nitro Feed</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://luckonline.eu/live/y49sz6KMQs/6115263489/1142.ts', 'T Sports TS', this)"><div class="text-logo-icon">TSP</div><div class="card-name">T Sports TS</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://ac-003.live.p7s1video.net/63f8995e/t_003/dazn-fast-hd/cenc-default.mpd', 'DAZN FAST+ DASH', this)"><div class="text-logo-icon">DZF</div><div class="card-name">DAZN FAST+</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://dazn-combat-rakuten.amagi.tv/hls/amagi_hls_data_rakutenAA-dazn-combat-rakuten/CDN/master.m3u8', 'DAZN Combat', this)"><div class="text-logo-icon">DZC</div><div class="card-name">DAZN Combat</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8', 'BTV National', this)"><div class="text-logo-icon">BT</div><div class="card-name">বিটিভি</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://116.204.149.16/mytv/index.m3u8', 'My TV Bangla', this)"><div class="text-logo-icon">MY</div><div class="card-name">মাই টিভি</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://sm-monirul.top/toffee/play/rajdhani_tv.m3u8', 'Rajdhani TV', this)"><div class="text-logo-icon">RJD</div><div class="card-name">Rajdhani TV</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://41.223.30.230/FOXSPORTS1/index.m3u8', 'FS1', this)"><div class="text-logo-icon">FS1</div><div class="card-name">FS1</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00488-foxdigital-wnyw-lgus/playlist.m3u8', 'FOX NY', this)"><div class="text-logo-icon">FNY</div><div class="card-name">FOX NY</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://linear-702.frequency.stream/dist/stirr/702/hls/master/playlist.m3u8', 'FOX 11', this)"><div class="text-logo-icon">F11</div><div class="card-name">FOX 11</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://190.61.101.11:7050/play/a08v/index.m3u8', 'FOX Sports 2', this)"><div class="text-logo-icon">FS2</div><div class="card-name">FOX Sports 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://ott-balancer.tvri.go.id/live/eds/SportHD/hls/SportHD-avc1_1500000=10003-mp4a_96000=20002.m3u8', 'TVRI Sport', this)"><div class="text-logo-icon">TVR</div><div class="card-name">TVRI Sport</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://nbculocallive.akamaized.net/hls/live/2037499/puertorico/stream1/master_720.m3u8', 'Telemundo 720', this)"><div class="text-logo-icon">TM1</div><div class="card-name">Telemundo 720</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://nbculocallive.akamaized.net/hls/live/2037499/puertorico/stream1/master.m3u8', 'Telemundo 2', this)"><div class="text-logo-icon">TM2</div><div class="card-name">Telemundo 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://23.237.104.106:8080/USA_FOX_DEPORTES/index.m3u8', 'Fox Deportes', this)"><div class="text-logo-icon">FD</div><div class="card-name">Fox Deportes</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://23.237.104.106:8080/USA_BEIN/index.m3u8', 'beIN US', this)"><div class="text-logo-icon">BUS</div><div class="card-name">beIN US</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://23.237.104.106:8080/DAZN_2/index.m3u8', 'DAZN 2', this)"><div class="text-logo-icon">DZ2</div><div class="card-name">DAZN 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://23.237.104.106:8080/DAZN_3/index.m3u8', 'DAZN 3', this)"><div class="text-logo-icon">DZ3</div><div class="card-name">DAZN 3</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://23.237.104.106:8080/DAZN_4/index.m3u8', 'DAZN 4', this)"><div class="text-logo-icon">DZ4</div><div class="card-name">DAZN 4</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://23.237.104.106:8080/DAZN_5/index.m3u8', 'DAZN 5', this)"><div class="text-logo-icon">DZ5</div><div class="card-name">DAZN 5</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://23.237.104.106:8080/DAZN_6/index.m3u8', 'DAZN 6', this)"><div class="text-logo-icon">DZ6</div><div class="card-name">DAZN 6</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://190.108.83.69:8000/play/a05w/index.m3u8', 'DSports Opt 1', this)"><div class="text-logo-icon">DS1</div><div class="card-name">DSports Opt 1</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://148.222.230.201:8000/play/a0pk/index.m3u8', 'DSports Opt 2', this)"><div class="text-logo-icon">DS2</div><div class="card-name">DSports Opt 2</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://148.222.230.197:8000/play/a0mm/index.m3u8', 'DSports Opt 3', this)"><div class="text-logo-icon">DS3</div><div class="card-name">DSports Opt 3</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://181.64.27.65:8000/play/a0dq/index.m3u8', 'DSports Opt 4', this)"><div class="text-logo-icon">DS4</div><div class="card-name">DSports Opt 4</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://38.187.7.252:8000/play/a03d/index.m3u8', 'DSports Opt 5', this)"><div class="text-logo-icon">DS5</div><div class="card-name">DSports Opt 5</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://190.223.48.46:8000/play/a028/index.m3u8', 'DSports Opt 6', this)"><div class="text-logo-icon">DS6</div><div class="card-name">DSports Opt 6</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://191.97.59.33:8000/play/a09t/index.m3u8', 'DSports Opt 7', this)"><div class="text-logo-icon">DS7</div><div class="card-name">DSports Opt 7</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://190.117.20.37:8000/play/a08d/index.m3u', 'DSports Opt 8', this)"><div class="text-logo-icon">DS8</div><div class="card-name">DSports Opt 8</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://177.53.152.117:8000/play/a07d/index.m3u8', 'DSports Opt 9', this)"><div class="text-logo-icon">DS9</div><div class="card-name">DSports Opt 9</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://8.243.126.131:8000/play/a05a/index.m3u8', 'DSports Opt 10', this)"><div class="text-logo-icon">D10</div><div class="card-name">DSports Opt 10</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://177.10.184.193:8000/play/a0fc/index.m3u8', 'DSports Opt 11', this)"><div class="text-logo-icon">D11</div><div class="card-name">DSports Opt 11</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://217.26.190.76:8888/play/a0co/index.m3u8', 'DSports Opt 12', this)"><div class="text-logo-icon">D12</div><div class="card-name">DSports Opt 12</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://d9ssxzmclhfo4.cloudfront.net/bein_sports720p.m3u8', 'beIN Sports 720p', this)"><div class="text-logo-icon">BN7</div><div class="card-name">beIN 720p</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://d1jzu95oc8fgt3.cloudfront.net/FOX_Sports720p.m3u8', 'FOX Sports 720p', this)"><div class="text-logo-icon">FX7</div><div class="card-name">FOX 720p</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/720p-vtt/index.m3u8', 'Caze TV 720p', this)"><div class="text-logo-icon">CZ7</div><div class="card-name">Caze 720p</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('http://24.152.53.3:8090/play/a012/index.m3u8', 'TUDN Link', this)"><div class="text-logo-icon">TUD</div><div class="card-name">TUDN Link</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://otte.live.fly.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/uiffe4jhf0/out/v1/3534efafca8c4815adbb4d2e9a1fe003/cenc.mpd', 'Fubo Sports 2 DASH', this)"><div class="text-logo-icon">FUB</div><div class="card-name">Fubo DASH</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master_3360.m3u8', 'Redbull TV 3360', this)"><div class="text-logo-icon">RB1</div><div class="card-name">Redbull 3360</div></div>
+                <div class="channel-card beta-card" onclick="switchHybridPlayer('https://dto4p9su9kcif.cloudfront.net/out/v1/45b4d7be5ac64a83bdfdca7b683b40b5/index.m3u8', 'Concacaf Qualifiers', this)"><div class="text-logo-icon">CC1</div><div class="card-name">Concacaf Qualifiers</div></div>
             </div>
 
         </div>
@@ -240,24 +273,45 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashshaka-player/4.2.1/dash.all.min.js"></script>
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
     <script>
         const video = document.getElementById('player');
-        let hls = null;
+        let hlsEngine = null;
+        let dashEngine = null;
 
         const plyr = new Plyr(video, { autoplay: true, muted: true });
 
-        function switchStandardChannel(url, title, el) {
+        // 🔀 কমপ্লিট মাল্টি ফরম্যাট হাইব্রিড কোর ইঞ্জিন (.m3u8, .ts, .mpd অটো-ডিটেকশন)
+        function switchHybridPlayer(url, title, el) {
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
+            if (el) el.classList.add('active');
             document.getElementById('activeTitle').innerText = title;
             
-            if (hls) hls.destroy();
-            hls = new Hls();
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            video.play().catch(e => console.log("Engine loaded:", e));
+            // রানিং বাফার এবং মেমরি লিকেজ প্রিভেনশন ক্লিনআপ
+            if (hlsEngine) { hlsEngine.destroy(); hlsEngine = null; }
+            if (dashEngine) { dashEngine.reset(); dashEngine = null; }
+            video.src = '';
+
+            // ⚡ রুলস ১: এক্সটেনশন টাইপ যদি MPEG-DASH (.mpd) হয়
+            if (url.includes('.mpd')) {
+                dashEngine = dashjs.MediaPlayer().create();
+                dashEngine.initialize(video, url, true);
+                video.play().catch(e => console.log("DASH Stream Active:", e));
+            } 
+            // ⚡ রুলস ২: এক্সটেনশন টাইপ যদি স্ট্যান্ডার্ড HLS (.m3u8 বা .ts) হয়
+            else {
+                if (Hls.isSupported()) {
+                    hlsEngine = new Hls();
+                    hlsEngine.loadSource(url);
+                    hlsEngine.attachMedia(video);
+                    video.play().catch(e => console.log("HLS Stream Active:", e));
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = url;
+                    video.play().catch(e => console.log("Native Stream Active:", e));
+                }
+            }
         }
 
         function togglePanelTab(tabName, buttonElement) {
@@ -283,8 +337,11 @@
             }
         }
 
-        // Auto Load First Channel
-        switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', document.querySelectorAll('.channel-card')[1]);
+        // Auto Load Initial Boot Channel
+        window.addEventListener('DOMContentLoaded', () => {
+            const defaultCard = document.querySelectorAll('#fifaTabPanel .channel-card')[1];
+            switchHybridPlayer('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', defaultCard);
+        });
     </script>
 </body>
 </html>
