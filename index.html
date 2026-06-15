@@ -59,7 +59,7 @@
         video { width: 100%; height: 100%; background: #000; object-fit: contain !important; }
         .plyr { width: 100%; height: 100%; }
 
-        /* 🖐️ ওভারলে ইন্টারঅ্যাকশন লেয়ার */
+        /* 🖐️ থ্রি-জোন স্মার্ট টাচ ইন্টারঅ্যাকশন লেয়ার */
         .player-click-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: calc(100% - 50px);
@@ -67,7 +67,10 @@
             display: flex;
             pointer-events: auto;
         }
-        .gesture-zone { width: 50%; height: 100%; position: relative; }
+        .gesture-zone { height: 100%; position: relative; }
+        #left-zone { width: 30%; }
+        #center-zone { width: 40%; }
+        #right-zone { width: 30%; }
         
         .seek-notice {
             position: absolute; top: 50%; left: 50%;
@@ -86,7 +89,6 @@
         .ott-dashboard { padding: 15px; }
         .stream-details { background: var(--panel-bg); padding: 14px; border-radius: 14px; border: 1px solid rgba(109, 40, 217, 0.15); display: flex; align-items: center; gap: 12px; }
         
-        /* 🛠️ লোগো ফলব্যাক অপ্টিমাইজড সিএসএস */
         .active-logo-container { width: 34px; height: 34px; position: relative; display: flex; align-items: center; justify-content: center; }
         .active-logo-img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: rgba(255,255,255,0.06); padding: 3px; border: 1px solid rgba(109, 40, 217, 0.25); }
         .active-text-logo-fallback { width: 100%; height: 100%; background: var(--purple-deep); color: #fff; font-size: 12px; font-weight: 800; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 10px var(--purple-glow); text-transform: uppercase; }
@@ -130,14 +132,14 @@
 
         .card-name { font-weight: 700; font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
-        /* ⚙️ প্লাইয়ার কাস্টমাইজেশন সেটিংস */
+        /* ⚙️ প্লাইয়ার কাস্টমাইজেশন সেটিংস (বেগুনী এক্সসেন্ট থিম) */
         .plyr--video { --plyr-color-main: var(--purple-deep); }
-        .plyr__custom-reload { background: transparent; border: none; color: #fff; padding: 4px 8px; cursor: pointer; font-size: 16px; transition: transform 0.2s ease; display: flex; align-items: center; margin-left: auto; }
-        .plyr__custom-reload:active { transform: scale(0.85) rotate(-45deg); }
-
-        @media (max-width: 992px) { .iptv-grid-row { grid-template-columns: repeat(4, 1fr); } }
-        @media (max-width: 768px) { .iptv-grid-row { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 480px) { .iptv-grid-row { grid-template-columns: repeat(2, 1fr); } }
+        
+        /* কাস্টম ইন-লাইন রিলোড বাটন সিএসএস (প্লে বাটনের পাশে বসার জন্য) */
+        .plyr__controls .plyr__control.plyr__custom-reload-btn {
+            order: 2; /* প্লে/পজ বাটনের ঠিক পরে বসার জন্য */
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -150,6 +152,7 @@
                 <video id="player" playsinline controls autoplay muted></video>
                 <div class="player-click-overlay" id="player-overlay">
                     <div class="gesture-zone" id="left-zone"><div class="seek-notice" id="left-seek"><i class="bi bi-backward-fill"></i> -10s</div></div>
+                    <div class="gesture-zone" id="center-zone"></div>
                     <div class="gesture-zone" id="right-zone"><div class="seek-notice" id="right-seek">10s <i class="bi bi-forward-fill"></i></div></div>
                 </div>
             </div>
@@ -323,21 +326,24 @@
         let currentActiveUrl = '';
         let globalFallbackText = 'BN';
 
-        // 🛠️ টাইমলাইন বার এবং সাউন্ড অপশন বাদে পিওর ওটিটি কন্ট্রোল প্যানেল
+        // 🛠️ পিওর প্রফেশনাল কন্ট্রোল প্যানেল (ডিফল্ট ফুলস্ক্রিন বাটন একদম ডানে থাকবে)
         const plyr = new Plyr(video, { 
             autoplay: true, 
             muted: true,
             controls: ['play-large', 'play', 'current-time', 'fullscreen'] 
         });
 
-        // ওটিটি প্লেয়ার কন্ট্রোল বারে ইন-লাইন কাস্টম "QUICK RELOAD" বাটন ইনজেকশন
+        // 🔄 কাস্টম রিলোড (🔄) বাটন ইনজেকশন মেকানিজম (প্লে/পজ বাটনের ঠিক পাশে বামে সেট করা হয়েছে)
         window.addEventListener('DOMContentLoaded', () => {
             const plyrControls = document.querySelector('.plyr__controls');
             if (plyrControls) {
                 const reloadBtn = document.createElement('button');
-                reloadBtn.className = 'plyr__custom-reload plyr__control';
+                reloadBtn.className = 'plyr__custom-reload-btn plyr__control';
                 reloadBtn.setAttribute('type', 'button');
-                reloadBtn.innerHTML = '<i class="bi bi-arrow-clockwise"></i>';
+                reloadBtn.innerHTML = '<i class="bi bi-arrow-clockwise" style="font-size: 18px;"></i>';
+                reloadBtn.style.color = '#fff';
+                
+                // ওয়ান-ক্লিক কুইক বাফার রিস্টার্ট লজিক
                 reloadBtn.onclick = (e) => {
                     e.stopPropagation();
                     if(currentActiveUrl) {
@@ -345,10 +351,16 @@
                         hls = new Hls();
                         hls.loadSource(currentActiveUrl);
                         hls.attachMedia(video);
-                        video.play().catch(err => console.log("Reload triggered:", err));
+                        video.play().catch(err => console.log("Reload active:", err));
                     }
                 };
-                plyrControls.appendChild(reloadBtn);
+                // প্লে বাটনের পাশে পুশ করার জন্য ফার্স্ট চাইল্ড মেকানিজম ব্যবহার করা হয়েছে
+                const playBtn = plyrControls.querySelector('[data-plyr="play"]');
+                if (playBtn) {
+                    playBtn.after(reloadBtn);
+                } else {
+                    plyrControls.appendChild(reloadBtn);
+                }
             }
         });
 
@@ -364,9 +376,10 @@
             }
         });
 
-        // 🖐️ ২. ইউটিউব স্টাইল ওয়ান-ট্যাপ কন্ট্রোল টগল ও ডাবল-ট্যাপ সিক
+        // 🖐️ ২. থ্রি-জোন ওয়ান-ট্যাপ কন্ট্রোল টগল, সেন্টার প্লে/পজ এবং ডাবল-ট্যাপ সিক মেকানিজম
         const overlay = document.getElementById('player-overlay');
         const leftZone = document.getElementById('left-zone');
+        const centerZone = document.getElementById('center-zone');
         const rightZone = document.getElementById('right-zone');
         const leftSeekNotice = document.getElementById('left-seek');
         const rightSeekNotice = document.getElementById('right-seek');
@@ -374,8 +387,19 @@
         let lastTapLeft = 0;
         let lastTapRight = 0;
 
+        // যেকোনো জোনে সিঙ্গেল ক্লিক করলে কন্ট্রোল বার টগল (On/Off) হবে
         overlay.addEventListener('click', (e) => {
-            if (e.target === leftZone || e.target === rightZone) {
+            // যদি ক্লিকটি মাঝখানের জোনে হয়, তবে প্লে/পজ টগল হবে
+            if (e.target === centerZone) {
+                e.stopPropagation();
+                if (video.paused) {
+                    video.play().catch(err => console.log(err));
+                } else {
+                    video.pause();
+                }
+            } 
+            // ডান বা বাম জোনে সিঙ্গেল ট্যাপ হলে কন্ট্রোল বার শো/হাইড হবে
+            else if (e.target === leftZone || e.target === rightZone) {
                 e.stopPropagation();
                 const controls = document.querySelector('.plyr__controls');
                 if (controls) {
@@ -388,6 +412,7 @@
             }
         });
 
+        // বাম পাশে ডাবল ট্যাপে ১০ সেকেন্ড রিওয়াইন্ড
         leftZone.addEventListener('touchend', (e) => {
             let currentTime = new Date().getTime();
             let tapLength = currentTime - lastTapLeft;
@@ -399,6 +424,7 @@
             lastTapLeft = currentTime;
         });
 
+        // ডান পাশে ডাবল ট্যাপে ১০ সেকেন্ড ফরওয়ার্ড
         rightZone.addEventListener('touchend', (e) => {
             let currentTime = new Date().getTime();
             let tapLength = currentTime - lastTapRight;
@@ -445,7 +471,6 @@
             video.play().catch(e => console.log("Stream init error:", e));
         }
 
-        // মেইন প্যানেলের অ্যাক্টিভ লগো ইমেজে ইরর হ্যান্ডেল করার মেকানিজম
         function handleActiveLogoError() {
             document.getElementById('activeLogo').style.display = 'none';
             const activeTextFallback = document.getElementById('activeTextFallback');
