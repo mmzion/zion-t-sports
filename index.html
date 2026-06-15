@@ -8,211 +8,73 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        :root {
-            --accent-color: #ef4444;
-            --bg-dark: #04070b;
-            --panel-bg: rgba(13, 18, 28, 0.4);
-            --card-border: rgba(255, 255, 255, 0.05);
-        }
-        
-        body { 
-            background-color: var(--bg-dark); 
-            color: #f8fafc; 
-            font-family: system-ui, -apple-system, sans-serif; 
-            min-height: 100vh; 
-            padding-top: 70px; 
-            padding-bottom: 30px; 
-            overflow-x: hidden;
-        }
-
-        /* 👑 প্রফেশনাল গ্লোয়িং ন্যাভবার */
-        .ott-nav { 
-            background: rgba(4, 7, 11, 0.75); 
-            backdrop-filter: blur(25px); 
-            height: 65px; 
-            position: fixed; 
-            top: 0; 
-            width: 100%; 
-            z-index: 1050; 
-            display: flex; 
-            align-items: center; 
-            padding: 0 24px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
-        }
-        .nav-brand { font-size: 18px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-
-        /* 📺 সিনেমাটিক এম্বিয়েন্ট গ্লো স্ক্রিন */
-        .theater-screen-container {
-            position: relative;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 12px;
-        }
-        .theater-screen { 
-            position: relative; 
-            background: #000; 
-            border-radius: 16px; 
-            overflow: hidden; 
-            width: 100%; 
-            aspect-ratio: 16 / 9; 
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: box-shadow 0.3s ease;
-        }
-        .theater-screen:hover {
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 50px rgba(239, 68, 68, 0.25);
-        }
+        body { background-color: #04070b; color: #f8fafc; font-family: sans-serif; min-height: 100vh; padding-top: 60px; padding-bottom: 20px; }
+        .ott-nav { background: rgba(4, 7, 11, 0.8); backdrop-filter: blur(20px); height: 60px; position: fixed; top: 0; width: 100%; z-index: 1050; display: flex; align-items: center; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .theater-screen { position: relative; background: #000; border-radius: 14px; overflow: hidden; width: 100%; aspect-ratio: 16 / 9; box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 30px rgba(239, 68, 68, 0.1); }
         #plyr-wrapper { width: 100%; height: 100%; position: absolute; top:0; left:0; }
-        video { width: 100%; height: 100%; object-fit: contain !important; }
+        
+        video { width: 100%; height: 100%; background: #000; object-fit: contain !important; }
+        .plyr { width: 100%; height: 100%; }
 
-        /* 📱 জেসচার ও ওভারলে লেয়ার কন্ট্রোলস */
+        /* ✨ জেসচার ওভারলে ফিক্স (কন্ট্রোল বাটন ব্লকিং সমস্যার সমাধান) */
         .player-gesture-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 2;
+            top: 0; left: 0; width: 100%; height: calc(100% - 50px); /* নিচে কন্ট্রোল বারের জায়গা ফাঁকা রাখা হয়েছে */
+            z-index: 1; /* প্লাইয়ার কন্ট্রোলের নিচে রাখা হয়েছে */
             display: flex;
             pointer-events: auto;
         }
         .gesture-zone { width: 50%; height: 100%; position: relative; }
+        
         .seek-notice, .control-notice {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.75);
-            padding: 10px 18px; border-radius: 30px;
-            font-size: 13px; font-weight: 700;
-            color: #fff; display: flex; align-items: center; gap: 8px;
-            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+            background: rgba(0,0,0,0.8);
+            padding: 8px 16px; border-radius: 30px;
+            font-size: 12px; font-weight: 700;
+            color: #fff; display: flex; align-items: center; gap: 6px;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
             border: 1px solid rgba(255,255,255,0.1);
         }
         .show-notice { opacity: 1; }
 
-        /* 🏷️ স্ট্রিম ডিটেইলস প্যানেল */
-        .stream-details { 
-            margin-top: 20px; 
-            background: var(--panel-bg); 
-            backdrop-filter: blur(10px);
-            padding: 16px 20px; 
-            border-radius: 14px; 
-            border: 1px solid rgba(255,255,255,0.03); 
-        }
-        .badge-live { 
-            background: linear-gradient(135deg, #ef4444, #b91c1c); 
-            color: #fff; 
-            font-size: 11px; 
-            padding: 4px 10px; 
-            border-radius: 6px; 
-            margin-right: 12px; 
-            text-transform: uppercase; 
-            font-weight: 800; 
-            box-shadow: 0 0 15px rgba(239,68,68,0.4);
-            letter-spacing: 0.5px;
-        }
-
-        /* 📑 প্রিমিয়াম ট্যাব বার */
-        .ott-tabs-wrapper { 
-            margin-top: 20px; 
-            background: rgba(13, 18, 28, 0.6); 
-            padding: 6px; 
-            border-radius: 14px; 
-            display: inline-flex; 
-            gap: 8px; 
-            border: 1px solid rgba(255,255,255,0.03); 
-            width: 100%; 
-            overflow-x: auto; 
-            white-space: nowrap; 
-        }
+        .stream-details { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
+        .badge-live { background: #ef4444; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; text-transform: uppercase; font-weight: bold; }
+        .horizontal-panel { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.03); }
+        
+        /* 📑 ট্যাব বাটন */
+        .ott-tabs-wrapper { margin-top: 15px; background: rgba(13, 18, 28, 0.6); padding: 4px; border-radius: 10px; display: inline-flex; gap: 6px; border: 1px solid rgba(255,255,255,0.03); width: 100%; overflow-x: auto; white-space: nowrap; }
         .ott-tabs-wrapper::-webkit-scrollbar { height: 0px; }
-        .tab-trigger { 
-            background: transparent; 
-            color: #94a3b8; 
-            border: none; 
-            padding: 10px 18px; 
-            font-size: 12px; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            border-radius: 10px; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            display: inline-flex; 
-            align-items: center; 
-            letter-spacing: 0.5px;
-        }
-        .tab-trigger.active { 
-            background: var(--accent-color); 
-            color: #fff; 
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        }
+        .tab-trigger { background: transparent; color: #64748b; border: none; padding: 8px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; border-radius: 8px; transition: all 0.2s ease; display: inline-flex; align-items: center; }
+        .tab-trigger.active { background: #ef4444; color: #fff; }
 
-        /* 📱 মডার্ন গ্রিড ড্যাশবোর্ড */
-        .horizontal-panel { 
-            margin-top: 20px; 
-            background: var(--panel-bg); 
-            padding: 20px; 
-            border-radius: 18px; 
-            border: 1px solid rgba(255,255,255,0.02); 
-        }
-        .iptv-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        /* 📱 গ্রিড লেআউট */
+        .iptv-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
         .panel-grid-hidden { display: none !important; }
 
-        /* 👑 হাই-ফিডেলিটি চ্যানেল কার্ড ডিজাইন */
-        .channel-card { 
-            background: rgba(255,255,255,0.02); 
-            padding: 18px; 
-            border-radius: 14px; 
-            cursor: pointer; 
-            text-align: center; 
-            aspect-ratio: 1.15 / 1; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            border: 1px solid var(--card-border); 
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        .channel-card:hover {
-            transform: translateY(-4px);
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.15);
-        }
-        .channel-card.active { 
-            border: 2px solid var(--accent-color); 
-            background: rgba(239, 68, 68, 0.08); 
-            box-shadow: 0 0 20px rgba(239,68,68,0.15);
-        }
-        .redirect-card { border-color: rgba(245, 158, 11, 0.15); }
-        .redirect-card:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.04); }
+        /* 👑 টেক্সট-লগো কার্ড স্টাইল */
+        .channel-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; aspect-ratio: 1.1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease; }
+        .channel-card.active { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.08); }
+        .redirect-card { border: 1px solid rgba(245, 158, 11, 0.15); }
+        .redirect-card:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); transform: translateY(-2px); }
         
-        .text-logo-icon { 
-            width: 48px; 
-            height: 48px; 
-            background: rgba(255,255,255,0.04); 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 15px; 
-            font-weight: 800; 
-            color: var(--accent-color); 
-            margin-bottom: 12px; 
-            border: 1px solid rgba(255,255,255,0.08); 
-            transition: all 0.25s ease;
-        }
-        .channel-card.active .text-logo-icon { background: var(--accent-color); color: #fff; box-shadow: 0 0 15px rgba(239,68,68,0.3); }
+        /* 🎨 কাস্টম টেক্সট লগো আইকন */
+        .text-logo-icon { width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #ef4444; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .channel-card.active .text-logo-icon { background: #ef4444; color: #fff; }
         .redirect-card .text-logo-icon { color: #f59e0b; }
         
-        .card-name { font-weight: 700; font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.3; }
+        .card-name { font-weight: 700; font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
         @media (max-width: 992px) { .iptv-grid-row { grid-template-columns: repeat(4, 1fr); } }
         @media (max-width: 768px) { .iptv-grid-row { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 480px) { .iptv-grid-row { grid-template-columns: repeat(2, 1fr); padding: 0 4px; } .channel-card { padding: 14px; } }
+        @media (max-width: 480px) { .iptv-grid-row { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
 
-    <nav class="ott-nav"><div class="text-white nav-brand"><i class="bi bi-play-circle-fill text-danger me-2"></i> ZION SPORTS</div></nav>
+    <nav class="ott-nav"><div class="text-white fw-bold"><i class="bi bi-play-circle text-danger"></i> ZION SPORTS</div></nav>
 
-    <div class="container-fluid theater-screen-container">
+    <div class="container-fluid ott-dashboard">
         <div class="theater-screen">
             <div id="plyr-wrapper">
                 <video id="player" playsinline controls autoplay muted></video>
@@ -225,7 +87,7 @@
         </div>
         
         <div class="stream-details">
-            <h1 class="h6 m-0 d-flex align-items-center"><span class="badge-live">Live</span><span id="activeTitle">Bein Direct</span></h1>
+            <h1 class="h6 m-0"><span class="badge-live">Live</span><span id="activeTitle">Bein Direct</span></h1>
         </div>
 
         <div class="ott-tabs-wrapper">
@@ -350,15 +212,14 @@
         const video = document.getElementById('player');
         let hls = null;
 
-        // Plyr প্লেয়ার কনফিগারেশন (উন্নত সেটিংস সহ)
+        // প্লায়ার ইনিশিয়ালাইজেশন (ইউজার ফ্রেন্ডলি এবং সিম্পল কন্ট্রোল লেআউট)
         const plyr = new Plyr(video, { 
             autoplay: true, 
             muted: true,
-            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-            tooltips: { controls: false, seek: false }
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen']
         });
 
-        // 🔄 ১. স্মার্ট অটো-রোটেশন মেকানিজম
+        // 🔄 ১. স্মার্ট অটো-রোটেশন ইন্টিগ্রেশন
         plyr.on('enterfullscreen', () => {
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(err => console.log("Orientation lock ignored:", err));
@@ -370,7 +231,7 @@
             }
         });
 
-        // 🖐️ ২. মোবাইল জেসচার এবং ইউটিউব স্টাইল ডাবল-ট্যাপ সিক ইঞ্জিন
+        // 🖐️ ২. টাচ জেসচার এবং ইউটিউব স্টাইল ডাবল-ট্যাপ সিক মেকানিজম
         const leftZone = document.getElementById('left-zone');
         const rightZone = document.getElementById('right-zone');
         const leftSeekNotice = document.getElementById('left-seek');
@@ -381,7 +242,7 @@
         let lastTapRight = 0;
         let touchStartY = 0;
 
-        // ডাবল ট্যাপ ফরওয়ার্ড/ব্যাকওয়ার্ড লজিক
+        // ডাবল ট্যাপ ব্যাকওয়ার্ড/ফরওয়ার্ড রুলস
         leftZone.addEventListener('touchend', (e) => {
             let currentTime = new Date().getTime();
             let tapLength = currentTime - lastTapLeft;
@@ -402,7 +263,7 @@
             lastTapRight = currentTime;
         });
 
-        // সোয়াইপ ভলিউম এবং ব্রাইটনেস কন্ট্রোল
+        // সোয়াইপ ভলিউম এবং ব্রাইটনেস ওভারলে ট্র্যাকার
         document.getElementById('plyr-wrapper').addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
         });
@@ -413,18 +274,16 @@
             let touchX = e.touches[0].clientX;
             let playerWidth = video.clientWidth;
 
-            if (Math.abs(diffY) > 15) { // স্মুথ সোয়াইপ ফিল্টার
+            if (Math.abs(diffY) > 20) { 
                 if (touchX > playerWidth / 2) {
-                    // ডানপাশে সোয়াইপ: ভলিউম আপ/ডাউন
                     let currentVol = plyr.volume;
                     let newVol = diffY > 0 ? Math.min(1, currentVol + 0.05) : Math.max(0, currentVol - 0.05);
                     plyr.volume = newVol;
                     showCenterNotice(`<i class="bi bi-volume-up-fill"></i> Volume: ${Math.round(newVol * 100)}%`);
                 } else {
-                    // বামপাশে সোয়াইপ: ব্রাইটনেস ডেমো ফিডব্যাক
                     showCenterNotice(`<i class="bi bi-brightness-high-fill"></i> Brightness Adjusted`);
                 }
-                touchStartY = touchEndY; // রিসেট বেস
+                touchStartY = touchEndY;
             }
         });
 
@@ -437,4 +296,45 @@
             centerNotice.innerHTML = htmlContent;
             centerNotice.classList.add('show-notice');
             clearTimeout(window.noticeTimeout);
-            window.noticeTimeout = setTimeout(()
+            window.noticeTimeout = setTimeout(() => centerNotice.classList.remove('show-notice'), 800);
+        }
+
+        // 🔄 ৩. স্ট্যান্ডার্ড এইচলএস কোর স্ট্রিম ইঞ্জিন
+        function switchStandardChannel(url, title, el) {
+            document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('activeTitle').innerText = title;
+            
+            if (hls) hls.destroy();
+            hls = new Hls();
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            video.play().catch(e => console.log("Engine loaded:", e));
+        }
+
+        // 🔄 ৪. ট্যাব সুইচিং কন্ট্রোল প্যানেল
+        function togglePanelTab(tabName, buttonElement) {
+            document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+            buttonElement.classList.add('active');
+
+            document.getElementById('fifaTabPanel').classList.add('panel-grid-hidden');
+            document.getElementById('sportsTabPanel').classList.add('panel-grid-hidden');
+            document.getElementById('entertainmentTabPanel').classList.add('panel-grid-hidden');
+            document.getElementById('newsMoviesTabPanel').classList.add('panel-grid-hidden');
+
+            if (tabName === 'fifa') {
+                document.getElementById('fifaTabPanel').classList.remove('panel-grid-hidden');
+            } else if (tabName === 'sports') {
+                document.getElementById('sportsTabPanel').classList.remove('panel-grid-hidden');
+            } else if (tabName === 'entertainment') {
+                document.getElementById('entertainmentTabPanel').classList.remove('panel-grid-hidden');
+            } else if (tabName === 'news-movies') {
+                document.getElementById('newsMoviesTabPanel').classList.remove('panel-grid-hidden');
+            }
+        }
+
+        // Auto Load Initial Channel
+        switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', document.querySelectorAll('.channel-card')[1]);
+    </script>
+</body>
+</html>
