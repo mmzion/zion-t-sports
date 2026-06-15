@@ -37,7 +37,7 @@
         }
         .nav-brand-text { font-size: 16px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; }
 
-        /* 📺 ইউটিউব স্টাইল স্টিকি প্লেয়ার কন্টেইনার (Midnight Purple Halo Effect) */
+        /* 📺 ইউটিউব স্টাইল স্টিকি প্লেয়ার কন্টেইনার */
         .theater-screen-sticky-wrapper {
             position: -webkit-sticky;
             position: sticky;
@@ -59,7 +59,7 @@
         video { width: 100%; height: 100%; background: #000; object-fit: contain !important; }
         .plyr { width: 100%; height: 100%; }
 
-        /* 🖐️ ওয়ান-ক্লিক কন্ট্রোল টগল এবং ডাবল-ট্যাপ সিক ওভারলে */
+        /* 🖐️ ওভারলে ইন্টারঅ্যাকশন লেয়ার */
         .player-click-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: calc(100% - 50px);
@@ -82,16 +82,19 @@
         }
         .show-notice { opacity: 1; }
 
-        /* 📋 ড্যাশবোর্ড এরিয়া */
+        /* 📋 ড্যাশবোর্ড স্ক্রলিং কন্টেন্ট এলাকা */
         .ott-dashboard { padding: 15px; }
         .stream-details { background: var(--panel-bg); padding: 14px; border-radius: 14px; border: 1px solid rgba(109, 40, 217, 0.15); display: flex; align-items: center; gap: 12px; }
-        .active-logo-img { width: 34px; height: 34px; object-fit: contain; border-radius: 8px; background: rgba(255,255,255,0.06); padding: 3px; border: 1px solid rgba(109, 40, 217, 0.25); }
-        .active-text-logo-fallback { width: 34px; height: 34px; background: var(--purple-deep); color: #fff; font-size: 13px; font-weight: 800; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 10px var(--purple-glow); }
+        
+        /* 🛠️ লোগো ফলব্যাক অপ্টিমাইজড সিএসএস */
+        .active-logo-container { width: 34px; height: 34px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .active-logo-img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background: rgba(255,255,255,0.06); padding: 3px; border: 1px solid rgba(109, 40, 217, 0.25); }
+        .active-text-logo-fallback { width: 100%; height: 100%; background: var(--purple-deep); color: #fff; font-size: 12px; font-weight: 800; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 10px var(--purple-glow); text-transform: uppercase; }
         
         .badge-live { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; font-weight: bold; box-shadow: 0 0 10px rgba(239, 68, 68, 0.35); }
         .horizontal-panel { margin-top: 15px; background: var(--panel-bg); padding: 18px; border-radius: 16px; border: 1px solid rgba(109, 40, 217, 0.1); }
         
-        /* 📑 প্রিমিয়াম ট্যাব বার */
+        /* 📑 ক্যাটাগরি ট্যাবসমূহ */
         .ott-tabs-wrapper { margin-top: 15px; background: rgba(14, 10, 25, 0.85); padding: 5px; border-radius: 12px; display: inline-flex; gap: 6px; border: 1px solid rgba(109, 40, 217, 0.2); width: 100%; overflow-x: auto; white-space: nowrap; }
         .ott-tabs-wrapper::-webkit-scrollbar { height: 0px; }
         .tab-trigger { background: transparent; color: #847d99; border: none; padding: 9px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; border-radius: 9px; transition: all 0.2s ease; display: inline-flex; align-items: center; letter-spacing: 0.5px; }
@@ -100,19 +103,17 @@
         .iptv-grid-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
         .panel-grid-hidden { display: none !important; }
 
-        /* 👑 প্রফেশনাল ইমেজ ও টেক্সট লগো বাটন গ্রিড */
-        .channel-card { background: rgba(255,255,255,0.015); padding: 14px; border-radius: 14px; cursor: pointer; text-align: center; aspect-ratio: 1.15/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--card-border); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* 👑 গ্রিড কার্ড ডিজাইনিং */
+        .channel-card { background: rgba(255,255,255,0.015); padding: 14px; border-radius: 14px; cursor: pointer; text-align: center; aspect-ratio: 1.15/1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--card-border); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
         .channel-card:hover { border-color: rgba(109, 40, 217, 0.45); background: rgba(109, 40, 217, 0.04); transform: translateY(-2px); }
         .channel-card.active { border: 2px solid var(--purple-deep); background: rgba(109, 40, 217, 0.15); box-shadow: 0 0 20px rgba(109, 40, 217, 0.25); }
         
         .redirect-card { border-color: rgba(245, 158, 11, 0.15); }
         .redirect-card:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.04); }
         
-        .logo-img { width: 46px; height: 48px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; padding: 4px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); transition: all 0.2s ease; }
-        .channel-card.active .logo-img { background: rgba(255,255,255,0.08); border-color: var(--purple-deep); }
+        .logo-img { width: 46px; height: 46px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; padding: 4px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); }
         
-        /* 🌟 টেক্সট লগো মেকানিজম (ভাঙ্গা ইমেজ প্রতিস্থাপনের জন্য) */
-        .text-logo-icon { width: 46px; height: 46px; background: rgba(255,255,255,0.03); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #a78bfa; margin-bottom: 10px; border: 1px solid rgba(109, 40, 217, 0.25); transition: all 0.2s ease; }
+        .text-logo-icon { width: 46px; height: 46px; background: rgba(255,255,255,0.03); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #a78bfa; margin-bottom: 10px; border: 1px solid rgba(109, 40, 217, 0.25); transition: all 0.2s ease; text-transform: uppercase; }
         .channel-card.active .text-logo-icon { background: var(--purple-deep); color: #fff; box-shadow: 0 0 12px var(--purple-glow); border-color: transparent; }
         .redirect-card .text-logo-icon { color: #f59e0b; border-color: rgba(245, 158, 11, 0.25); }
         
@@ -129,10 +130,9 @@
 
         .card-name { font-weight: 700; font-size: 11px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
-        /* ⚙️ কাস্টম প্লাইয়ার ইউআই মোডিফিকেশন সেটিংস (বেগুনী এক্সসেন্ট থিম) */
+        /* ⚙️ প্লাইয়ার কাস্টমাইজেশন সেটিংস */
         .plyr--video { --plyr-color-main: var(--purple-deep); }
-        .plyr__custom-live-badge { font-weight: 800; font-size: 11px; color: #ef4444; letter-spacing: 0.5px; margin-left: 10px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.5); display: flex; align-items: center; gap: 4px; }
-        .plyr__custom-reload { background: transparent; border: none; color: #fff; padding: 4px 8px; cursor: pointer; font-size: 15px; transition: transform 0.2s ease; display: flex; align-items: center; }
+        .plyr__custom-reload { background: transparent; border: none; color: #fff; padding: 4px 8px; cursor: pointer; font-size: 16px; transition: transform 0.2s ease; display: flex; align-items: center; margin-left: auto; }
         .plyr__custom-reload:active { transform: scale(0.85) rotate(-45deg); }
 
         @media (max-width: 992px) { .iptv-grid-row { grid-template-columns: repeat(4, 1fr); } }
@@ -148,7 +148,6 @@
         <div class="theater-screen">
             <div id="plyr-wrapper">
                 <video id="player" playsinline controls autoplay muted></video>
-                
                 <div class="player-click-overlay" id="player-overlay">
                     <div class="gesture-zone" id="left-zone"><div class="seek-notice" id="left-seek"><i class="bi bi-backward-fill"></i> -10s</div></div>
                     <div class="gesture-zone" id="right-zone"><div class="seek-notice" id="right-seek">10s <i class="bi bi-forward-fill"></i></div></div>
@@ -161,8 +160,10 @@
         
         <div class="stream-details">
             <span class="badge-live">Live</span>
-            <img id="activeLogo" src="https://upload.wikimedia.org/wikipedia/commons/e/e5/BeIN_Sports_logo.svg" class="active-logo-img" alt="logo" style="display:inline-block;">
-            <div id="activeTextFallback" class="active-text-logo-fallback" style="display:none;">BN</div>
+            <div class="active-logo-container">
+                <img id="activeLogo" src="" class="active-logo-img" alt="logo" style="display:none;" onerror="handleActiveLogoError()">
+                <div id="activeTextFallback" class="active-text-logo-fallback" style="display:none;"></div>
+            </div>
             <h1 class="h6 m-0" id="activeTitle">Bein Direct</h1>
         </div>
 
@@ -179,19 +180,18 @@
                 <div class="channel-card tsports-highlight redirect-card" onclick="window.open('http://198.195.239.50:8095/tsports/index.m3u8', '_blank')">
                     <div class="text-logo-icon">TS</div><div class="card-name" style="color: #f59e0b;">T Sports</div>
                 </div>
-                <div class="channel-card active" onclick="switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', 'https://upload.wikimedia.org/wikipedia/commons/e/e5/BeIN_Sports_logo.svg', '', this)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/BeIN_Sports_logo.svg" class="logo-img" alt="beIN">
-                    <div class="card-name">Bein Direct</div>
+                <div class="channel-card active" onclick="switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', '', 'BN', this)">
+                    <div class="text-logo-icon">BN</div><div class="card-name">Bein Direct</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8', 'Caze TV', 'https://images.seeklogo.com/logo-png/61/1/cazetv-logo-png_seeklogo-619708.png', '', this)">
-                    <img src="https://images.seeklogo.com/logo-png/61/1/cazetv-logo-png_seeklogo-619708.png" class="logo-img" alt="Caze">
+                    <img src="https://images.seeklogo.com/logo-png/61/1/cazetv-logo-png_seeklogo-619708.png" class="logo-img" alt="Caze" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                     <div class="card-name">Caze TV</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://tvsen5.aynaott.com/PtvSports/index.m3u8', 'PTV Sports', '', 'PT', this)">
                     <div class="text-logo-icon">PT</div><div class="card-name">PTV Sports</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8', 'WIN Premium', 'https://images.seeklogo.com/logo-png/25/1/win-sports-logo-png_seeklogo-259337.png', '', this)">
-                    <img src="https://images.seeklogo.com/logo-png/25/1/win-sports-logo-png_seeklogo-259337.png" class="logo-img" alt="WIN">
+                    <img src="https://images.seeklogo.com/logo-png/25/1/win-sports-logo-png_seeklogo-259337.png" class="logo-img" alt="WIN" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                     <div class="card-name">WIN Premium</div>
                 </div>
             </div>
@@ -200,7 +200,7 @@
                 <div class="channel-card" onclick="switchStandardChannel('https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/720p-vtt/index.m3u8', 'Caze TV 720p', 'https://images.seeklogo.com/logo-png/61/1/cazetv-logo-png_seeklogo-619708.png', '', this)">
                     <img src="https://images.seeklogo.com/logo-png/61/1/cazetv-logo-png_seeklogo-619708.png" class="logo-img" alt="Caze 720"><div class="card-name">Caze TV 720p</div>
                 </div>
-                <div class="channel-card" onclick="switchStandardChannel('https://d1jzu95oc8fgt3.cloudfront.net/FOX_Sports720p.m3u8', 'FOX Sports 720p', 'https://cdn.broadbandtvnews.com/wp-content/uploads/2025/05/13115423/Fox-One-Logo.jpg', this)">
+                <div class="channel-card" onclick="switchStandardChannel('https://d1jzu95oc8fgt3.cloudfront.net/FOX_Sports720p.m3u8', 'FOX Sports 720p', 'https://cdn.broadbandtvnews.com/wp-content/uploads/2025/05/13115423/Fox-One-Logo.jpg', '', this)">
                     <img src="https://cdn.broadbandtvnews.com/wp-content/uploads/2025/05/13115423/Fox-One-Logo.jpg" class="logo-img" alt="FOX 720"><div class="card-name">FOX Sports 720p</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://d9ssxzmclhfo4.cloudfront.net/bein_sports720p.m3u8', 'beIN Sports 720p', '', 'BN', this)">
@@ -218,8 +218,8 @@
                 <div class="channel-card" onclick="switchStandardChannel('https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00488-foxdigital-wnyw-lgus/playlist.m3u8', 'FOX NY', 'https://cdn.broadbandtvnews.com/wp-content/uploads/2025/05/13115423/Fox-One-Logo.jpg', '', this)">
                     <img src="https://cdn.broadbandtvnews.com/wp-content/uploads/2025/05/13115423/Fox-One-Logo.jpg" class="logo-img" alt="FOX NY"><div class="card-name">FOX NY</div>
                 </div>
-                <div class="channel-card" onclick="switchStandardChannel('https://sm-monirul.top/toffee/play/rajdhani_tv.m3u8', 'Rajdhani TV', '', 'TS', this)">
-                    <div class="text-logo-icon">TS</div><div class="card-name">Rajdhani TV</div>
+                <div class="channel-card" onclick="switchStandardChannel('https://sm-monirul.top/toffee/play/rajdhani_tv.m3u8', 'Rajdhani TV', '', 'RT', this)">
+                    <div class="text-logo-icon">RT</div><div class="card-name">Rajdhani TV</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8', 'BTV National', 'https://upload.wikimedia.org/wikipedia/commons/4/4b/FIFA_WorldCup_logo.svg', '', this)">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/FIFA_WorldCup_logo.svg" class="logo-img" alt="BTV"><div class="card-name">BTV National</div>
@@ -230,10 +230,10 @@
                 <div class="channel-card" onclick="switchStandardChannel('https://tv.cdn.xsg.ge/gpb-2tv/index.m3u8', '2TV Sport', '', '2T', this)">
                     <div class="text-logo-icon">2T</div><div class="card-name">2TV Sport</div>
                 </div>
-                <div class="channel-card" onclick="switchStandardChannel('https://bein-esp-xumo.amagi.tv/playlistR720P.m3u8', 'beIN EXTRA Ñ 720p', '', 'beIN', this)">
+                <div class="channel-card" onclick="switchStandardChannel('https://bein-esp-xumo.amagi.tv/playlistR720P.m3u8', 'beIN EXTRA Ñ 720p', '', 'bN', this)">
                     <div class="text-logo-icon">bN</div><div class="card-name">beIN EXTRA Ñ 720p</div>
                 </div>
-                <div class="channel-card" onclick="switchStandardChannel('https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8', 'beIN EXTRA Ñ 1080p', '', 'beIN', this)">
+                <div class="channel-card" onclick="switchStandardChannel('https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8', 'beIN EXTRA Ñ 1080p', '', 'bN', this)">
                     <div class="text-logo-icon">bN</div><div class="card-name">beIN EXTRA Ñ 1080p</div>
                 </div>
                 <div class="channel-card" onclick="switchStandardChannel('https://rmtv.akamaized.net/hls/live/2043154/rmtv-en-web/master.m3u8', 'Real Madrid TV EN', '', 'RM', this)">
@@ -321,25 +321,19 @@
         const video = document.getElementById('player');
         let hls = null;
         let currentActiveUrl = '';
+        let globalFallbackText = 'BN';
 
-        // 🛠️ টাইমলাইন বার এবং সাউন্ড অপশন বাদে পিওর প্রফেশনাল কন্ট্রোল প্যানেল রেন্ডার
+        // 🛠️ টাইমলাইন বার এবং সাউন্ড অপশন বাদে পিওর ওটিটি কন্ট্রোল প্যানেল
         const plyr = new Plyr(video, { 
             autoplay: true, 
             muted: true,
             controls: ['play-large', 'play', 'current-time', 'fullscreen'] 
         });
 
-        // ওটিটি প্লেয়ার কন্ট্রোল বারে ইন-লাইন কাস্টম "LIVE DELAY" এবং "QUICK RELOAD" বাটন ইনজেকশন মেকানিজম
+        // ওটিটি প্লেয়ার কন্ট্রোল বারে ইন-লাইন কাস্টম "QUICK RELOAD" বাটন ইনজেকশন
         window.addEventListener('DOMContentLoaded', () => {
             const plyrControls = document.querySelector('.plyr__controls');
             if (plyrControls) {
-                // ১. লাইভ ওটিটি ডিলে নোটিশ
-                const liveBadge = document.createElement('div');
-                liveBadge.className = 'plyr__custom-live-badge';
-                liveBadge.innerHTML = '<i class="bi bi-circle-fill" style="font-size:6px;"></i> LIVE • 0.0s DELAY';
-                plyrControls.appendChild(liveBadge);
-
-                // ২. কুইক ওয়ান-ক্লিক রিস্টার্ট/রিলোড মেকানিজম
                 const reloadBtn = document.createElement('button');
                 reloadBtn.className = 'plyr__custom-reload plyr__control';
                 reloadBtn.setAttribute('type', 'button');
@@ -347,19 +341,18 @@
                 reloadBtn.onclick = (e) => {
                     e.stopPropagation();
                     if(currentActiveUrl) {
-                        console.log("Quick Reload Engine triggered...");
                         if (hls) hls.destroy();
                         hls = new Hls();
                         hls.loadSource(currentActiveUrl);
                         hls.attachMedia(video);
-                        video.play().catch(err => console.log("Reload active:", err));
+                        video.play().catch(err => console.log("Reload triggered:", err));
                     }
                 };
                 plyrControls.appendChild(reloadBtn);
             }
         });
 
-        // 🔄 ১. ওরিয়েন্টেশন ল্যান্ডস্কেপ লক সেটিংস
+        // 🔄 ১. ওরিয়েন্টেশন ল্যান্ডস্কেপ লক মেকানিজম
         plyr.on('enterfullscreen', () => {
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(err => console.log("Orientation skipped:", err));
@@ -371,7 +364,7 @@
             }
         });
 
-        // 🖐️ ২. ওয়ান-ট্যাপ কন্ট্রোল এবং ডাবল-ট্যাপ ১০ সেকেন্ড সিক মেকানিজম
+        // 🖐️ ২. ইউটিউব স্টাইল ওয়ান-ট্যাপ কন্ট্রোল টগল ও ডাবল-ট্যাপ সিক
         const overlay = document.getElementById('player-overlay');
         const leftZone = document.getElementById('left-zone');
         const rightZone = document.getElementById('right-zone');
@@ -381,7 +374,6 @@
         let lastTapLeft = 0;
         let lastTapRight = 0;
 
-        // মেইন প্লেয়ার ওভারলে ক্লিক করলে ইউটিউবের মতো কন্ট্রোল বার টগল হবে
         overlay.addEventListener('click', (e) => {
             if (e.target === leftZone || e.target === rightZone) {
                 e.stopPropagation();
@@ -423,9 +415,11 @@
             setTimeout(() => element.classList.remove('show-notice'), 500);
         }
 
-        // 🔄 ৩. এইচলএস স্ট্রিম সুইচিং কোর ইঞ্জিন
+        // 🔄 ৩. এইচলএস স্ট্রিম সুইচিং ইঞ্জিন এবং স্মার্ট লগো রেন্ডারার
         function switchStandardChannel(url, title, logoUrl, fallbackText, el) {
             currentActiveUrl = url;
+            globalFallbackText = fallbackText || title.substring(0,2).toUpperCase();
+
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
             if(el) el.classList.add('active');
             
@@ -440,7 +434,7 @@
                 activeTextFallback.style.display = 'none';
             } else {
                 activeLogo.style.display = 'none';
-                activeTextFallback.innerText = fallbackText || title.substring(0,2).toUpperCase();
+                activeTextFallback.innerText = globalFallbackText;
                 activeTextFallback.style.display = 'flex';
             }
             
@@ -449,6 +443,14 @@
             hls.loadSource(url);
             hls.attachMedia(video);
             video.play().catch(e => console.log("Stream init error:", e));
+        }
+
+        // মেইন প্যানেলের অ্যাক্টিভ লগো ইমেজে ইরর হ্যান্ডেল করার মেকানিজম
+        function handleActiveLogoError() {
+            document.getElementById('activeLogo').style.display = 'none';
+            const activeTextFallback = document.getElementById('activeTextFallback');
+            activeTextFallback.innerText = globalFallbackText;
+            activeTextFallback.style.display = 'flex';
         }
 
         // 🔄 ৪. ওটিটি ট্যাব প্যানেল কন্ট্রোল লজিক
@@ -475,7 +477,7 @@
         // 🚀 বুটস্ট্র্যাপ: সাইট ওপেন হলেই প্রথম ট্যাব (FIFA Premium) এবং Bein Direct অটো-লোড হবে
         window.addEventListener('DOMContentLoaded', () => {
             const defaultCard = document.querySelectorAll('#fifaTabPanel .channel-card')[1]; 
-            switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', 'https://upload.wikimedia.org/wikipedia/commons/e/e5/BeIN_Sports_logo.svg', '', defaultCard);
+            switchStandardChannel('https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8', 'Bein Direct', '', 'BN', defaultCard);
         });
     </script>
 </body>
