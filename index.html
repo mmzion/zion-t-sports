@@ -8,25 +8,59 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        body { background-color: #04070b; color: #f8fafc; font-family: sans-serif; min-height: 100vh; padding-top: 60px; padding-bottom: 20px; }
-        .ott-nav { background: rgba(4, 7, 11, 0.8); backdrop-filter: blur(20px); height: 60px; position: fixed; top: 0; width: 100%; z-index: 1050; display: flex; align-items: center; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .theater-screen { position: relative; background: #000; border-radius: 14px; overflow: hidden; width: 100%; aspect-ratio: 16 / 9; box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 30px rgba(239, 68, 68, 0.1); }
-        #plyr-wrapper { width: 100%; height: 100%; position: absolute; top:0; left:0; }
+        body { 
+            background-color: #04070b; 
+            color: #f8fafc; 
+            font-family: sans-serif; 
+            min-height: 100vh; 
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 👑 গ্লোয়িং ন্যাভবার */
+        .ott-nav { 
+            background: rgba(4, 7, 11, 0.8); 
+            backdrop-filter: blur(20px); 
+            height: 55px; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 15px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+        }
+
+        /* 📺 📱 ইউটিউব স্টাইল স্টিকি প্লেয়ার কন্টেইনার (স্ক্রল করলেও উপরে আটকে থাকবে) */
+        .theater-screen-sticky-wrapper {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #000;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
         
+        .theater-screen { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 16 / 9; 
+            overflow: hidden; 
+        }
+        
+        #plyr-wrapper { width: 100%; height: 100%; position: absolute; top:0; left:0; }
         video { width: 100%; height: 100%; background: #000; object-fit: contain !important; }
         .plyr { width: 100%; height: 100%; }
 
-        /* ✨ জেসচার ওভারলে ফিক্স (কন্ট্রোল বাটন ব্লকিং সমস্যার সমাধান) */
+        /* 🖐️ শুধুমাত্র ডাবল-ট্যাপ সিক লেয়ার */
         .player-gesture-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: calc(100% - 50px); /* নিচে কন্ট্রোল বারের জায়গা ফাঁকা রাখা হয়েছে */
-            z-index: 1; /* প্লাইয়ার কন্ট্রোলের নিচে রাখা হয়েছে */
+            top: 0; left: 0; width: 100%; height: calc(100% - 50px);
+            z-index: 1;
             display: flex;
             pointer-events: auto;
         }
         .gesture-zone { width: 50%; height: 100%; position: relative; }
         
-        .seek-notice, .control-notice {
+        .seek-notice {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0,0,0,0.8);
@@ -38,7 +72,12 @@
         }
         .show-notice { opacity: 1; }
 
-        .stream-details { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
+        /* 📋 ড্যাশবোর্ড স্ক্রলিং কন্টেন্ট এলাকা */
+        .ott-dashboard {
+            padding: 15px;
+        }
+
+        .stream-details { background: rgba(13, 18, 28, 0.4); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
         .badge-live { background: #ef4444; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; text-transform: uppercase; font-weight: bold; }
         .horizontal-panel { margin-top: 15px; background: rgba(13, 18, 28, 0.4); padding: 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.03); }
         
@@ -74,7 +113,7 @@
 
     <nav class="ott-nav"><div class="text-white fw-bold"><i class="bi bi-play-circle text-danger"></i> ZION SPORTS</div></nav>
 
-    <div class="container-fluid ott-dashboard">
+    <div class="theater-screen-sticky-wrapper">
         <div class="theater-screen">
             <div id="plyr-wrapper">
                 <video id="player" playsinline controls autoplay muted></video>
@@ -82,9 +121,11 @@
                     <div class="gesture-zone" id="left-zone"><div class="seek-notice" id="left-seek"><i class="bi bi-backward-fill"></i> -10s</div></div>
                     <div class="gesture-zone" id="right-zone"><div class="seek-notice" id="right-seek">10s <i class="bi bi-forward-fill"></i></div></div>
                 </div>
-                <div class="control-notice" id="center-notice"></div>
             </div>
         </div>
+    </div>
+
+    <div class="container-fluid ott-dashboard">
         
         <div class="stream-details">
             <h1 class="h6 m-0"><span class="badge-live">Live</span><span id="activeTitle">Bein Direct</span></h1>
@@ -212,14 +253,14 @@
         const video = document.getElementById('player');
         let hls = null;
 
-        // প্লায়ার ইনিশিয়ালাইজেশন (ইউজার ফ্রেন্ডলি এবং সিম্পল কন্ট্রোল লেআউট)
+        // প্লায়ার কনফিগারেশন
         const plyr = new Plyr(video, { 
             autoplay: true, 
             muted: true,
             controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen']
         });
 
-        // 🔄 ১. স্মার্ট অটো-রোটেশন ইন্টিগ্রেশন
+        // 🔄 ১. অটো-রোটেশন ইন্টিগ্রেশন
         plyr.on('enterfullscreen', () => {
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(err => console.log("Orientation lock ignored:", err));
@@ -231,18 +272,15 @@
             }
         });
 
-        // 🖐️ ২. টাচ জেসচার এবং ইউটিউব স্টাইল ডাবল-ট্যাপ সিক মেকানিজম
+        // 🖐️ ২. ইউটিউব স্টাইল ডাবল-ট্যাপ সিক মেকানিজম
         const leftZone = document.getElementById('left-zone');
         const rightZone = document.getElementById('right-zone');
         const leftSeekNotice = document.getElementById('left-seek');
         const rightSeekNotice = document.getElementById('right-seek');
-        const centerNotice = document.getElementById('center-notice');
 
         let lastTapLeft = 0;
         let lastTapRight = 0;
-        let touchStartY = 0;
 
-        // ডাবল ট্যাপ ব্যাকওয়ার্ড/ফরওয়ার্ড রুলস
         leftZone.addEventListener('touchend', (e) => {
             let currentTime = new Date().getTime();
             let tapLength = currentTime - lastTapLeft;
@@ -263,43 +301,12 @@
             lastTapRight = currentTime;
         });
 
-        // সোয়াইপ ভলিউম এবং ব্রাইটনেস ওভারলে ট্র্যাকার
-        document.getElementById('plyr-wrapper').addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        });
-
-        document.getElementById('plyr-wrapper').addEventListener('touchmove', (e) => {
-            let touchEndY = e.touches[0].clientY;
-            let diffY = touchStartY - touchEndY;
-            let touchX = e.touches[0].clientX;
-            let playerWidth = video.clientWidth;
-
-            if (Math.abs(diffY) > 20) { 
-                if (touchX > playerWidth / 2) {
-                    let currentVol = plyr.volume;
-                    let newVol = diffY > 0 ? Math.min(1, currentVol + 0.05) : Math.max(0, currentVol - 0.05);
-                    plyr.volume = newVol;
-                    showCenterNotice(`<i class="bi bi-volume-up-fill"></i> Volume: ${Math.round(newVol * 100)}%`);
-                } else {
-                    showCenterNotice(`<i class="bi bi-brightness-high-fill"></i> Brightness Adjusted`);
-                }
-                touchStartY = touchEndY;
-            }
-        });
-
         function triggerNotice(element) {
             element.classList.add('show-notice');
             setTimeout(() => element.classList.remove('show-notice'), 500);
         }
 
-        function showCenterNotice(htmlContent) {
-            centerNotice.innerHTML = htmlContent;
-            centerNotice.classList.add('show-notice');
-            clearTimeout(window.noticeTimeout);
-            window.noticeTimeout = setTimeout(() => centerNotice.classList.remove('show-notice'), 800);
-        }
-
-        // 🔄 ৩. স্ট্যান্ডার্ড এইচলএস কোর স্ট্রিম ইঞ্জিন
+        // 🔄 ৩. স্ট্যান্ডার্ড এইচলএস স্ট্রিম কোর ইঞ্জিন
         function switchStandardChannel(url, title, el) {
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
@@ -312,7 +319,7 @@
             video.play().catch(e => console.log("Engine loaded:", e));
         }
 
-        // 🔄 ৪. ট্যাব সুইচিং কন্ট্রোল প্যানেল
+        // 🔄 ৪. ট্যাব প্যানেল টগল
         function togglePanelTab(tabName, buttonElement) {
             document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
             buttonElement.classList.add('active');
