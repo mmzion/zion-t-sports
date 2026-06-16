@@ -394,10 +394,10 @@
         let hls = null;
         let currentActiveUrl = ''; 
 
-        // 🔊 কাস্টম ভলিউমবার ও মিউট সেটিংস রিমুভ করে সরাসরি ফুল ওরিজিনাল সাউন্ডে চলা নিশ্চিত করা হলো
+        // 👑 Pip (Picture-in-picture) অপশনটি কন্ট্রোলবারে যুক্ত করা হলো
         const plyr = new Plyr(video, { 
             autoplay: true, 
-            controls: ['play-large', 'play', 'progress', 'current-time', 'fullscreen'] 
+            controls: ['play-large', 'play', 'progress', 'current-time', 'pip', 'fullscreen'] 
         });
 
         plyr.on('enterfullscreen', () => {
@@ -413,11 +413,17 @@
 
         const overlay = document.getElementById('player-overlay');
 
-        // 🖐️ টাচ/ক্লিক মেকানিজম: প্রথম ক্লিকে কন্ট্রোলবার অন হবে এবং সচল থাকা অবস্থায় ক্লিক করলে প্লে-পজ হবে
+        // 🖐️ টাচ/ক্লিক লজিক: প্রথম টাচে কন্ট্রোলবার আসবে, কন্ট্রোলবার থাকা অবস্থায় ক্লিক করলে প্লে-পজ হবে
         overlay.addEventListener('click', (e) => {
             e.stopPropagation();
-            const controls = document.querySelector('.plyr__controls');
             
+            // ব্রাউজারের অডিও লক সচল করার মাস্টার বাইপাস (টাচ করলেই মিউট ফলস হবে এবং সাউন্ড ১.০ হবে)
+            if(video.muted) {
+                video.muted = false;
+                video.volume = 1.0;
+            }
+
+            const controls = document.querySelector('.plyr__controls');
             if (controls) {
                 const isControlsVisible = controls.style.opacity === '1' || 
                                           window.getComputedStyle(controls).visibility === 'visible' ||
@@ -435,7 +441,7 @@
             }
         });
 
-        // 🔄 স্ট্যান্ডার্ড ইন্টারনাল প্লেয়ার ইঞ্জিন (সাউন্ড জোরপূর্বক রানিং করা হলো)
+        // 🔄 স্ট্যান্ডার্ড ইন্টারনাল প্লেয়ার ইঞ্জিন (ব্রাউজার সিকিউরিটি বাইপাস ইঞ্জিনসহ)
         function switchStandardChannel(url, title, logoUrl, el) {
             currentActiveUrl = url; 
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
@@ -457,15 +463,21 @@
             hls.attachMedia(video);
             
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.volume = 1.0; // ফুল সাউন্ড লক
-                video.play().catch(() => {
-                    // ব্রাউজার যদি প্রথম লোডে আনমিউটেড ব্লক করে, তবে মিউট করে অটো চালু হবে, স্ক্রিনে টাচ করলেই সাউন্ড আনমিউট হয়ে যাবে
-                    video.muted = true;
-                    video.play().then(() => {
-                        // ব্যাকগ্রাউন্ডে অটোপ্লে সফল হলে প্রথম ইউজার ইন্টারঅ্যাকশনে অটো আনমিউট স্ক্রিপ্ট
-                        overlay.addEventListener('click', () => { video.muted = false; video.volume = 1.0; }, { once: true });
-                    }).catch(err => console.log("Engine initialization bypass:", err));
-                });
+                // 🔊 ব্রাউজারের অটোপ্লে ব্লক পলিসি এড়াতে প্রথমে ডেটা মিউট করে রান করানো হচ্ছে
+                video.muted = true; 
+                video.volume = 1.0;
+                
+                video.play().then(() => {
+                    // অটোপ্লে সচল হলে ইউজারের প্রথম ক্লিকেই যেন ফুল অডিও চলে আসে তার জন্য গ্লোবাল ইভেন্ট লিসেনার ফিক্স
+                    const unscrapeAudioLock = () => {
+                        video.muted = false;
+                        video.volume = 1.0;
+                        document.removeEventListener('click', unscrapeAudioLock);
+                        document.removeEventListener('touchend', unscrapeAudioLock);
+                    };
+                    document.addEventListener('click', unscrapeAudioLock);
+                    document.addEventListener('touchend', unscrapeAudioLock);
+                }).catch(err => console.log("Engine force initialized:", err));
             });
         }
 
@@ -477,8 +489,9 @@
                 hls.loadSource(currentActiveUrl);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.muted = false;
                     video.volume = 1.0;
-                    video.play().catch(e => console.log("Reload stream engine skipped:", e));
+                    video.play().catch(e => console.log("Reload failed:", e));
                 });
             }
         }
