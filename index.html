@@ -18,10 +18,6 @@
     <style>
         :root {
             --purple-primary: #7c3aed;
-
-    <style>
-        :root {
-            --purple-primary: #7c3aed;
             --purple-glow: rgba(124, 58, 237, 0.4);
             --purple-bg-dark: #090514;
             --panel-bg: rgba(22, 14, 45, 0.6);
@@ -29,13 +25,25 @@
         }
 
         body { 
-            background-color: var(--purple-bg-dark); 
-            color: #f1f5f9; 
+            background-color: var(--purple-bg-dark) !important; 
+            color: #f1f5f9 !important; 
             font-family: sans-serif; 
             min-height: 100vh; 
             margin: 0;
             padding: 0;
         }
+
+        .ott-nav { 
+            background: rgba(9, 5, 20, 0.85) !important; 
+            backdrop-filter: blur(20px); 
+            height: 55px; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 15px; 
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2); 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
 
         .ott-nav { 
             background: rgba(9, 5, 20, 0.85); 
