@@ -250,6 +250,9 @@
         <div class="container-fluid ott-dashboard">
             <div class="ott-tabs-wrapper mt-0">
                 <button class="tab-trigger active" onclick="switchTab('trending', this)"><i class="bi bi-fire me-1"></i> Trending</button>
+                <button class="tab-trigger" onclick="switchTab('fifa', this)"><i class="bi bi-trophy-fill me-1"></i> FIFA Premium</button>
+                <button class="tab-trigger" onclick="switchTab('sports', this)"><i class="bi bi-broadcast me-1"></i> Live Sports</button>
+                <button class="tab-trigger" onclick="switchTab('bangla', this)"><i class="bi bi-flag-fill me-1"></i> Bangla TV</button>
                 <button class="tab-trigger" onclick="switchTab('all-channels', this)"><i class="bi bi-tv me-1"></i> 6000+ Channels</button>
             </div>
 
@@ -257,6 +260,21 @@
                 <div id="trendingPanel" class="tab-panel-content active">
                     <div class="section-heading"><i class="bi bi-graph-up-arrow"></i> Real-time Trending Now</div>
                     <div class="iptv-grid-row" id="trendingGrid"></div>
+                </div>
+
+                <div id="fifaPanel" class="tab-panel-content">
+                    <div class="section-heading"><i class="bi bi-trophy-fill"></i> FIFA Premium</div>
+                    <div class="iptv-grid-row" id="fifaGrid"></div>
+                </div>
+
+                <div id="sportsPanel" class="tab-panel-content">
+                    <div class="section-heading"><i class="bi bi-broadcast"></i> Live Sports</div>
+                    <div class="iptv-grid-row" id="sportsGrid"></div>
+                </div>
+
+                <div id="banglaPanel" class="tab-panel-content">
+                    <div class="section-heading"><i class="bi bi-flag-fill"></i> Bangla TV</div>
+                    <div class="iptv-grid-row" id="banglaGrid"></div>
                 </div>
 
                 <div id="allChannelsPanel" class="tab-panel-content">
@@ -285,7 +303,7 @@
 
     <script type="module">
         import { initializeApp } from "firebase/app";
-        import { getFirestore, collection, query, orderBy, limit, startAfter, getDocs, doc, increment, updateDoc, writeBatch } from "firebase/firestore";
+        import { getFirestore, collection, query, where, orderBy, limit, startAfter, getDocs, getDoc, setDoc, doc, increment, updateDoc, writeBatch } from "firebase/firestore";
         import { getDatabase, ref, set, onValue, onDisconnect, serverTimestamp } from "firebase/database";
 
         // ⚡ Zion, সিঙ্গাপুর জোনের সঠিক রিয়েল-টাইম ডাটাবেস URL এখানে কনফিগার করা হলো
@@ -310,6 +328,15 @@
         let lastVisibleDoc = null; 
         const BATCH_LIMIT = 50;
 
+        // Source playlists tagged with the category they belong to. Used both
+        // for the initial cloud sync AND for the one-time migration below.
+        const CATEGORY_SOURCES = [
+            { url: "https://iamshajon.com/playlist/fifa.json", category: "fifa" },
+            { url: "https://iamshajon.com/playlist/sports.json", category: "sports" },
+            { url: "https://iamshajon.com/playlist/bangla.json", category: "bangla" },
+            { url: "https://iamshajon.com/playlist/channels.json", category: "channels" }
+        ];
+
         const video = document.getElementById('player');
         const loader = document.getElementById('playerLoader');
         const unmuteBtn = document.getElementById('unmuteBtn');
@@ -320,6 +347,9 @@
             document.querySelectorAll('.tab-panel-content').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
             if(tabId === 'trending') document.getElementById('trendingPanel').classList.add('active');
+            if(tabId === 'fifa') document.getElementById('fifaPanel').classList.add('active');
+            if(tabId === 'sports') document.getElementById('sportsPanel').classList.add('active');
+            if(tabId === 'bangla') document.getElementById('banglaPanel').classList.add('active');
             if(tabId === 'all-channels') document.getElementById('allChannelsPanel').classList.add('active');
         };
 
@@ -351,6 +381,8 @@
             
             document.getElementById('activeTitle').innerText = ch.name;
             document.getElementById('activeLogo').src = ch.logo || FALLBACK_LOGO;
+
+            document.querySelectorAll('.channel-card').forEach(c => c.classList.toggle('active', c.dataset.url === ch.url));
 
             if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
             if(dashPlayer) { dashPlayer.reset(); dashPlayer = null; }
@@ -384,6 +416,7 @@
         function createCard(ch) {
             const card = document.createElement('div');
             card.className = 'channel-card';
+            card.dataset.url = ch.url;
             card.onclick = () => playChannel(encodeURIComponent(JSON.stringify(ch)));
             
             const statusDot = ch.status === 'online' ? 'dot-online' : 'dot-offline';
@@ -414,6 +447,56 @@
             }
         }
 
+        // Loads channels for one of the restored FIFA / Sports / Bangla tabs.
+        // Uses a plain equality filter (no orderBy in the query itself) so no
+        // Firestore composite index needs to be created — sorting by
+        // trendingScore happens on the client instead.
+        async function loadCategoryPanel(category, gridId) {
+            const grid = document.getElementById(gridId);
+            try {
+                const q = query(collection(db, "channels"), where("category", "==", category), limit(300));
+                const snap = await getDocs(q);
+                grid.innerHTML = "";
+                if (snap.empty) {
+                    grid.innerHTML = "<div class='text-muted p-2'>No channels found in this group yet.</div>";
+                    return [];
+                }
+                const list = [];
+                snap.forEach(docSnap => list.push({ id: docSnap.id, ...docSnap.data() }));
+                list.sort((a, b) => (b.trendingScore || 0) - (a.trendingScore || 0));
+                list.forEach(ch => grid.appendChild(createCard(ch)));
+                return list;
+            } catch (e) {
+                console.error(`Failed to load ${category} channels:`, e);
+                grid.innerHTML = "<div class='text-muted p-2'>Syncing Cloud Setup...</div>";
+                return [];
+            }
+        }
+
+        // Tries to auto-play the best-ranked channel in a list; if playback
+        // doesn't start (error or timeout), automatically moves to the next
+        // best channel in the same list. Fully automatic, no reload needed.
+        function attemptPlayWithFallback(list, idx = 0) {
+            if (!list || list.length === 0) return;
+            if (idx >= Math.min(list.length, 6)) {
+                playChannel(encodeURIComponent(JSON.stringify(list[0]))); // last resort
+                return;
+            }
+            const ch = list[idx];
+            let settled = false;
+            const cleanup = () => {
+                video.removeEventListener('playing', onOk);
+                video.removeEventListener('error', onFail);
+                clearTimeout(t);
+            };
+            const onOk = () => { if (settled) return; settled = true; cleanup(); };
+            const onFail = () => { if (settled) return; settled = true; cleanup(); attemptPlayWithFallback(list, idx + 1); };
+            video.addEventListener('playing', onOk, { once: true });
+            video.addEventListener('error', onFail, { once: true });
+            const t = setTimeout(onFail, 12000);
+            playChannel(encodeURIComponent(JSON.stringify(ch)));
+        }
+
         window.loadNextBatch = async function() {
             const grid = document.getElementById('allChannelsGrid');
             const btn = document.getElementById('loadMoreBtn');
@@ -440,7 +523,7 @@
         };
 
         // --- 🚀 One-Time Auto Cloud Syncer Script ---
-        // এটি প্রথমবার রান হয়ে ক্লাউডে ডেটা সাবমিট করবে, ডেটা থাকলে আর রান হবে না।
+        // এটি প্রথমবার রান হয়ে ক্লাউডে ডেটা সাবমিট করবে, ডেটা থাকলে আর রান হবে না।
         async function runAutoCloudSync() {
             try {
                 const checkSnap = await getDocs(query(collection(db, "channels"), limit(1)));
@@ -450,20 +533,16 @@
                 }
                 
                 console.log("Empty Cloud DB detected. Initializing data transfer from playlists...");
-                const sources = [
-                    "https://iamshajon.com/playlist/fifa.json",
-                    "https://iamshajon.com/playlist/sports.json",
-                    "https://iamshajon.com/playlist/bangla.json",
-                    "https://iamshajon.com/playlist/channels.json"
-                ];
 
                 let rawChannels = [];
-                for (let url of sources) {
+                for (let src of CATEGORY_SOURCES) {
                     try {
-                        const res = await fetch(url);
+                        const res = await fetch(src.url);
                         const data = await res.json();
-                        if (Array.isArray(data)) rawChannels = rawChannels.concat(data);
-                    } catch(e) { console.error("Source load failed: " + url); }
+                        if (Array.isArray(data)) {
+                            data.forEach(ch => rawChannels.push({ ...ch, category: src.category }));
+                        }
+                    } catch(e) { console.error("Source load failed: " + src.url); }
                 }
 
                 const uniqueUrls = new Set();
@@ -476,6 +555,7 @@
                             logo: ch.logo || "",
                             url: ch.url,
                             group: ch.group || "General",
+                            category: ch.category || "channels",
                             status: "online",
                             trendingScore: Math.floor(Math.random() * 80) + 20,
                             views: 0
@@ -499,13 +579,64 @@
                     }
                 }
                 if (count % 300 !== 0) await batch.commit();
+
+                // Fresh sync already tags every channel with a category, so the
+                // migration step below can be skipped for this database.
+                try { await setDoc(doc(db, "meta", "categorySync"), { done: true, migratedAt: Date.now() }); } catch(e) {}
                 
                 console.log("🚀 Sync Done! Reloading lists.");
-                loadTrendingNow();
-                loadNextBatch();
             } catch(err) {
                 console.error("Sync system interrupted: ", err);
             }
+        }
+
+        // --- 🔄 One-Time Category Migration ---
+        // Handles databases that were synced BEFORE the fifa/sports/bangla
+        // split existed. Matches each existing channel's URL against the
+        // source playlists and tags it with the right category, once.
+        async function ensureCategoryMigration() {
+            const metaRef = doc(db, "meta", "categorySync");
+            try {
+                const metaSnap = await getDoc(metaRef);
+                if (metaSnap.exists() && metaSnap.data().done) return;
+            } catch (e) { /* meta doc may not exist yet — proceed with migration */ }
+
+            console.log("Running one-time category migration for existing channels...");
+            const urlToCategory = {};
+            for (let src of CATEGORY_SOURCES) {
+                if (src.category === 'channels') continue; // default fallback, no need to map
+                try {
+                    const res = await fetch(src.url);
+                    const data = await res.json();
+                    if (Array.isArray(data)) data.forEach(ch => { if (ch.url) urlToCategory[ch.url] = src.category; });
+                } catch (e) { console.error("Migration source failed: " + src.url); }
+            }
+
+            try {
+                const allSnap = await getDocs(collection(db, "channels"));
+                let batch = writeBatch(db);
+                let pending = 0;
+                let updated = 0;
+
+                for (const docSnap of allSnap.docs) {
+                    const data = docSnap.data();
+                    if (!data.category) {
+                        const cat = urlToCategory[data.url] || "channels";
+                        batch.update(doc(db, "channels", docSnap.id), { category: cat });
+                        pending++; updated++;
+                        if (pending % 300 === 0) {
+                            await batch.commit();
+                            batch = writeBatch(db);
+                        }
+                    }
+                }
+                if (pending % 300 !== 0) await batch.commit();
+                console.log(`Category migration complete. Updated ${updated} channels.`);
+            } catch (e) {
+                console.error("Category migration failed:", e);
+            }
+
+            try { await setDoc(metaRef, { done: true, migratedAt: Date.now() }); } catch (e) {}
         }
 
         // --- Init Systems ---
@@ -513,8 +644,17 @@
             setupPresenceTrack();
             listenLiveUsers();
             await runAutoCloudSync();
+            await ensureCategoryMigration();
+
+            // Load FIFA first so the best-ranked FIFA channel can auto-play
+            // by default, with automatic fallback if it fails to load.
+            const fifaList = await loadCategoryPanel('fifa', 'fifaGrid');
+            if (fifaList.length > 0) attemptPlayWithFallback(fifaList, 0);
+
             loadTrendingNow();
             loadNextBatch();
+            loadCategoryPanel('sports', 'sportsGrid');
+            loadCategoryPanel('bangla', 'banglaGrid');
         });
     </script>
 </body>
